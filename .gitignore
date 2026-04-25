@@ -203,6 +203,12 @@ cython_debug/
 # Temporary file for partial code execution
 tempCodeRunnerFile.py
 
+# Harness Alpha runtime artifacts
+logs/
+generated_envs/*.py
+!generated_envs/__init__.py
+*.py.fail
+
 # Ruff stuff:
 .ruff_cache/
 
