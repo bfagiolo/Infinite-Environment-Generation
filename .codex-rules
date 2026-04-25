@@ -1,0 +1,33 @@
+# HARNESS ALPHA: PROJECT SPECIFICATION & GUIDELINES
+
+## 1. THE PREMISE (General Intuition Challenge)
+The goal is to build an agent harness that reliably constructs 2D physics environments from text commands.
+- **Core Objective:** Enable infinite procedural environment generation to unlock post-training, code-level objectives, and reward model training.
+- **Key Insight:** Avoid vision-based labeling. Use "Code-Level Truth" (deterministic physics state) to verify objectives (e.g., "Is the agent touching the goal?").
+- **Evaluation Criteria:** Creativity, Clarity, and Working Output.
+
+## 2. THE APPROACH: "THE WORLD FACTORY"
+We are not building a game; we are building an environment factory for training autonomous agents.
+- **Physics Engine:** Pymunk (Deterministic 2D physics).
+- **Visualization:** Pygame (Headless-first, GUI-second).
+- **The Self-Healing Loop:** The harness must generate code, test it for solvability in a headless state, and recursively fix errors or impossible geometry before presenting the final world.
+- **Parallelism:** Designed to utilize Codex's 2026 parallel execution to generate multiple environment variants simultaneously.
+
+## 3. THE 5-CHUNK IMPLEMENTATION PLAN
+- **Chunk 1: Physics API (The Contract):** Define `base_env.py` using Pymunk. Must include `step()`, `reset()`, and `get_ground_truth()` (JSON export of all object coordinates).
+- **Chunk 4: World Architect (The Generator):** A module that uses Codex to transform text prompts into Pymunk-based subclasses of `BaseEnv`.
+- **Chunk 3: Headless Validator (The Oracle):** A script using A* or BFS pathfinding to verify that a path exists to the goal in the generated physics space.
+- **Chunk 4: Recursive Correction (The Healer):** A feedback loop that catches Pymunk/syntax errors and solvability failures, feeding them back to the LLM for patching.
+- **Chunk 5: Visualizer & Telemetry:** A Pygame wrapper that renders the verified world with a real-time "Debug Overlay" showing velocity vectors and state data.
+
+## 4. BOUNDARIES & CONSTRAINTS
+- **Runtime:** Python 3.12 (Strictly enforced via venv).
+- **Dependencies:** Pymunk, Pygame, NumPy. No external assets (images/sounds); use geometric primitives only.
+- **Architecture:** Strictly modular. The "Harness" must be decoupled from the "Generated Environment."
+- **Ground Truth:** All success metrics must be derived from Pymunk collision handlers and coordinate checks, NOT pixel data.
+- **Aesthetic:** High-tech research simulation. Dark mode, neon grid lines, and real-time data telemetry overlays.
+
+## 5. CODEX EXECUTION RULES
+- Before writing any environment code, verify it against the `BaseEnv` interface.
+- Always include a `solvability_check` hint in the generated code to assist the Headless Validator.
+- Prioritize clean, self-documenting code over clever hacks.
