@@ -1,0 +1,80 @@
+{
+  "background_layers": [
+    {
+      "color": [
+        255,
+        78,
+        18
+      ],
+      "primitive": "heat_shimmer"
+    },
+    {
+      "color": [
+        255,
+        128,
+        34
+      ],
+      "count": 130,
+      "motion": "updraft",
+      "primitive": "particle_field",
+      "speed": 0.42
+    },
+    {
+      "color": [
+        255,
+        72,
+        20
+      ],
+      "count": 7,
+      "primitive": "ribbon_flow",
+      "speed": 0.18
+    },
+    {
+      "color": [
+        255,
+        90,
+        22
+      ],
+      "count": 4,
+      "primitive": "radial_glow"
+    }
+  ],
+  "object_effects": [
+    {
+      "color": [
+        255,
+        72,
+        18
+      ],
+      "primitive": "motion_trail",
+      "selector": "fireball|falling_fireball"
+    },
+    {
+      "color": [
+        255,
+        196,
+        70
+      ],
+      "primitive": "flame_orb",
+      "selector": "fireball|falling_fireball"
+    },
+    {
+      "color": [
+        255,
+        60,
+        18
+      ],
+      "primitive": "danger_pulse",
+      "selector": "lava|molten"
+    },
+    {
+      "color": [
+        255,
+        206,
+        82
+      ],
+      "primitive": "portal_ring",
+      "selector": "exit|goal"
+    }
+  ]
+}

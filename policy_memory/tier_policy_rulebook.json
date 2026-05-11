@@ -1,0 +1,27 @@
+{
+  "name": "Harness Alpha Tier Policy Rulebook",
+  "version": "1.0",
+  "purpose": "Reference used by the Policy Critic to choose both the ideal objective proof tier and the current operational acceptance tier for a generated environment.",
+  "core_principles": [
+    "Compare prompts by physical intent, object roles, and success predicate rather than exact word overlap.",
+    "The generated Architect may propose a minimum tier, but the Policy Critic is the independent reviewer.",
+    "Finite direct physical objectives should require solved verification when a generic validator can execute their subgoals.",
+    "Open-ended, adversarial, strategy-heavy, or long-horizon game tasks may accept progress verification until stronger solvers exist.",
+    "Never lower the objective tier just because the current rollout controller is weak.",
+    "The objective_tier records what proof the task deserves in principle.",
+    "The operational_acceptance_tier records what the current harness should enforce today.",
+    "Operational acceptance may be lower than the objective tier only when the task family is open-ended, long-horizon, adversarial, or not yet covered by a solved validator; record the capability_gap explicitly."
+  ],
+  "tier_guidance": {
+    "5": "Require check_objective() to become true in headless validation. Use for finite reach, touch, collect, push/place, short survival, and explicit ordered subgoal tasks.",
+    "4": "Require measurable deterministic progress. Use for open-ended games, adversarial tasks, long-horizon strategy, complex balance/control, or novel mechanisms not yet covered by a solved validator.",
+    "3": "Only acceptable for exploratory worlds without a concrete objective; should be rare.",
+    "0": "Reject malformed code, missing check_objective, invalid profiles, or unsafe capability shortcuts."
+  },
+  "veto_rules": [
+    "If executable generic subgoals include agent_reach_region, agent_touch_object, or move_object_to_region, operational_acceptance_tier must be at least Tier 5.",
+    "If the prompt asks for a finite object placement or finite target collection objective, operational_acceptance_tier must be Tier 5.",
+    "If check_objective is missing or the objective profile is malformed, reject regardless of task family.",
+    "If the critic output is malformed, fall back to the generated profile plus deterministic guardrails."
+  ]
+}

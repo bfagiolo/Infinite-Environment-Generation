@@ -1,0 +1,535 @@
+{
+  "accent": "pink_cyan",
+  "agent_avatar": "ship",
+  "background": "radar_sweep",
+  "fast_variant": {
+    "enabled": true,
+    "physics_source_locked": true,
+    "variant_index": 2,
+    "variant_label": "CINEMATIC"
+  },
+  "lighting": [
+    "neon_bloom",
+    "holographic",
+    "low_key"
+  ],
+  "materials": [
+    "asteroid",
+    "energy_field",
+    "dark_metal"
+  ],
+  "mood": "cyber_grid",
+  "motion_fx": [
+    "agent_trail",
+    "particle_sparks",
+    "impact_ripples"
+  ],
+  "palette": {
+    "background_color": [
+      13,
+      10,
+      22
+    ],
+    "hot": [
+      255,
+      200,
+      80
+    ],
+    "primary": [
+      255,
+      116,
+      215
+    ],
+    "secondary": [
+      87,
+      232,
+      255
+    ]
+  },
+  "presentation": "clean_demo_mode",
+  "prompt": "A tiny neon maze where the agent must reach a glowing exit.",
+  "recipe": {
+    "background_layers": [
+      {
+        "strength": 0.5,
+        "type": "atmospheric_vignette"
+      },
+      {
+        "cell": 34,
+        "type": "simulation_grid"
+      },
+      {
+        "count": 135,
+        "type": "dust_motes"
+      },
+      {
+        "type": "nebula_wash"
+      },
+      {
+        "cell": 18,
+        "type": "crt_scanlines"
+      },
+      {
+        "count": 7,
+        "theme": "cinematic",
+        "type": "set_dressing_props"
+      }
+    ],
+    "fast_variant": true,
+    "object_skins": {
+      "*ball*": {
+        "fill": [
+          87,
+          232,
+          255
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "glow": [
+          87,
+          232,
+          255
+        ],
+        "outline": [
+          245,
+          250,
+          255
+        ]
+      },
+      "*beacon*": {
+        "fill": [
+          36,
+          97,
+          107
+        ],
+        "fx": [
+          "goal_breathe",
+          "edge_bloom"
+        ],
+        "glow": [
+          87,
+          232,
+          255
+        ],
+        "outline": [
+          87,
+          232,
+          255
+        ]
+      },
+      "*crystal*": {
+        "fill": [
+          87,
+          232,
+          255
+        ],
+        "fx": [
+          "twinkle",
+          "edge_bloom"
+        ],
+        "glow": [
+          87,
+          232,
+          255
+        ],
+        "outline": [
+          245,
+          250,
+          255
+        ]
+      },
+      "*enemy*": {
+        "fill": [
+          158,
+          124,
+          49
+        ],
+        "fx": [
+          "danger_pulse",
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          200,
+          80
+        ],
+        "outline": [
+          255,
+          200,
+          80
+        ]
+      },
+      "*exit*": {
+        "fill": [
+          36,
+          97,
+          107
+        ],
+        "fx": [
+          "goal_breathe",
+          "edge_bloom"
+        ],
+        "glow": [
+          87,
+          232,
+          255
+        ],
+        "outline": [
+          87,
+          232,
+          255
+        ]
+      },
+      "*fire*": {
+        "fill": [
+          255,
+          200,
+          80
+        ],
+        "fx": [
+          "hazard_flash",
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          200,
+          80
+        ],
+        "outline": [
+          255,
+          235,
+          140
+        ]
+      },
+      "*floor*": {
+        "fill": [
+          96,
+          44,
+          81
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          116,
+          215
+        ],
+        "outline": [
+          255,
+          116,
+          215
+        ]
+      },
+      "*goal*": {
+        "fill": [
+          36,
+          97,
+          107
+        ],
+        "fx": [
+          "goal_breathe",
+          "edge_bloom"
+        ],
+        "glow": [
+          87,
+          232,
+          255
+        ],
+        "outline": [
+          87,
+          232,
+          255
+        ]
+      },
+      "*hazard*": {
+        "fill": [
+          158,
+          124,
+          49
+        ],
+        "fx": [
+          "hazard_flash",
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          200,
+          80
+        ],
+        "outline": [
+          255,
+          200,
+          80
+        ]
+      },
+      "*platform*": {
+        "fill": [
+          96,
+          44,
+          81
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          116,
+          215
+        ],
+        "outline": [
+          255,
+          116,
+          215
+        ]
+      },
+      "*rock*": {
+        "fill": [
+          96,
+          44,
+          81
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          116,
+          215
+        ],
+        "outline": [
+          255,
+          116,
+          215
+        ]
+      },
+      "*tree*": {
+        "fill": [
+          36,
+          97,
+          107
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "outline": [
+          87,
+          232,
+          255
+        ],
+        "trunk": [
+          96,
+          44,
+          81
+        ]
+      },
+      "*wall*": {
+        "fill": [
+          96,
+          44,
+          81
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          116,
+          215
+        ],
+        "outline": [
+          255,
+          116,
+          215
+        ]
+      },
+      "*water*": {
+        "fill": [
+          96,
+          44,
+          81
+        ],
+        "foam": [
+          87,
+          232,
+          255
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "outline": [
+          255,
+          116,
+          215
+        ]
+      }
+    },
+    "variant_index": 2,
+    "variant_label": "CINEMATIC",
+    "variant_note": "same solved world with higher-energy demo styling"
+  },
+  "schema_version": "harness-alpha-visual-brief-v1",
+  "scores": {
+    "alien_biome": 0,
+    "asteroid_belt": 0,
+    "clockwork_chamber": 0,
+    "cornfield_maze": 0,
+    "cosmic_research": 2,
+    "crystal_cavern": 0,
+    "cyber_grid": 0,
+    "deep_space": 5,
+    "desert_ruins": 0,
+    "electric_substation": 0,
+    "hazard_arena": 0,
+    "ice_facility": 0,
+    "industrial_noir": 0,
+    "magnetic_lab": 0,
+    "mechanical_factory": 0,
+    "minimalist_sandbox": 0,
+    "orbital_station": 0,
+    "organic_maze": 2,
+    "overgrown_garden": 0,
+    "research_lab": 0,
+    "retro_arcade": 0,
+    "toxic_swamp": 0,
+    "training_sim": 1,
+    "underwater_lab": 0,
+    "volcanic_foundry": 0
+  },
+  "semantic_assets": [],
+  "semantic_context": {
+    "keywords": [
+      "gate",
+      "goal",
+      "maze"
+    ],
+    "object_names": [
+      "floor",
+      "ceiling",
+      "left_wall",
+      "right_wall",
+      "maze_wall_north",
+      "maze_wall_south",
+      "maze_wall_gate",
+      "maze_corner_guard",
+      "agent",
+      "maze_waypoint_1",
+      "maze_waypoint_2",
+      "exit_zone"
+    ],
+    "objective_type": "navigation_goal",
+    "prompt": "A tiny neon maze where the agent must reach a glowing exit.",
+    "roles": [
+      "agent",
+      "goal",
+      "obstacle",
+      "terrain"
+    ]
+  },
+  "semantic_props": [],
+  "shape_language": "technical_rectilinear",
+  "source": "inferred",
+  "surface_fx": [
+    "crt_vignette",
+    "procedural_noise"
+  ],
+  "visual_program": {
+    "background_layers": [
+      {
+        "color": [
+          255,
+          116,
+          215
+        ],
+        "count": 152,
+        "motion": "drift",
+        "primitive": "particle_field",
+        "speed": 0.26
+      },
+      {
+        "color": [
+          87,
+          232,
+          255
+        ],
+        "count": 4,
+        "primitive": "radial_glow"
+      },
+      {
+        "color": [
+          87,
+          232,
+          255
+        ],
+        "primitive": "scanline_roll"
+      },
+      {
+        "color": [
+          255,
+          200,
+          80
+        ],
+        "primitive": "heat_shimmer"
+      },
+      {
+        "color": [
+          255,
+          200,
+          80
+        ],
+        "count": 9,
+        "primitive": "ribbon_flow",
+        "speed": 0.24
+      }
+    ],
+    "object_effects": [
+      {
+        "color": [
+          255,
+          116,
+          215
+        ],
+        "primitive": "motion_trail",
+        "selector": "agent"
+      },
+      {
+        "color": [
+          87,
+          232,
+          255
+        ],
+        "primitive": "portal_ring",
+        "selector": "goal|exit|target|beacon"
+      },
+      {
+        "color": [
+          255,
+          200,
+          80
+        ],
+        "primitive": "danger_pulse",
+        "selector": "hazard|enemy|fire|lava|bear"
+      },
+      {
+        "color": [
+          255,
+          200,
+          80
+        ],
+        "primitive": "spark_burst",
+        "selector": "hazard|enemy|fire|lava|bear|ball"
+      },
+      {
+        "color": [
+          87,
+          232,
+          255
+        ],
+        "primitive": "material_stripes",
+        "selector": "wall|floor|platform|gate"
+      }
+    ],
+    "seed": 274
+  }
+}

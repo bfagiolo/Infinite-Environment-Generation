@@ -1,0 +1,666 @@
+{
+  "accent": "cyan_purple",
+  "agent_avatar": "ship",
+  "background": "dense_starfield",
+  "background_layers": [
+    {
+      "strength": 0.5,
+      "type": "atmospheric_vignette"
+    },
+    {
+      "count": 240,
+      "type": "star_dust"
+    },
+    {
+      "type": "nebula_wash"
+    },
+    {
+      "type": "nebula_wash"
+    },
+    {
+      "cell": 18,
+      "type": "crt_scanlines"
+    },
+    {
+      "count": 7,
+      "theme": "cinematic",
+      "type": "set_dressing_props"
+    }
+  ],
+  "fast_variant": true,
+  "mood": "cosmic_research",
+  "motion_fx": [
+    "agent_trail",
+    "object_trail",
+    "field_pulse",
+    "particle_sparks"
+  ],
+  "object_skins": {
+    "*ball*": {
+      "fill": [
+        225,
+        96,
+        255
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        225,
+        96,
+        255
+      ],
+      "outline": [
+        245,
+        250,
+        255
+      ]
+    },
+    "*beacon*": {
+      "fill": [
+        94,
+        40,
+        107
+      ],
+      "fx": [
+        "goal_breathe",
+        "edge_bloom"
+      ],
+      "glow": [
+        225,
+        96,
+        255
+      ],
+      "outline": [
+        225,
+        96,
+        255
+      ]
+    },
+    "*capital_ship*": {
+      "fill": [
+        20,
+        22,
+        42
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        78,
+        156,
+        255
+      ],
+      "material": "capital_ship_shadow",
+      "outline": [
+        88,
+        115,
+        172
+      ]
+    },
+    "*crystal*": {
+      "fill": [
+        225,
+        96,
+        255
+      ],
+      "fx": [
+        "twinkle",
+        "edge_bloom"
+      ],
+      "glow": [
+        225,
+        96,
+        255
+      ],
+      "outline": [
+        245,
+        250,
+        255
+      ]
+    },
+    "*enemy*": {
+      "fill": [
+        158,
+        54,
+        50
+      ],
+      "fx": [
+        "danger_pulse",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        88,
+        82
+      ],
+      "outline": [
+        255,
+        88,
+        82
+      ]
+    },
+    "*enemy_ship*": {
+      "fill": [
+        32,
+        20,
+        42
+      ],
+      "fx": [
+        "danger_pulse",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        60,
+        120
+      ],
+      "material": "enemy_fighter",
+      "outline": [
+        255,
+        82,
+        142
+      ]
+    },
+    "*enemy_shot*": {
+      "fill": [
+        255,
+        62,
+        118
+      ],
+      "fx": [
+        "motion_trail",
+        "danger_pulse"
+      ],
+      "glow": [
+        255,
+        42,
+        108
+      ],
+      "material": "laser_bolt",
+      "outline": [
+        255,
+        228,
+        244
+      ]
+    },
+    "*exit*": {
+      "fill": [
+        94,
+        40,
+        107
+      ],
+      "fx": [
+        "goal_breathe",
+        "edge_bloom"
+      ],
+      "glow": [
+        225,
+        96,
+        255
+      ],
+      "outline": [
+        225,
+        96,
+        255
+      ]
+    },
+    "*fire*": {
+      "fill": [
+        255,
+        88,
+        82
+      ],
+      "fx": [
+        "hazard_flash",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        88,
+        82
+      ],
+      "outline": [
+        255,
+        235,
+        140
+      ]
+    },
+    "*floor*": {
+      "fill": [
+        39,
+        88,
+        96
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        105,
+        232,
+        255
+      ],
+      "outline": [
+        105,
+        232,
+        255
+      ]
+    },
+    "*goal*": {
+      "fill": [
+        94,
+        40,
+        107
+      ],
+      "fx": [
+        "goal_breathe",
+        "edge_bloom"
+      ],
+      "glow": [
+        225,
+        96,
+        255
+      ],
+      "outline": [
+        225,
+        96,
+        255
+      ]
+    },
+    "*hazard*": {
+      "fill": [
+        158,
+        54,
+        50
+      ],
+      "fx": [
+        "hazard_flash",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        88,
+        82
+      ],
+      "outline": [
+        255,
+        88,
+        82
+      ]
+    },
+    "*platform*": {
+      "fill": [
+        39,
+        88,
+        96
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        105,
+        232,
+        255
+      ],
+      "outline": [
+        105,
+        232,
+        255
+      ]
+    },
+    "*rock*": {
+      "fill": [
+        39,
+        88,
+        96
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        105,
+        232,
+        255
+      ],
+      "outline": [
+        105,
+        232,
+        255
+      ]
+    },
+    "*tree*": {
+      "fill": [
+        94,
+        40,
+        107
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "outline": [
+        225,
+        96,
+        255
+      ],
+      "trunk": [
+        39,
+        88,
+        96
+      ]
+    },
+    "*wall*": {
+      "fill": [
+        22,
+        36,
+        58
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        54,
+        184,
+        255
+      ],
+      "material": "space_boundary",
+      "outline": [
+        80,
+        196,
+        255
+      ]
+    },
+    "*water*": {
+      "fill": [
+        39,
+        88,
+        96
+      ],
+      "foam": [
+        225,
+        96,
+        255
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "outline": [
+        105,
+        232,
+        255
+      ]
+    },
+    "agent": {
+      "fill": [
+        55,
+        224,
+        255
+      ],
+      "fx": [
+        "engine_flare",
+        "object_trail",
+        "edge_bloom"
+      ],
+      "glow": [
+        72,
+        216,
+        255
+      ],
+      "material": "hero_interceptor",
+      "outline": [
+        236,
+        250,
+        255
+      ]
+    }
+  },
+  "palette": {
+    "background_color": [
+      7,
+      5,
+      22
+    ],
+    "hot": [
+      255,
+      88,
+      82
+    ],
+    "primary": [
+      105,
+      232,
+      255
+    ],
+    "secondary": [
+      225,
+      96,
+      255
+    ]
+  },
+  "seed": 3697634567,
+  "style_tags": [
+    "cinematic_space_opera",
+    "deep_starfield",
+    "laser_dogfight",
+    "high_contrast"
+  ],
+  "surface_fx": [
+    "film_grain",
+    "procedural_noise"
+  ],
+  "variant_index": 2,
+  "variant_label": "NEBULA",
+  "variant_note": "same solved dogfight with nebula glow and hotter laser contrast",
+  "visual_program": {
+    "background_layers": [
+      {
+        "color": [
+          125,
+          212,
+          255
+        ],
+        "count": 220,
+        "motion": "drift",
+        "primitive": "particle_field",
+        "speed": 0.18
+      },
+      {
+        "color": [
+          210,
+          112,
+          255
+        ],
+        "count": 54,
+        "motion": "orbit",
+        "primitive": "particle_field",
+        "speed": 0.35
+      },
+      {
+        "color": [
+          88,
+          128,
+          255
+        ],
+        "count": 5,
+        "primitive": "radial_glow"
+      },
+      {
+        "color": [
+          255,
+          78,
+          160
+        ],
+        "count": 5,
+        "primitive": "ribbon_flow",
+        "speed": 0.1
+      },
+      {
+        "color": [
+          98,
+          220,
+          255
+        ],
+        "primitive": "scanline_roll"
+      },
+      {
+        "color": [
+          105,
+          232,
+          255
+        ],
+        "count": 152,
+        "motion": "drift",
+        "primitive": "particle_field",
+        "speed": 0.26
+      },
+      {
+        "color": [
+          225,
+          96,
+          255
+        ],
+        "count": 4,
+        "primitive": "radial_glow"
+      },
+      {
+        "color": [
+          225,
+          96,
+          255
+        ],
+        "count": 220,
+        "motion": "orbit",
+        "primitive": "particle_field",
+        "speed": 0.16
+      },
+      {
+        "color": [
+          105,
+          232,
+          255
+        ],
+        "count": 5,
+        "primitive": "ribbon_flow",
+        "speed": 0.08
+      },
+      {
+        "color": [
+          225,
+          96,
+          255
+        ],
+        "primitive": "scanline_roll"
+      },
+      {
+        "color": [
+          255,
+          88,
+          82
+        ],
+        "primitive": "heat_shimmer"
+      },
+      {
+        "color": [
+          255,
+          88,
+          82
+        ],
+        "count": 9,
+        "primitive": "ribbon_flow",
+        "speed": 0.24
+      }
+    ],
+    "object_effects": [
+      {
+        "color": [
+          78,
+          224,
+          255
+        ],
+        "primitive": "motion_trail",
+        "selector": "agent|hero_interceptor"
+      },
+      {
+        "color": [
+          255,
+          62,
+          118
+        ],
+        "primitive": "danger_pulse",
+        "selector": "enemy_ship|enemy_fighter"
+      },
+      {
+        "color": [
+          255,
+          62,
+          118
+        ],
+        "primitive": "motion_trail",
+        "selector": "enemy_shot|laser|projectile"
+      },
+      {
+        "color": [
+          255,
+          210,
+          236
+        ],
+        "primitive": "spark_burst",
+        "selector": "enemy_shot|laser|projectile"
+      },
+      {
+        "color": [
+          76,
+          156,
+          255
+        ],
+        "primitive": "rim_glow",
+        "selector": "capital_ship"
+      },
+      {
+        "color": [
+          105,
+          232,
+          255
+        ],
+        "primitive": "motion_trail",
+        "selector": "agent"
+      },
+      {
+        "color": [
+          225,
+          96,
+          255
+        ],
+        "primitive": "portal_ring",
+        "selector": "goal|exit|target|beacon"
+      },
+      {
+        "color": [
+          255,
+          88,
+          82
+        ],
+        "primitive": "danger_pulse",
+        "selector": "hazard|enemy|fire|lava|bear"
+      },
+      {
+        "color": [
+          255,
+          88,
+          82
+        ],
+        "primitive": "spark_burst",
+        "selector": "hazard|enemy|fire|lava|bear|ball"
+      },
+      {
+        "color": [
+          225,
+          96,
+          255
+        ],
+        "primitive": "material_stripes",
+        "selector": "wall|floor|platform|gate"
+      }
+    ],
+    "seed": 274
+  },
+  "world_identity": "deep_space_salvage"
+}

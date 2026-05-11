@@ -1,0 +1,648 @@
+{
+  "accent": "emerald_sunbeam",
+  "agent_avatar": "human",
+  "animation_cues": {
+    "agent": [
+      "run_pose",
+      "escape_sprint"
+    ],
+    "bear_chaser": [
+      "chase_pose",
+      "paw_stride",
+      "pursuit_pulse"
+    ],
+    "cabin_exit": [
+      "warm_goal_pulse"
+    ]
+  },
+  "background": "layered_canopy",
+  "background_layers": [
+    {
+      "strength": 0.45999999999999996,
+      "type": "atmospheric_vignette"
+    },
+    {
+      "count": 100,
+      "type": "organic_canopy"
+    },
+    {
+      "count": 88,
+      "type": "leaf_shadow"
+    },
+    {
+      "cell": 24,
+      "type": "simulation_grid"
+    },
+    {
+      "count": 55,
+      "type": "dust_motes"
+    },
+    {
+      "count": 5,
+      "theme": "structured",
+      "type": "set_dressing_props"
+    }
+  ],
+  "camera_fx": [
+    "subtle_chase_shake"
+  ],
+  "fast_variant": true,
+  "lighting": [
+    "dappled_sun",
+    "soft_rim_light",
+    "canopy_shadow"
+  ],
+  "mood": "organic_forest",
+  "motion_fx": [
+    "agent_trail",
+    "leaf_drift",
+    "goal_breathe"
+  ],
+  "object_skins": {
+    "*ball*": {
+      "fill": [
+        238,
+        214,
+        116
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        238,
+        214,
+        116
+      ],
+      "outline": [
+        245,
+        250,
+        255
+      ]
+    },
+    "*beacon*": {
+      "fill": [
+        99,
+        89,
+        48
+      ],
+      "fx": [
+        "goal_breathe",
+        "edge_bloom"
+      ],
+      "glow": [
+        238,
+        214,
+        116
+      ],
+      "outline": [
+        238,
+        214,
+        116
+      ]
+    },
+    "*bear*": {
+      "fill": [
+        88,
+        52,
+        36
+      ],
+      "fx": [
+        "danger_pulse",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        92,
+        92
+      ],
+      "outline": [
+        255,
+        92,
+        92
+      ]
+    },
+    "*crystal*": {
+      "fill": [
+        238,
+        214,
+        116
+      ],
+      "fx": [
+        "twinkle",
+        "edge_bloom"
+      ],
+      "glow": [
+        238,
+        214,
+        116
+      ],
+      "outline": [
+        245,
+        250,
+        255
+      ]
+    },
+    "*enemy*": {
+      "fill": [
+        158,
+        57,
+        57
+      ],
+      "fx": [
+        "danger_pulse",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        92,
+        92
+      ],
+      "outline": [
+        255,
+        92,
+        92
+      ]
+    },
+    "*exit*": {
+      "fill": [
+        99,
+        89,
+        48
+      ],
+      "fx": [
+        "goal_breathe",
+        "edge_bloom"
+      ],
+      "glow": [
+        238,
+        214,
+        116
+      ],
+      "outline": [
+        238,
+        214,
+        116
+      ]
+    },
+    "*fire*": {
+      "fill": [
+        255,
+        92,
+        92
+      ],
+      "fx": [
+        "hazard_flash",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        92,
+        92
+      ],
+      "outline": [
+        255,
+        235,
+        140
+      ]
+    },
+    "*floor*": {
+      "fill": [
+        31,
+        79,
+        44
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        84,
+        210,
+        118
+      ],
+      "outline": [
+        84,
+        210,
+        118
+      ]
+    },
+    "*goal*": {
+      "fill": [
+        99,
+        89,
+        48
+      ],
+      "fx": [
+        "goal_breathe",
+        "edge_bloom"
+      ],
+      "glow": [
+        238,
+        214,
+        116
+      ],
+      "outline": [
+        238,
+        214,
+        116
+      ]
+    },
+    "*hazard*": {
+      "fill": [
+        158,
+        57,
+        57
+      ],
+      "fx": [
+        "hazard_flash",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        92,
+        92
+      ],
+      "outline": [
+        255,
+        92,
+        92
+      ]
+    },
+    "*platform*": {
+      "fill": [
+        31,
+        79,
+        44
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        84,
+        210,
+        118
+      ],
+      "outline": [
+        84,
+        210,
+        118
+      ]
+    },
+    "*rock*": {
+      "fill": [
+        31,
+        79,
+        44
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        84,
+        210,
+        118
+      ],
+      "outline": [
+        84,
+        210,
+        118
+      ]
+    },
+    "*tree*": {
+      "fill": [
+        30,
+        75,
+        42
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        84,
+        210,
+        118
+      ],
+      "outline": [
+        238,
+        214,
+        116
+      ],
+      "trunk": [
+        88,
+        58,
+        38
+      ]
+    },
+    "*wall*": {
+      "fill": [
+        31,
+        79,
+        44
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        84,
+        210,
+        118
+      ],
+      "outline": [
+        84,
+        210,
+        118
+      ]
+    },
+    "*water*": {
+      "fill": [
+        31,
+        79,
+        44
+      ],
+      "foam": [
+        238,
+        214,
+        116
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "outline": [
+        84,
+        210,
+        118
+      ]
+    },
+    "agent": {
+      "fill": [
+        247,
+        244,
+        220
+      ],
+      "glow": [
+        96,
+        255,
+        152
+      ],
+      "material": "runner_stick_figure",
+      "outline": [
+        255,
+        255,
+        245
+      ]
+    },
+    "bear_chaser": {
+      "fill": [
+        88,
+        52,
+        36
+      ],
+      "fx": [
+        "danger_pulse",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        92,
+        92
+      ],
+      "material": "bear_avatar",
+      "outline": [
+        255,
+        92,
+        92
+      ]
+    },
+    "cabin_exit": {
+      "fill": [
+        94,
+        58,
+        36
+      ],
+      "fx": [
+        "goal_breathe",
+        "edge_bloom"
+      ],
+      "glow": [
+        238,
+        214,
+        116
+      ],
+      "material": "wood_cabin",
+      "outline": [
+        238,
+        214,
+        116
+      ],
+      "roof": [
+        70,
+        35,
+        26
+      ]
+    },
+    "mossy_escape_path": {
+      "alpha": 0.36,
+      "fill": [
+        66,
+        59,
+        32
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        84,
+        210,
+        118
+      ],
+      "material": "moss_path",
+      "outline": [
+        84,
+        210,
+        118
+      ]
+    },
+    "pine_tree": {
+      "fill": [
+        30,
+        75,
+        42
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        84,
+        210,
+        118
+      ],
+      "material": "evergreen_tree",
+      "outline": [
+        238,
+        214,
+        116
+      ],
+      "trunk": [
+        88,
+        58,
+        38
+      ]
+    }
+  },
+  "palette": {
+    "background_color": [
+      7,
+      18,
+      12
+    ],
+    "hot": [
+      255,
+      92,
+      92
+    ],
+    "primary": [
+      84,
+      210,
+      118
+    ],
+    "secondary": [
+      238,
+      214,
+      116
+    ]
+  },
+  "seed": 51129,
+  "semantic_props": [
+    {
+      "count": 8,
+      "placement": "background",
+      "semantic": "pine tree silhouette"
+    },
+    {
+      "count": 4,
+      "placement": "horizon",
+      "semantic": "forest canopy shadow"
+    },
+    {
+      "count": 1,
+      "placement": "objective",
+      "semantic": "warm cabin window"
+    }
+  ],
+  "surface_fx": [
+    "organic_stripes",
+    "film_grain"
+  ],
+  "variant_index": 1,
+  "variant_label": "CANOPY",
+  "variant_note": "same solved chase with brighter forest canopy readability",
+  "visual_program": {
+    "background_layers": [
+      {
+        "color": [
+          84,
+          210,
+          118
+        ],
+        "count": 116,
+        "motion": "drift",
+        "primitive": "particle_field",
+        "speed": 0.21000000000000002
+      },
+      {
+        "color": [
+          238,
+          214,
+          116
+        ],
+        "count": 3,
+        "primitive": "radial_glow"
+      },
+      {
+        "color": [
+          238,
+          214,
+          116
+        ],
+        "count": 160,
+        "primitive": "texture_noise"
+      },
+      {
+        "color": [
+          84,
+          210,
+          118
+        ],
+        "count": 13,
+        "primitive": "contour_lines"
+      },
+      {
+        "cell": 30,
+        "color": [
+          84,
+          210,
+          118
+        ],
+        "primitive": "grid_overlay"
+      },
+      {
+        "color": [
+          238,
+          214,
+          116
+        ],
+        "count": 8,
+        "primitive": "contour_lines"
+      }
+    ],
+    "object_effects": [
+      {
+        "color": [
+          84,
+          210,
+          118
+        ],
+        "primitive": "motion_trail",
+        "selector": "agent"
+      },
+      {
+        "color": [
+          238,
+          214,
+          116
+        ],
+        "primitive": "portal_ring",
+        "selector": "goal|exit|target|beacon"
+      },
+      {
+        "color": [
+          255,
+          92,
+          92
+        ],
+        "primitive": "danger_pulse",
+        "selector": "hazard|enemy|fire|lava|bear"
+      },
+      {
+        "color": [
+          84,
+          210,
+          118
+        ],
+        "primitive": "rim_glow",
+        "selector": "wall|floor|platform|gate"
+      },
+      {
+        "color": [
+          238,
+          214,
+          116
+        ],
+        "primitive": "field_ring",
+        "rings": 2,
+        "selector": "goal|exit|target|beacon"
+      }
+    ],
+    "seed": 137
+  },
+  "world_identity": "overgrown_living_maze"
+}

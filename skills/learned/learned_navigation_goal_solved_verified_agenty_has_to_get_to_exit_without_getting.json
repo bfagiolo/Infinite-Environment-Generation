@@ -1,0 +1,151 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "notes": "Agent moves by physical force only; hazards are dynamic falling rocks. Safe route is a covered ground corridor."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: distance_to_goal_center, min_distance_to_nearest_hazard, was_hit."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "hazard_contact",
+      "blocked_path",
+      "agent_underpowered"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Reach the exit region without ever being hit by falling fire rocks.",
+    "objective_type": "navigation_goal",
+    "progress_metrics": [
+      "distance_to_goal_center",
+      "min_distance_to_nearest_hazard",
+      "was_hit"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "success_predicate": "agent enters goal proximity threshold AND was_hit is False for the whole episode",
+    "targets": [
+      "goal"
+    ],
+    "validator_skills": [
+      "navigation_probe"
+    ]
+  },
+  "objective_type": "navigation_goal",
+  "skill_id": "learned_navigation_goal_solved_verified_agenty_has_to_get_to_exit_without_getting",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\agenty_has_to_get_to_seed1_repair2_env.py",
+  "source_prompt": "Agenty has to get to exit without getting hit by falling ropcks of fire from sky",
+  "summary": "Reach the exit region without ever being hit by falling fire rocks. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "agenty",
+    "by",
+    "center",
+    "contact",
+    "distance",
+    "exit",
+    "falling",
+    "fire",
+    "force",
+    "from",
+    "get",
+    "getting",
+    "goal",
+    "ground",
+    "has",
+    "hazard",
+    "hit",
+    "min",
+    "navigation",
+    "nearest",
+    "normal",
+    "of",
+    "probe",
+    "ropcks",
+    "sky",
+    "to",
+    "touch",
+    "was",
+    "without"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "objective_type": "navigation_goal",
+    "oracle": "subgoal_plan",
+    "progress_metrics": [
+      "distance_to_goal_center",
+      "min_distance_to_nearest_hazard",
+      "was_hit"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "validator_skills": [
+      "navigation_probe"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

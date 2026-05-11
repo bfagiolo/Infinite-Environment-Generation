@@ -1,0 +1,166 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "zero_g",
+    "interaction": [
+      "touch_contact",
+      "push_contact"
+    ],
+    "movement": "thrust_2d",
+    "notes": "Zero-g spaceship motion via force; keep obstacles peripheral so the first slam is straight-line and validator-friendly."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: distance_box_to_knock_zone, box_x, box_angle_abs."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "agent_underpowered",
+      "blocked_path",
+      "box_not_movable",
+      "target_not_sensor"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "In zero gravity, pilot the spaceship to slam the box and push it into the knock zone (simulating 'knocking it over').",
+    "objective_type": "push_object",
+    "progress_metrics": [
+      "distance_box_to_knock_zone",
+      "box_x",
+      "box_angle_abs"
+    ],
+    "required_capabilities": [
+      "thrust_2d",
+      "push_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_touch_object",
+        "target": "box"
+      },
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "box",
+        "region": "knock_zone"
+      }
+    ],
+    "success_predicate": "box overlaps the knock_zone trigger region",
+    "targets": [
+      "box",
+      "knock_zone"
+    ],
+    "validator_skills": [
+      "subgoal_plan"
+    ]
+  },
+  "objective_type": "push_object",
+  "skill_id": "learned_push_object_solved_verified_zero_gravity_spaceworld_where_spaceship_shoots_at_a",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\zero_gravity_spaceworld_where_spaceship_seed2_repair2_env.py",
+  "source_prompt": "zero gravity spaceworld where spaceship shoots at a box and knocks it over",
+  "summary": "In zero gravity, pilot the spaceship to slam the box and push it into the knock zone (simulating 'knocking it over'). Validated as solved_verified with movement=thrust_2d, gravity=zero_g.",
+  "trigger_keywords": [
+    "2d",
+    "a",
+    "abs",
+    "and",
+    "angle",
+    "at",
+    "box",
+    "contact",
+    "distance",
+    "g",
+    "gravity",
+    "it",
+    "knock",
+    "knocks",
+    "object",
+    "over",
+    "plan",
+    "push",
+    "shoots",
+    "spaceship",
+    "spaceworld",
+    "subgoal",
+    "thrust",
+    "to",
+    "where",
+    "x",
+    "zero",
+    "zone"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "zero_g",
+    "interaction": [
+      "touch_contact",
+      "push_contact"
+    ],
+    "movement": "thrust_2d",
+    "objective_type": "push_object",
+    "oracle": "subgoal_plan",
+    "progress_metrics": [
+      "distance_box_to_knock_zone",
+      "box_x",
+      "box_angle_abs"
+    ],
+    "required_capabilities": [
+      "thrust_2d",
+      "push_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_touch_object",
+        "target": "box"
+      },
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "box",
+        "region": "knock_zone"
+      }
+    ],
+    "validator_skills": [
+      "subgoal_plan"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied at initial state",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

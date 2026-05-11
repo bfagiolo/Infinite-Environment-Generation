@@ -204,10 +204,24 @@ cython_debug/
 tempCodeRunnerFile.py
 
 # Harness Alpha runtime artifacts
+.harness_cache/
 logs/
+candidate_envs/
+exports/
 generated_envs/*.py
+generated_envs/*.visual.json
 !generated_envs/__init__.py
 *.py.fail
+benchmarks/
+capability_gaps/
+affordance_blocks/learned/
+
+# Large local renderer asset packs are downloaded/cached locally.
+assets/library/
+
+# Godot local/import cache
+godot_client/.godot/
+godot_client/.import/
 
 # Ruff stuff:
 .ruff_cache/

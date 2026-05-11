@@ -1,0 +1,33 @@
+{
+  "block_id": "push_lane",
+  "version": "construction-kit-1.0",
+  "summary": "A validator-friendly lane for moving a dynamic object into a target region by contact force.",
+  "trigger_keywords": ["push", "shove", "nudge", "slide", "roll", "move", "box", "crate", "barrel", "rock", "plate", "switch", "marker", "zone"],
+  "abstract_relation": "move_object_to_region",
+  "creates": ["dynamic movable object", "aligned agent staging point", "short push path", "optional guide rails"],
+  "constraints": [
+    "Place agent -> object -> region roughly collinear; alignment angle <= 35 degrees.",
+    "Place the object between the agent and region.",
+    "Keep object-to-region start distance <= 140 px, preferably 80-120 px.",
+    "Keep agent-to-object start distance <= 220 px, preferably 40-80 px for box/plate tasks so contact occurs quickly.",
+    "Keep the object passively stable before contact.",
+    "Add a real floor/shelf under the movable object; rails, gates, or blockers must not be the only support.",
+    "Use guide rails or corridor walls when the object can roll sideways.",
+    "Do not place solid blockers between object and region.",
+    "For pressure plates, use a non-blocking sensor target and place any gate after the plate, never between agent/object/plate."
+  ],
+  "composes_with": ["stable_floor_support", "sensor_region", "gated_path"],
+  "validator_checks": [
+    "object_too_far_from_region",
+    "poor_push_alignment",
+    "solid_blocker_between_object_and_region",
+    "object_moved_away_from_region",
+    "agent_or_object_drifted_sideways",
+    "object_never_gained_forward_velocity"
+  ],
+  "repair_guidance": [
+    "If the object moves away from the region, stage the agent directly behind the object and add short guide rails.",
+    "If sideways drift appears, narrow and straighten the push lane.",
+    "If forward velocity is low, reduce object friction/mass or increase agent_strength."
+  ]
+}

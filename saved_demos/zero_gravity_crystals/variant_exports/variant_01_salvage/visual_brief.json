@@ -1,0 +1,589 @@
+{
+  "accent": "deep_space_neon",
+  "agent_avatar": "ship",
+  "background": "parallax_starfield",
+  "fast_variant": {
+    "enabled": true,
+    "physics_source_locked": true,
+    "variant_index": 1,
+    "variant_label": "SALVAGE"
+  },
+  "lighting": [
+    "neon_bloom",
+    "holographic",
+    "low_key"
+  ],
+  "materials": [
+    "crystal",
+    "asteroid",
+    "energy_field",
+    "dark_metal"
+  ],
+  "mood": "deep_space",
+  "motion_fx": [
+    "agent_trail",
+    "zero_g_drift",
+    "object_trail"
+  ],
+  "palette": {
+    "background_color": [
+      3,
+      6,
+      18
+    ],
+    "hot": [
+      255,
+      86,
+      170
+    ],
+    "primary": [
+      72,
+      220,
+      255
+    ],
+    "secondary": [
+      174,
+      98,
+      255
+    ]
+  },
+  "presentation": "clean_demo_mode",
+  "prompt": "A zero-gravity salvage field where the agent must touch four drifting crystals.",
+  "recipe": {
+    "background_layers": [
+      {
+        "strength": 0.45999999999999996,
+        "type": "atmospheric_vignette"
+      },
+      {
+        "count": 205,
+        "type": "star_dust"
+      },
+      {
+        "type": "nebula_wash"
+      },
+      {
+        "cell": 24,
+        "type": "simulation_grid"
+      },
+      {
+        "count": 55,
+        "type": "dust_motes"
+      },
+      {
+        "count": 5,
+        "theme": "structured",
+        "type": "set_dressing_props"
+      }
+    ],
+    "fast_variant": true,
+    "object_skins": {
+      "*asteroid*": {
+        "fill": [
+          74,
+          78,
+          98
+        ],
+        "fx": [
+          "cracked_surface",
+          "edge_bloom"
+        ],
+        "glow": [
+          72,
+          220,
+          255
+        ],
+        "outline": [
+          72,
+          220,
+          255
+        ]
+      },
+      "*ball*": {
+        "fill": [
+          174,
+          98,
+          255
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "glow": [
+          174,
+          98,
+          255
+        ],
+        "outline": [
+          245,
+          250,
+          255
+        ]
+      },
+      "*beacon*": {
+        "fill": [
+          73,
+          41,
+          107
+        ],
+        "fx": [
+          "goal_breathe",
+          "edge_bloom"
+        ],
+        "glow": [
+          174,
+          98,
+          255
+        ],
+        "outline": [
+          174,
+          98,
+          255
+        ]
+      },
+      "*crystal*": {
+        "fill": [
+          174,
+          98,
+          255
+        ],
+        "fx": [
+          "twinkle",
+          "edge_bloom"
+        ],
+        "glow": [
+          174,
+          98,
+          255
+        ],
+        "outline": [
+          245,
+          250,
+          255
+        ]
+      },
+      "*enemy*": {
+        "fill": [
+          158,
+          53,
+          105
+        ],
+        "fx": [
+          "danger_pulse",
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          86,
+          170
+        ],
+        "outline": [
+          255,
+          86,
+          170
+        ]
+      },
+      "*exit*": {
+        "fill": [
+          73,
+          41,
+          107
+        ],
+        "fx": [
+          "goal_breathe",
+          "edge_bloom"
+        ],
+        "glow": [
+          174,
+          98,
+          255
+        ],
+        "outline": [
+          174,
+          98,
+          255
+        ]
+      },
+      "*fire*": {
+        "fill": [
+          255,
+          86,
+          170
+        ],
+        "fx": [
+          "hazard_flash",
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          86,
+          170
+        ],
+        "outline": [
+          255,
+          235,
+          140
+        ]
+      },
+      "*floor*": {
+        "fill": [
+          27,
+          83,
+          96
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "glow": [
+          72,
+          220,
+          255
+        ],
+        "outline": [
+          72,
+          220,
+          255
+        ]
+      },
+      "*gem*": {
+        "fill": [
+          174,
+          98,
+          255
+        ],
+        "fx": [
+          "twinkle",
+          "edge_bloom"
+        ],
+        "glow": [
+          174,
+          98,
+          255
+        ],
+        "outline": [
+          245,
+          250,
+          255
+        ]
+      },
+      "*goal*": {
+        "fill": [
+          73,
+          41,
+          107
+        ],
+        "fx": [
+          "goal_breathe",
+          "edge_bloom"
+        ],
+        "glow": [
+          174,
+          98,
+          255
+        ],
+        "outline": [
+          174,
+          98,
+          255
+        ]
+      },
+      "*hazard*": {
+        "fill": [
+          158,
+          53,
+          105
+        ],
+        "fx": [
+          "hazard_flash",
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          86,
+          170
+        ],
+        "outline": [
+          255,
+          86,
+          170
+        ]
+      },
+      "*platform*": {
+        "fill": [
+          27,
+          83,
+          96
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "glow": [
+          72,
+          220,
+          255
+        ],
+        "outline": [
+          72,
+          220,
+          255
+        ]
+      },
+      "*rock*": {
+        "fill": [
+          92,
+          96,
+          112
+        ],
+        "fx": [
+          "cracked_surface",
+          "edge_bloom"
+        ],
+        "glow": [
+          72,
+          220,
+          255
+        ],
+        "outline": [
+          72,
+          220,
+          255
+        ]
+      },
+      "*tree*": {
+        "fill": [
+          73,
+          41,
+          107
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "outline": [
+          174,
+          98,
+          255
+        ],
+        "trunk": [
+          27,
+          83,
+          96
+        ]
+      },
+      "*wall*": {
+        "fill": [
+          15,
+          48,
+          56
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "glow": [
+          72,
+          220,
+          255
+        ],
+        "outline": [
+          72,
+          220,
+          255
+        ]
+      },
+      "*water*": {
+        "fill": [
+          27,
+          83,
+          96
+        ],
+        "foam": [
+          174,
+          98,
+          255
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "outline": [
+          72,
+          220,
+          255
+        ]
+      }
+    },
+    "variant_index": 1,
+    "variant_label": "SALVAGE",
+    "variant_note": "same solved zero-g task with bright salvage field styling"
+  },
+  "schema_version": "harness-alpha-visual-brief-v1",
+  "scores": {
+    "alien_biome": 0,
+    "asteroid_belt": 2,
+    "clockwork_chamber": 0,
+    "cornfield_maze": 0,
+    "cosmic_research": 2,
+    "crystal_cavern": 1,
+    "cyber_grid": 0,
+    "deep_space": 6,
+    "desert_ruins": 0,
+    "electric_substation": 0,
+    "hazard_arena": 0,
+    "ice_facility": 0,
+    "industrial_noir": 0,
+    "magnetic_lab": 0,
+    "mechanical_factory": 0,
+    "minimalist_sandbox": 0,
+    "orbital_station": 0,
+    "organic_maze": 0,
+    "overgrown_garden": 0,
+    "research_lab": 0,
+    "retro_arcade": 0,
+    "toxic_swamp": 0,
+    "training_sim": 0,
+    "underwater_lab": 0,
+    "volcanic_foundry": 0
+  },
+  "semantic_assets": [],
+  "semantic_context": {
+    "keywords": [
+      "field",
+      "goal",
+      "space"
+    ],
+    "object_names": [
+      "floor",
+      "ceiling",
+      "left_wall",
+      "right_wall",
+      "agent",
+      "crystal_1",
+      "crystal_2",
+      "crystal_3",
+      "crystal_4"
+    ],
+    "objective_type": "multi_target_touch",
+    "prompt": "A zero-gravity salvage field where the agent must touch four drifting crystals.",
+    "roles": [
+      "agent",
+      "goal",
+      "terrain"
+    ]
+  },
+  "semantic_props": [],
+  "shape_language": "technical_rectilinear",
+  "source": "inferred",
+  "surface_fx": [
+    "crt_vignette",
+    "procedural_noise"
+  ],
+  "visual_program": {
+    "background_layers": [
+      {
+        "color": [
+          72,
+          220,
+          255
+        ],
+        "count": 116,
+        "motion": "drift",
+        "primitive": "particle_field",
+        "speed": 0.21000000000000002
+      },
+      {
+        "color": [
+          174,
+          98,
+          255
+        ],
+        "count": 3,
+        "primitive": "radial_glow"
+      },
+      {
+        "color": [
+          174,
+          98,
+          255
+        ],
+        "count": 220,
+        "motion": "orbit",
+        "primitive": "particle_field",
+        "speed": 0.13
+      },
+      {
+        "color": [
+          72,
+          220,
+          255
+        ],
+        "count": 4,
+        "primitive": "ribbon_flow",
+        "speed": 0.08
+      },
+      {
+        "cell": 30,
+        "color": [
+          72,
+          220,
+          255
+        ],
+        "primitive": "grid_overlay"
+      },
+      {
+        "color": [
+          174,
+          98,
+          255
+        ],
+        "count": 8,
+        "primitive": "contour_lines"
+      }
+    ],
+    "object_effects": [
+      {
+        "color": [
+          72,
+          220,
+          255
+        ],
+        "primitive": "motion_trail",
+        "selector": "agent"
+      },
+      {
+        "color": [
+          174,
+          98,
+          255
+        ],
+        "primitive": "portal_ring",
+        "selector": "goal|exit|target|beacon"
+      },
+      {
+        "color": [
+          255,
+          86,
+          170
+        ],
+        "primitive": "danger_pulse",
+        "selector": "hazard|enemy|fire|lava|bear"
+      },
+      {
+        "color": [
+          72,
+          220,
+          255
+        ],
+        "primitive": "rim_glow",
+        "selector": "wall|floor|platform|gate"
+      },
+      {
+        "color": [
+          174,
+          98,
+          255
+        ],
+        "primitive": "field_ring",
+        "rings": 2,
+        "selector": "goal|exit|target|beacon"
+      }
+    ],
+    "seed": 137
+  }
+}

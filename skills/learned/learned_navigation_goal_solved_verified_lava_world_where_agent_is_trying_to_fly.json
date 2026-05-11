@@ -1,0 +1,161 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "low_g",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "thrust_2d",
+    "notes": "Low gravity; agent is controlled by 2D thrust forces."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: distance_to_goal_center, was_hit, min_distance_to_nearest_hazard."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "hazard_unavoidable",
+      "agent_underpowered",
+      "blocked_path",
+      "goal_region_not_sensor"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Fly to the exit at the top-right without being hit by falling fireballs.",
+    "objective_type": "navigation_goal",
+    "progress_metrics": [
+      "distance_to_goal_center",
+      "was_hit",
+      "min_distance_to_nearest_hazard"
+    ],
+    "required_capabilities": [
+      "thrust_2d",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "success_predicate": "agent reaches goal region AND was_hit is False",
+    "targets": [
+      "goal"
+    ],
+    "validator_skills": [
+      "navigation_probe"
+    ]
+  },
+  "objective_type": "navigation_goal",
+  "skill_id": "learned_navigation_goal_solved_verified_lava_world_where_agent_is_trying_to_fly",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\lava_world_where_agent_is_seed1_repair2_env.py",
+  "source_prompt": "Lava world where agent is trying to fly up to exit at top right, but has to avoid getting hit by falling balls of fire",
+  "summary": "Fly to the exit at the top-right without being hit by falling fireballs. Validated as solved_verified with movement=thrust_2d, gravity=low_g.",
+  "trigger_keywords": [
+    "2d",
+    "agent",
+    "at",
+    "avoid",
+    "balls",
+    "but",
+    "by",
+    "center",
+    "contact",
+    "distance",
+    "exit",
+    "falling",
+    "fire",
+    "fly",
+    "g",
+    "getting",
+    "goal",
+    "has",
+    "hazard",
+    "hit",
+    "is",
+    "lava",
+    "low",
+    "min",
+    "navigation",
+    "nearest",
+    "of",
+    "probe",
+    "right",
+    "thrust",
+    "to",
+    "top",
+    "touch",
+    "trying",
+    "up",
+    "was",
+    "where",
+    "world"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "low_g",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "thrust_2d",
+    "objective_type": "navigation_goal",
+    "oracle": "subgoal_plan",
+    "progress_metrics": [
+      "distance_to_goal_center",
+      "was_hit",
+      "min_distance_to_nearest_hazard"
+    ],
+    "required_capabilities": [
+      "thrust_2d",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "validator_skills": [
+      "navigation_probe"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

@@ -1,0 +1,264 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "top_down_flat",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "notes": "Top-down movement: gravity disabled; agent is a dynamic puck moved by forces."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: distance_to_exit."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "blocked_path",
+      "agent_underpowered",
+      "goal_sensor_too_small"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Navigate through the crystal maze and reach the blue exit zone.",
+    "objective_type": "navigation_goal",
+    "progress_metrics": [
+      "distance_to_exit"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "exit_zone"
+      }
+    ],
+    "success_predicate": "agent overlaps the exit_zone sensor region",
+    "targets": [
+      "exit_zone"
+    ],
+    "validator_skills": [
+      "navigation_probe",
+      "subgoal_plan"
+    ]
+  },
+  "objective_type": "navigation_goal",
+  "skill_id": "learned_navigation_goal_solved_verified_a_small_crystal_maze_where_the_agent_must",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\a_small_crystal_maze_where_seed1_repair2_env_auto_repaired_1.py",
+  "source_prompt": "A small crystal maze where the agent must reach a blue exit.",
+  "summary": "Navigate through the crystal maze and reach the blue exit zone. Validated as solved_verified with movement=ground_force, gravity=top_down_flat.",
+  "trigger_keywords": [
+    "a",
+    "agent",
+    "blue",
+    "contact",
+    "crystal",
+    "distance",
+    "down",
+    "exit",
+    "flat",
+    "force",
+    "goal",
+    "ground",
+    "maze",
+    "must",
+    "navigation",
+    "plan",
+    "probe",
+    "reach",
+    "small",
+    "subgoal",
+    "the",
+    "to",
+    "top",
+    "touch",
+    "where"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "top_down_flat",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "objective_type": "navigation_goal",
+    "oracle": "subgoal_plan",
+    "physics_relations": {
+      "intent_summary": "A controllable agent navigates through a small crystal-walled maze to reach a blue exit zone.",
+      "physical_parameters": {
+        "agent": {
+          "friction_policy": "high enough for contact tasks; unrestricted thrust only in zero_g",
+          "repair_knobs": [
+            "agent_strength",
+            "agent_radius",
+            "agent_start"
+          ],
+          "strength_policy": "scale with max scene mass and gravity"
+        },
+        "clearance": {},
+        "fields": {},
+        "gravity": {
+          "explicit": true,
+          "model": "top_down_flat",
+          "repair_knob": "EnvConfig.gravity"
+        },
+        "objects": {
+          "crystal": {
+            "constraints": {
+              "object_to_region_distance": {
+                "max": 420,
+                "why": "multi-target collection should stage each target within reachable/interceptable range"
+              }
+            },
+            "relations": [
+              "agent_reaches_or_intercepts_object"
+            ],
+            "repair_knobs": []
+          }
+        },
+        "surfaces": {}
+      },
+      "relations": [
+        {
+          "actors": [
+            "agent"
+          ],
+          "fields": [
+            "top_down_flat"
+          ],
+          "objects": [
+            "crystal"
+          ],
+          "parameter_constraints": {
+            "object_to_region_distance": {
+              "max": 420,
+              "why": "multi-target collection should stage each target within reachable/interceptable range"
+            },
+            "target_sensor": {
+              "required": false,
+              "why": "touchable collectibles may be dynamic bodies or non-blocking sensors, but must be concrete registered names"
+            }
+          },
+          "probes": [
+            "concrete_target",
+            "agent_moves_toward_target",
+            "contact_or_proximity"
+          ],
+          "repair": "Place finite concrete targets in reachable/interceptable positions; do not use placeholder aggregate names like 'targets'.",
+          "repair_knobs": [
+            "crystal_start",
+            "agent_start",
+            "agent_strength"
+          ],
+          "type": "agent_reaches_or_intercepts_object"
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "crystal_start",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "agent_reaches_or_intercepts_object",
+          "scope": "geometry"
+        },
+        {
+          "knob": "agent_start",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "agent_reaches_or_intercepts_object",
+          "scope": "geometry"
+        },
+        {
+          "knob": "agent_strength",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "agent_reaches_or_intercepts_object",
+          "scope": "physical_parameter"
+        }
+      ],
+      "source": "deterministic_relation_inference",
+      "suggested_subgoals": [
+        {
+          "kind": "agent_touch_object",
+          "target": "crystal"
+        }
+      ],
+      "validator_strategy": {
+        "parameter_policy": "validate physical properties such as mass, friction, restitution, gravity, slope, clearance, and impulse before broad regeneration",
+        "primary": "validate physics_relations, then objective_profile.subgoals",
+        "repair_unit": "failed relation, not failed task template",
+        "template_policy": "helpers are optional constructors; relations are the conceptual source of truth"
+      },
+      "version": "physics_relation_graph.v2",
+      "world_context": {
+        "gravity": "top_down_flat",
+        "movement_model": "ground_force",
+        "perspective": "top_down_or_flat_floor",
+        "rationale": "Planar maze/room/arena cue: use top-down flat-plane physics, not true zero-gravity freeflight, unless the prompt explicitly says zero gravity.",
+        "support_model": "flat_floor_or_top_down_no_fall",
+        "theme": "crystal maze (translucent gem-like walls, cool colors)"
+      }
+    },
+    "progress_metrics": [
+      "distance_to_exit"
+    ],
+    "relation_subgoals": [
+      {
+        "kind": "agent_touch_object",
+        "target": "crystal"
+      }
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "exit_zone"
+      }
+    ],
+    "validator_skills": [
+      "navigation_probe",
+      "subgoal_plan"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

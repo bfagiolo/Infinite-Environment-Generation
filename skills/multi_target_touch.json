@@ -1,0 +1,55 @@
+{
+  "skill_id": "multi_target_touch",
+  "version": "1.0",
+  "objective_type": "multi_target_touch",
+  "summary": "Use when the agent must touch, collect, visit, or contact multiple objects such as rocks, coins, checkpoints, or floating targets.",
+  "trigger_keywords": [
+    "asteroid",
+    "collect",
+    "contact",
+    "floating",
+    "hit",
+    "multiple",
+    "rocks",
+    "targets",
+    "three",
+    "touch",
+    "visit"
+  ],
+  "required_registry": [
+    "self.objective_type = 'multi_target_touch'",
+    "self.objective_targets = []",
+    "self.agent_radius = 15",
+    "self.agent_strength = 2500",
+    "self.touch_threshold = 20",
+    "self.target_radius = 14",
+    "self.targets_touched = set()"
+  ],
+  "state_tracking_rule": "Store target names only. Do not store ObjectRecord, Body, Shape, or raw position objects in registry state.",
+  "add_objects_pattern": [
+    "Create the agent with role='agent'.",
+    "For each target, call create_dynamic_circle or create_static_box with a stable name like 'rock_1'.",
+    "Append each target name to self.objective_targets immediately after creation.",
+    "Scatter targets in two dimensions rather than placing all targets in one collinear chain that blocks later contacts."
+  ],
+  "objective_pattern": [
+    "Do not clear self.targets_touched inside check_objective; it is persistent collection memory.",
+    "For each target_name in self.objective_targets, call self.distance_between('agent', target_name).",
+    "A target is touched when distance <= self.agent_radius + self.target_radius + self.touch_threshold.",
+    "When touched, add target_name to self.targets_touched and leave it there.",
+    "Return len(self.targets_touched) == len(self.objective_targets)."
+  ],
+  "ground_truth_pattern": [
+    "Expose objective_type, objective_targets, targets_touched, targets_remaining, and objective_satisfied in truth['objective']."
+  ],
+  "validator_oracle": "multi_target_touch",
+  "common_failures": [
+    "Using self.agent.position instead of self.agent.body.position.",
+    "Using self.get_object(name).position instead of self.get_object(name).body.position.",
+    "Storing ObjectRecord or Body values in self.objective_targets.",
+    "Forgetting to append target names to self.objective_targets.",
+    "Returning True after touching only one target instead of all targets.",
+    "Placing targets in a single tight line so the first target physically blocks direct contact with later targets."
+  ],
+  "minimal_check_objective_example": "for target_name in self.objective_targets:\n    if self.distance_between('agent', target_name) <= self.agent_radius + self.target_radius + self.touch_threshold:\n        self.targets_touched.add(target_name)\nreturn len(self.targets_touched) == len(self.objective_targets)"
+}

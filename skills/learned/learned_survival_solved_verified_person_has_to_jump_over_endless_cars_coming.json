@@ -1,0 +1,380 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "notes": "Agent moves by physical forces; jumping is achieved by upward force while grounded."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: time_alive_seconds, was_hit, cars_spawned, min_distance_to_nearest_car, completed_jump_cycles, car_passed_under_while_airborne, agent_max_y."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "agent_hit_by_car",
+      "unfair_spawn_overlap",
+      "hazards_not_engaging_lane",
+      "agent_underpowered_jump"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Survive for 8 seconds by jumping over sequential oncoming cars without touching any car.",
+    "objective_type": "survival",
+    "progress_metrics": [
+      "time_alive_seconds",
+      "was_hit",
+      "cars_spawned",
+      "min_distance_to_nearest_car",
+      "completed_jump_cycles",
+      "car_passed_under_while_airborne",
+      "agent_max_y"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "avoid_role": "hazard",
+        "kind": "survive_duration",
+        "seconds": 8.0
+      }
+    ],
+    "success_predicate": "elapsed_time_seconds >= duration_seconds AND agent_car_collision_count == 0",
+    "targets": [
+      "agent",
+      "car_1",
+      "car_2",
+      "car_3",
+      "car_4",
+      "car_5"
+    ],
+    "validator_skills": [
+      "survival_timer_progress",
+      "agent_hazard_clearance"
+    ]
+  },
+  "objective_type": "survival",
+  "skill_id": "learned_survival_solved_verified_person_has_to_jump_over_endless_cars_coming",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\person_has_to_jump_over_seed1_repair1_env.py",
+  "source_prompt": "Person has to jump over endless cars coming toward it sequentially for 8 seconds",
+  "summary": "Survive for 8 seconds by jumping over sequential oncoming cars without touching any car. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "8",
+    "agent",
+    "airborne",
+    "alive",
+    "car",
+    "cars",
+    "clearance",
+    "coming",
+    "completed",
+    "contact",
+    "cycles",
+    "distance",
+    "endless",
+    "for",
+    "force",
+    "ground",
+    "has",
+    "hazard",
+    "hit",
+    "it",
+    "jump",
+    "max",
+    "min",
+    "nearest",
+    "normal",
+    "over",
+    "passed",
+    "person",
+    "progress",
+    "seconds",
+    "sequentially",
+    "spawned",
+    "survival",
+    "time",
+    "timer",
+    "to",
+    "touch",
+    "toward",
+    "under",
+    "was"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "objective_type": "survival",
+    "oracle": "subgoal_plan",
+    "physics_relations": {
+      "intent_summary": "A controllable person must survive for 8 seconds by jumping over a continuous sequence of cars that drive toward them along the ground.",
+      "physical_parameters": {
+        "agent": {
+          "friction_policy": "high enough for contact tasks; unrestricted thrust only in zero_g",
+          "repair_knobs": [
+            "agent_strength",
+            "agent_radius",
+            "agent_start"
+          ],
+          "strength_policy": "scale with max scene mass and gravity"
+        },
+        "clearance": {},
+        "fields": {},
+        "gravity": {
+          "explicit": false,
+          "model": "normal",
+          "repair_knob": "EnvConfig.gravity"
+        },
+        "objects": {
+          "hazard": {
+            "constraints": {},
+            "relations": [
+              "hazard_motion",
+              "avoid_hazard"
+            ],
+            "repair_knobs": []
+          }
+        },
+        "surfaces": {}
+      },
+      "relations": [
+        {
+          "fields": [
+            "gravity"
+          ],
+          "objects": [
+            "hazard"
+          ],
+          "parameter_constraints": {
+            "hazard_speed_y": {
+              "max_abs": 520,
+              "min_abs": 160,
+              "why": "visible but readable hazard motion"
+            },
+            "phase_gap_steps": {
+              "min": 18,
+              "why": "hazards should not all fall simultaneously"
+            },
+            "vertical_clearance": {
+              "min": 160,
+              "why": "falling hazards must visibly travel"
+            }
+          },
+          "parameters": {
+            "recurring": true,
+            "staggered": true
+          },
+          "probes": [
+            "semantic_dynamics",
+            "trajectory_change"
+          ],
+          "repair": "Create dynamic hazards with recurring/staggered motion and enough clearance for visible travel.",
+          "repair_knobs": [
+            "hazard_spawn_positions",
+            "hazard_speed_y",
+            "phase_gap_steps",
+            "hazard_sensor",
+            "clearance_gap"
+          ],
+          "type": "hazard_motion"
+        },
+        {
+          "actors": [
+            "agent"
+          ],
+          "objects": [
+            "hazard"
+          ],
+          "parameter_constraints": {
+            "hazard_density": {
+              "max": 6,
+              "why": "avoid unavoidable dense crossfire"
+            },
+            "safe_lane_count": {
+              "min": 1,
+              "why": "survival must be possible for a simple controller"
+            }
+          },
+          "parameters": {
+            "seconds": 8
+          },
+          "probes": [
+            "survival_duration",
+            "min_distance_to_hazard"
+          ],
+          "repair": "Leave fair dodge lanes and avoid unavoidable starting contact.",
+          "repair_knobs": [
+            "duration_seconds",
+            "hazard_count",
+            "hazard_speed",
+            "spawn_spacing",
+            "safe_lane_center"
+          ],
+          "type": "avoid_hazard"
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "hazard_spawn_positions",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "hazard_motion",
+          "scope": "layout"
+        },
+        {
+          "knob": "hazard_speed_y",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "hazard_motion",
+          "scope": "geometry"
+        },
+        {
+          "knob": "phase_gap_steps",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "hazard_motion",
+          "scope": "temporal_dynamics"
+        },
+        {
+          "knob": "hazard_sensor",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "hazard_motion",
+          "scope": "layout"
+        },
+        {
+          "knob": "clearance_gap",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "hazard_motion",
+          "scope": "layout"
+        },
+        {
+          "knob": "duration_seconds",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "avoid_hazard",
+          "scope": "temporal_dynamics"
+        },
+        {
+          "knob": "hazard_count",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "avoid_hazard",
+          "scope": "temporal_dynamics"
+        },
+        {
+          "knob": "hazard_speed",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "avoid_hazard",
+          "scope": "temporal_dynamics"
+        },
+        {
+          "knob": "spawn_spacing",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "avoid_hazard",
+          "scope": "layout"
+        },
+        {
+          "knob": "safe_lane_center",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "avoid_hazard",
+          "scope": "geometry"
+        }
+      ],
+      "source": "deterministic_relation_inference",
+      "suggested_subgoals": [
+        {
+          "avoid_role": "hazard",
+          "kind": "survive_duration",
+          "seconds": 8
+        }
+      ],
+      "validator_strategy": {
+        "parameter_policy": "validate physical properties such as mass, friction, restitution, gravity, slope, clearance, and impulse before broad regeneration",
+        "primary": "validate physics_relations, then objective_profile.subgoals",
+        "repair_unit": "failed relation, not failed task template",
+        "template_policy": "helpers are optional constructors; relations are the conceptual source of truth"
+      },
+      "version": "physics_relation_graph.v2",
+      "world_context": {
+        "gravity": "normal",
+        "movement_model": "force/impulse-driven character body with a discrete jump impulse; cars are kinematic or driven dynamic bodies with constant horizontal velocity",
+        "perspective": "side_view_platformer",
+        "rationale": "The prompt describes repeated jump-avoidance of ground-level hazards coming toward the person over a fixed survival time.",
+        "support_model": "single continuous flat ground plane supporting agent and cars",
+        "theme": "Endless-runner street with oncoming traffic"
+      }
+    },
+    "progress_metrics": [
+      "time_alive_seconds",
+      "was_hit",
+      "cars_spawned",
+      "min_distance_to_nearest_car",
+      "completed_jump_cycles",
+      "car_passed_under_while_airborne",
+      "agent_max_y"
+    ],
+    "relation_subgoals": [
+      {
+        "avoid_role": "hazard",
+        "kind": "survive_duration",
+        "seconds": 8
+      }
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "avoid_role": "hazard",
+        "kind": "survive_duration",
+        "seconds": 8
+      }
+    ],
+    "validator_skills": [
+      "survival_timer_progress",
+      "agent_hazard_clearance"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

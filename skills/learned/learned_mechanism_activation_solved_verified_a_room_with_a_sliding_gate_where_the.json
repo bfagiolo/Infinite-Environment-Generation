@@ -1,0 +1,196 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact",
+      "push_contact",
+      "contact_trigger"
+    ],
+    "movement": "ground_force",
+    "notes": "Agent moves by physical forces and must push the box onto a sensor plate to open the gate."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: box_distance_to_plate_center, plate_activated, gate_open, agent_distance_to_goal_center."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "blocked_path",
+      "agent_underpowered",
+      "object_immovable",
+      "post_mechanism_path_blocked"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Push the blue box onto the pressure plate to open the sliding gate, then pass through to reach the goal region.",
+    "objective_type": "mechanism_activation",
+    "progress_metrics": [
+      "box_distance_to_plate_center",
+      "plate_activated",
+      "gate_open",
+      "agent_distance_to_goal_center"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "push_contact",
+      "contact_trigger"
+    ],
+    "subgoals": [
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "blue_box",
+        "region": "pressure_plate"
+      },
+      {
+        "effect": "gate_open",
+        "kind": "activate_mechanism",
+        "trigger": "pressure_plate"
+      },
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "success_predicate": "pressure_plate is activated by blue_box (gate_mechanism activated) AND agent reaches the goal region",
+    "targets": [
+      "blue_box",
+      "pressure_plate",
+      "sliding_gate",
+      "goal",
+      "gate_mechanism"
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "activation_state",
+      "object_region_affordance"
+    ]
+  },
+  "objective_type": "mechanism_activation",
+  "skill_id": "learned_mechanism_activation_solved_verified_a_room_with_a_sliding_gate_where_the",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\a_room_with_a_sliding_seed1_repair2_env.py",
+  "source_prompt": "A room with a sliding gate where the agent must push a blue box onto a pressure plate to open the path.",
+  "summary": "Push the blue box onto the pressure plate to open the sliding gate, then pass through to reach the goal region. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "a",
+    "activated",
+    "activation",
+    "affordance",
+    "agent",
+    "blue",
+    "box",
+    "center",
+    "contact",
+    "distance",
+    "force",
+    "gate",
+    "goal",
+    "ground",
+    "mechanism",
+    "must",
+    "normal",
+    "object",
+    "onto",
+    "open",
+    "path",
+    "plan",
+    "plate",
+    "pressure",
+    "push",
+    "region",
+    "room",
+    "sliding",
+    "state",
+    "subgoal",
+    "the",
+    "to",
+    "trigger",
+    "where",
+    "with"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact",
+      "push_contact",
+      "contact_trigger"
+    ],
+    "movement": "ground_force",
+    "objective_type": "mechanism_activation",
+    "oracle": "subgoal_plan",
+    "progress_metrics": [
+      "box_distance_to_plate_center",
+      "plate_activated",
+      "gate_open",
+      "agent_distance_to_goal_center"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "push_contact",
+      "contact_trigger"
+    ],
+    "subgoals": [
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "blue_box",
+        "region": "pressure_plate"
+      },
+      {
+        "effect": "gate_open",
+        "kind": "activate_mechanism",
+        "trigger": "pressure_plate"
+      },
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "activation_state",
+      "object_region_affordance"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

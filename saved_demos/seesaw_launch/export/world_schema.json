@@ -1,0 +1,1169 @@
+{
+  "constraints": [
+    {
+      "error_bias": 0.0017970074436457143,
+      "impulse": 0.0,
+      "max_bias": null,
+      "max_force": null,
+      "metadata": {},
+      "name": "seesaw_pivot",
+      "type": "PivotJoint"
+    }
+  ],
+  "exported_at": "2026-05-09T16:13:01.682030+00:00",
+  "force_zones": [],
+  "mechanisms": [],
+  "objective": {
+    "capability_profile": {
+      "allowed_controls": [
+        "apply_force_x",
+        "apply_force_y",
+        "brake"
+      ],
+      "forbidden_controls": [
+        "teleport",
+        "direct_object_move",
+        "direct_object_rotation",
+        "direct_goal_state_write"
+      ],
+      "gravity": "normal",
+      "interaction": [
+        "touch_contact"
+      ],
+      "movement": "ground_force",
+      "notes": "Saved demo uses deterministic BaseEnv controls."
+    },
+    "gameplay_profile": {
+      "gameplay_loop": "navigation_goal",
+      "source": "curated_demo_library",
+      "source_prompt": "A weighted seesaw puzzle where a heavy ball must launch the agent to a high goal.",
+      "world_context": {
+        "gravity_model": "side_view_gravity",
+        "movement_model": "ground_force",
+        "route_assumption": "stage objectives on reachable routes"
+      }
+    },
+    "layout_plan": {
+      "layout_type": "saved_showcase_demo",
+      "route_first": true,
+      "source": "curated_demo_library"
+    },
+    "objective_active": true,
+    "objective_profile": {
+      "failure_modes": [
+        "blocked_path",
+        "insufficient_progress"
+      ],
+      "minimum_acceptance_tier": 5,
+      "objective_description": "Use a seesaw-like launch scene to reach the high goal.",
+      "objective_type": "navigation_goal",
+      "progress_metrics": [
+        "distance_to_target"
+      ],
+      "required_capabilities": [
+        "ground_force",
+        "touch_contact"
+      ],
+      "subgoals": [
+        {
+          "impact_region": "launch_pad",
+          "kind": "lever_launch",
+          "min_agent_lift": -20,
+          "min_angle_delta": 0.02,
+          "plank": "seesaw_plank",
+          "target": "high_goal",
+          "threshold": 360,
+          "weight": "heavy_ball"
+        },
+        {
+          "kind": "agent_reach_region",
+          "target": "high_goal",
+          "threshold": 115
+        }
+      ],
+      "success_predicate": "code-level deterministic state satisfies the saved demo objective",
+      "targets": [
+        "high_goal"
+      ],
+      "validator_skills": [
+        "saved_demo_oracle"
+      ]
+    },
+    "objective_satisfied": false,
+    "objective_targets": [
+      "high_goal"
+    ],
+    "objective_type": "navigation_goal",
+    "physics_relations": {
+      "relations": [
+        {
+          "impact_region": "launch_pad",
+          "kind": "lever_launch",
+          "min_agent_lift": -20,
+          "min_angle_delta": 0.02,
+          "plank": "seesaw_plank",
+          "target": "high_goal",
+          "threshold": 360,
+          "weight": "heavy_ball"
+        },
+        {
+          "kind": "agent_reach_region",
+          "target": "high_goal",
+          "threshold": 115
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "layout",
+          "scope": "demo"
+        }
+      ],
+      "source": "curated_demo_library"
+    },
+    "semantic_requirements": [],
+    "targets_remaining": [
+      "high_goal"
+    ],
+    "targets_touched": []
+  },
+  "objects": [
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          480.0,
+          38.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "material": "padded_demo_floor",
+        "seesaw_stage": true
+      },
+      "name": "ground",
+      "role": "terrain",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 14.0,
+            "left": 30.0,
+            "right": 930.0,
+            "top": 62.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -450.0,
+              -24.0
+            ],
+            [
+              450.0,
+              -24.0
+            ],
+            [
+              450.0,
+              24.0
+            ],
+            [
+              -450.0,
+              24.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              30.0,
+              14.0
+            ],
+            [
+              930.0,
+              14.0
+            ],
+            [
+              930.0,
+              62.0
+            ],
+            [
+              30.0,
+              62.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          370.0,
+          104.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "label": "weight_side",
+        "material": "load_zone_marker",
+        "visual_only": true
+      },
+      "name": "left_load_label",
+      "role": "region",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 95.0,
+            "left": 302.0,
+            "right": 438.0,
+            "top": 113.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -68.0,
+              -9.0
+            ],
+            [
+              68.0,
+              -9.0
+            ],
+            [
+              68.0,
+              9.0
+            ],
+            [
+              -68.0,
+              9.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              302.0,
+              95.0
+            ],
+            [
+              438.0,
+              95.0
+            ],
+            [
+              438.0,
+              113.0
+            ],
+            [
+              302.0,
+              113.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          640.0,
+          104.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "label": "launch_side",
+        "material": "launch_zone_marker",
+        "visual_only": true
+      },
+      "name": "right_launch_label",
+      "role": "region",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 95.0,
+            "left": 577.0,
+            "right": 703.0,
+            "top": 113.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -63.0,
+              -9.0
+            ],
+            [
+              63.0,
+              -9.0
+            ],
+            [
+              63.0,
+              9.0
+            ],
+            [
+              -63.0,
+              9.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              577.0,
+              95.0
+            ],
+            [
+              703.0,
+              95.0
+            ],
+            [
+              703.0,
+              113.0
+            ],
+            [
+              577.0,
+              113.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 3.8,
+        "moment": 48413.26666666666,
+        "position": [
+          470.0,
+          166.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "dynamic_box",
+      "metadata": {
+        "material": "seesaw_plank",
+        "pivoted_lever": true,
+        "seesaw": true,
+        "wood": true
+      },
+      "name": "seesaw_plank",
+      "role": "mechanism",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 152.0,
+            "left": 275.0,
+            "right": 665.0,
+            "top": 180.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.42,
+          "local_vertices": [
+            [
+              195.0,
+              -14.0
+            ],
+            [
+              195.0,
+              14.0
+            ],
+            [
+              -195.0,
+              14.0
+            ],
+            [
+              -195.0,
+              -14.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              665.0,
+              152.0
+            ],
+            [
+              665.0,
+              180.0
+            ],
+            [
+              275.0,
+              180.0
+            ],
+            [
+              275.0,
+              152.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          470.0,
+          112.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "material": "seesaw_pivot",
+        "triangle_pivot": true
+      },
+      "name": "pivot",
+      "role": "support",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 66.0,
+            "left": 443.0,
+            "right": 497.0,
+            "top": 158.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -27.0,
+              -46.0
+            ],
+            [
+              27.0,
+              -46.0
+            ],
+            [
+              27.0,
+              46.0
+            ],
+            [
+              -27.0,
+              46.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              443.0,
+              66.0
+            ],
+            [
+              497.0,
+              66.0
+            ],
+            [
+              497.0,
+              158.0
+            ],
+            [
+              443.0,
+              158.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          370.0,
+          214.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "glow": "yellow",
+        "launch_pad": true,
+        "material": "impact_pad",
+        "weight_landing_zone": true
+      },
+      "name": "launch_pad",
+      "role": "trigger",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 175.0,
+            "left": 308.0,
+            "right": 432.0,
+            "top": 253.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -62.0,
+              -39.0
+            ],
+            [
+              62.0,
+              -39.0
+            ],
+            [
+              62.0,
+              39.0
+            ],
+            [
+              -62.0,
+              39.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              308.0,
+              175.0
+            ],
+            [
+              432.0,
+              175.0
+            ],
+            [
+              432.0,
+              253.0
+            ],
+            [
+              308.0,
+              253.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 5.7,
+        "moment": 3294.6,
+        "position": [
+          372.0,
+          264.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "dynamic_circle",
+      "metadata": {
+        "heavy": true,
+        "launcher_weight": true,
+        "material": "heavy_iron_ball"
+      },
+      "name": "heavy_ball",
+      "role": "object",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 230.0,
+            "left": 338.0,
+            "right": 406.0,
+            "top": 298.0
+          },
+          "center": [
+            372.0,
+            264.0
+          ],
+          "collision_type": 0,
+          "elasticity": 0.02,
+          "friction": 0.24,
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "radius": 34.0,
+          "sensor": false,
+          "source_type": "Circle",
+          "type": "circle"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 0.9,
+        "moment": 115.2,
+        "position": [
+          642.0,
+          235.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "dynamic_circle",
+      "metadata": {
+        "avatar_hint": "stick",
+        "launch_rider": true,
+        "seesaw_rider": true
+      },
+      "name": "agent",
+      "role": "agent",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 219.0,
+            "left": 626.0,
+            "right": 658.0,
+            "top": 251.0
+          },
+          "center": [
+            642.0,
+            235.0
+          ],
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.48,
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "radius": 16.0,
+          "sensor": false,
+          "source_type": "Circle",
+          "type": "circle"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          805.0,
+          405.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "glow": "emerald",
+        "high_goal": true,
+        "material": "floating_target_ring"
+      },
+      "name": "high_goal",
+      "role": "goal",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 334.0,
+            "left": 734.0,
+            "right": 876.0,
+            "top": 476.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -71.0,
+              -71.0
+            ],
+            [
+              71.0,
+              -71.0
+            ],
+            [
+              71.0,
+              71.0
+            ],
+            [
+              -71.0,
+              71.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              734.0,
+              334.0
+            ],
+            [
+              876.0,
+              334.0
+            ],
+            [
+              876.0,
+              476.0
+            ],
+            [
+              734.0,
+              476.0
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "schema_version": "harness-alpha-world-v1",
+  "semantic_context": {
+    "keywords": [
+      "ball",
+      "goal"
+    ],
+    "object_names": [
+      "ground",
+      "left_load_label",
+      "right_launch_label",
+      "seesaw_plank",
+      "pivot",
+      "launch_pad",
+      "heavy_ball",
+      "agent",
+      "high_goal"
+    ],
+    "objective_type": "navigation_goal",
+    "prompt": "A weighted seesaw puzzle where a heavy ball must launch the agent to a high goal.",
+    "roles": [
+      "agent",
+      "goal",
+      "mechanism",
+      "object",
+      "region",
+      "support",
+      "terrain",
+      "trigger"
+    ]
+  },
+  "solvability_check": {
+    "agent_radius": 16,
+    "goal": [
+      805.0,
+      445.0
+    ],
+    "grid_size": 24.0,
+    "metadata": {},
+    "notes": "",
+    "start": [
+      625.0,
+      245.0
+    ]
+  },
+  "source": {
+    "env_class": "SeesawLaunchSavedEnv",
+    "env_path": "saved_demos\\seesaw_launch\\env.py",
+    "prompt": "A weighted seesaw puzzle where a heavy ball must launch the agent to a high goal.",
+    "seed": 0
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "visual_brief": {
+    "accent": "teal_yellow",
+    "agent_avatar": "human",
+    "background": "circuit_board",
+    "lighting": [
+      "neon_bloom",
+      "soft_glow"
+    ],
+    "materials": [
+      "wood",
+      "brushed_steel",
+      "gate_metal",
+      "rubber"
+    ],
+    "mood": "mechanical_factory",
+    "motion_fx": [
+      "agent_trail",
+      "goal_breathe"
+    ],
+    "palette": {
+      "background_color": [
+        16,
+        13,
+        11
+      ],
+      "hot": [
+        255,
+        122,
+        69
+      ],
+      "primary": [
+        255,
+        212,
+        92
+      ],
+      "secondary": [
+        48,
+        231,
+        155
+      ]
+    },
+    "presentation": "visual_director_recipe",
+    "prompt": "A weighted seesaw puzzle where a heavy ball must launch the agent to a high goal.",
+    "recipe": {
+      "accent": "amber_emerald",
+      "agent_avatar": "human",
+      "animation_cues": {
+        "agent": [
+          "brace_pose",
+          "launch_pose"
+        ],
+        "heavy_ball": [
+          "drop_weight",
+          "impact_ripple"
+        ],
+        "high_goal": [
+          "goal_pulse"
+        ],
+        "seesaw_plank": [
+          "lever_rotation_arc"
+        ]
+      },
+      "background": "warm_mechanism_stage",
+      "background_layers": [
+        {
+          "alpha": 0.07,
+          "color": "#ffd45c",
+          "count": 3,
+          "primitive": "radial_glow"
+        },
+        {
+          "alpha": 0.06,
+          "cell": 48,
+          "color": "#7b5a30",
+          "primitive": "grid_overlay"
+        },
+        {
+          "color": "#ffd45c",
+          "count": 24,
+          "primitive": "particle_field",
+          "speed": 0.04
+        }
+      ],
+      "camera_fx": [
+        "subtle_impact_shake"
+      ],
+      "lighting": [
+        "warm_spotlight",
+        "rim_light",
+        "lever_glow"
+      ],
+      "mood": "mechanical_factory",
+      "motion_fx": [
+        "agent_trail",
+        "object_trail",
+        "goal_breathe",
+        "impact_ripples",
+        "lever_arc"
+      ],
+      "object_skins": {
+        "heavy_ball": {
+          "fill": [
+            88,
+            94,
+            100
+          ],
+          "fx": [
+            "weight_shadow",
+            "impact_ripples"
+          ],
+          "glow": [
+            255,
+            145,
+            82
+          ],
+          "material": "heavy_iron_ball",
+          "outline": [
+            225,
+            235,
+            232
+          ]
+        },
+        "high_goal": {
+          "fill": [
+            48,
+            231,
+            155
+          ],
+          "fx": [
+            "goal_breathe",
+            "target_ring"
+          ],
+          "glow": [
+            48,
+            231,
+            155
+          ],
+          "material": "floating_target_ring",
+          "outline": [
+            219,
+            255,
+            234
+          ]
+        },
+        "launch_pad": {
+          "alpha": 0.42,
+          "fill": [
+            255,
+            196,
+            72
+          ],
+          "fx": [
+            "impact_ripples"
+          ],
+          "material": "impact_pad",
+          "outline": [
+            255,
+            240,
+            166
+          ]
+        },
+        "left_load_label": {
+          "alpha": 0.36,
+          "fill": [
+            255,
+            122,
+            69
+          ],
+          "material": "load_zone_marker",
+          "outline": [
+            255,
+            215,
+            140
+          ]
+        },
+        "pivot": {
+          "fill": [
+            92,
+            79,
+            67
+          ],
+          "glow": [
+            255,
+            190,
+            84
+          ],
+          "material": "seesaw_pivot",
+          "outline": [
+            255,
+            220,
+            138
+          ]
+        },
+        "right_launch_label": {
+          "alpha": 0.34,
+          "fill": [
+            48,
+            231,
+            155
+          ],
+          "material": "launch_zone_marker",
+          "outline": [
+            219,
+            255,
+            234
+          ]
+        },
+        "seesaw_plank": {
+          "fill": [
+            164,
+            96,
+            42
+          ],
+          "fx": [
+            "lever_arc",
+            "wood_grain"
+          ],
+          "glow": [
+            255,
+            198,
+            78
+          ],
+          "material": "seesaw_plank",
+          "outline": [
+            255,
+            213,
+            115
+          ],
+          "stripe": [
+            92,
+            50,
+            25
+          ]
+        }
+      },
+      "palette": {
+        "background": "#100d0b",
+        "hazard": "#ff7a45",
+        "primary": "#ffd45c",
+        "secondary": "#30e79b"
+      },
+      "seed": 31577,
+      "surface_fx": [
+        "stage_vignette",
+        "brass_grid",
+        "mechanism_crosshairs"
+      ],
+      "world_identity": "clockwork_mechanism_room"
+    },
+    "schema_version": "harness-alpha-visual-brief-v1",
+    "scores": {
+      "clockwork_mechanism_room": 999
+    },
+    "semantic_assets": [
+      {
+        "asset_tags": [
+          "ball",
+          "equipment",
+          "sports",
+          "sports-pack"
+        ],
+        "name": "ball_soccer2.png",
+        "pack": "sports-pack",
+        "path": "assets/library/kenney/sports-pack/PNG/Equipment/ball_soccer2.png",
+        "placement": "object",
+        "renderer_only": true,
+        "requested_tags": [
+          "ball"
+        ],
+        "role": "object_accent",
+        "semantic": "ball"
+      },
+      {
+        "asset_tags": [
+          "flag",
+          "goal",
+          "new-platformer-pack",
+          "sports"
+        ],
+        "name": "flag_green_b.png",
+        "pack": "new-platformer-pack",
+        "path": "assets/library/kenney/new-platformer-pack/Sprites/Tiles/Double/flag_green_b.png",
+        "placement": "object",
+        "renderer_only": true,
+        "requested_tags": [
+          "goal"
+        ],
+        "role": "object_accent",
+        "semantic": "goal"
+      }
+    ],
+    "semantic_context": {
+      "keywords": [
+        "ball",
+        "goal"
+      ],
+      "object_names": [
+        "ground",
+        "left_load_label",
+        "right_launch_label",
+        "seesaw_plank",
+        "pivot",
+        "launch_pad",
+        "heavy_ball",
+        "agent",
+        "high_goal"
+      ],
+      "objective_type": "navigation_goal",
+      "prompt": "A weighted seesaw puzzle where a heavy ball must launch the agent to a high goal.",
+      "roles": [
+        "agent",
+        "goal",
+        "mechanism",
+        "object",
+        "region",
+        "support",
+        "terrain",
+        "trigger"
+      ]
+    },
+    "semantic_props": [],
+    "shape_language": "heavy_industrial",
+    "source": "visual_recipe",
+    "surface_fx": [
+      "scanlines",
+      "grid_crosshairs"
+    ],
+    "visual_program": null
+  },
+  "world": {
+    "agent_strength": 11183.4,
+    "damping": 0.992,
+    "gravity": [
+      0.0,
+      -650.0
+    ],
+    "height": 640,
+    "iterations": 30,
+    "time_step": 0.016666666666666666,
+    "width": 960
+  }
+}

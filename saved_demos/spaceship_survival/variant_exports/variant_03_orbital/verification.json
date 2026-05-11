@@ -1,0 +1,220 @@
+{
+  "accepted": true,
+  "achieved_tier": 5,
+  "blocking_object": null,
+  "contract_valid": true,
+  "details": {
+    "capability_profile": {
+      "allowed_controls": [
+        "apply_force_x",
+        "apply_force_y",
+        "brake"
+      ],
+      "forbidden_controls": [
+        "teleport",
+        "direct_object_move",
+        "direct_object_rotation",
+        "direct_goal_state_write"
+      ],
+      "gravity": "zero_g",
+      "interaction": [
+        "touch_contact"
+      ],
+      "movement": "thrust_2d",
+      "notes": "Saved demo uses deterministic BaseEnv controls."
+    },
+    "completed_subgoals": [
+      {
+        "duration_seconds": 8.0,
+        "duration_steps": 480,
+        "kind": "survive_duration"
+      }
+    ],
+    "gameplay_profile": {
+      "gameplay_loop": "survival",
+      "source": "curated_demo_library",
+      "source_prompt": "A space battle where enemy ships fire glowing shots while the agent survives for 8 seconds.",
+      "world_context": {
+        "gravity_model": "zero_g",
+        "movement_model": "thrust_2d",
+        "route_assumption": "stage objectives on reachable routes"
+      }
+    },
+    "has_agent": true,
+    "layout_plan": {
+      "layout_type": "saved_showcase_demo",
+      "route_first": true,
+      "source": "curated_demo_library"
+    },
+    "mechanism_diagnostics": [],
+    "minimum_acceptance_tier": 5,
+    "object_count": 16,
+    "objective": "check_objective",
+    "objective_profile": {
+      "failure_modes": [
+        "blocked_path",
+        "insufficient_progress"
+      ],
+      "minimum_acceptance_tier": 5,
+      "objective_description": "Survive eight seconds while enemy ships fire visible projectiles.",
+      "objective_type": "survival",
+      "progress_metrics": [
+        "distance_to_target"
+      ],
+      "required_capabilities": [
+        "ground_force",
+        "touch_contact"
+      ],
+      "subgoals": [
+        {
+          "duration_seconds": 8.0,
+          "duration_steps": 480,
+          "kind": "survive_duration"
+        }
+      ],
+      "success_predicate": "code-level deterministic state satisfies the saved demo objective",
+      "targets": [],
+      "validator_skills": [
+        "saved_demo_oracle"
+      ]
+    },
+    "objective_step": 480,
+    "objective_targets": [],
+    "objective_type": "survival",
+    "oracle": "subgoal_plan",
+    "physics_parameter_probes": [],
+    "physics_relations": {
+      "relations": [
+        {
+          "duration_seconds": 8.0,
+          "duration_steps": 480,
+          "kind": "survive_duration"
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "layout",
+          "scope": "demo"
+        }
+      ],
+      "source": "curated_demo_library"
+    },
+    "pre_rollout_probes": [],
+    "probe_plan": [
+      {
+        "probes": [
+          "stability",
+          "duration_condition"
+        ],
+        "subgoal_kind": "survive_duration"
+      }
+    ],
+    "semantic_probes": [
+      {
+        "diagnosis": "semantic_requirement_not_passively_probeable",
+        "metrics": {
+          "requirement": {
+            "kind": "projectile_motion",
+            "min_distance": 120,
+            "role": "hazard"
+          },
+          "supported": false
+        },
+        "name": "semantic_dynamics",
+        "objects": [],
+        "passed": true,
+        "repair": "Requirement is recorded for telemetry but is not a passive semantic probe.",
+        "severity": "info",
+        "tier_evidence": 1
+      }
+    ],
+    "semantic_requirements": [
+      {
+        "kind": "projectile_motion",
+        "min_distance": 120,
+        "role": "hazard"
+      }
+    ],
+    "subgoal_progress": [
+      {
+        "current_distance": null,
+        "distance_reduced": null,
+        "index": 1,
+        "kind": "survive_duration",
+        "start_distance": null
+      }
+    ],
+    "validator_route": {
+      "allowed_controls": [
+        "apply_force_x",
+        "apply_force_y",
+        "brake"
+      ],
+      "forbidden_controls": [
+        "teleport",
+        "direct_object_move",
+        "direct_object_rotation",
+        "direct_goal_state_write"
+      ],
+      "gravity": "zero_g",
+      "interaction": [
+        "touch_contact"
+      ],
+      "movement": "thrust_2d",
+      "objective_type": "survival",
+      "oracle": "subgoal_plan",
+      "physics_relations": {
+        "relations": [
+          {
+            "duration_seconds": 8.0,
+            "duration_steps": 480,
+            "kind": "survive_duration"
+          }
+        ],
+        "repair_knobs": [
+          {
+            "knob": "layout",
+            "scope": "demo"
+          }
+        ],
+        "source": "curated_demo_library"
+      },
+      "progress_metrics": [
+        "distance_to_target"
+      ],
+      "relation_subgoals": [],
+      "required_capabilities": [
+        "ground_force",
+        "touch_contact"
+      ],
+      "subgoals": [
+        {
+          "duration_seconds": 8.0,
+          "duration_steps": 480,
+          "kind": "survive_duration"
+        }
+      ],
+      "validator_skills": [
+        "saved_demo_oracle"
+      ]
+    }
+  },
+  "env_class": "SpaceshipSurvivalSavedEnv",
+  "env_path": "saved_demos\\spaceship_survival\\env.py",
+  "exported_at": "2026-05-09T17:01:05.359143+00:00",
+  "kinetic_progress": true,
+  "kinetic_solved": true,
+  "minimum_acceptance_tier": 5,
+  "objective_tier": 5,
+  "objective_valid": true,
+  "operational_acceptance_tier": 5,
+  "path": [],
+  "prompt": "A space battle where enemy ships fire glowing shots while the agent survives for 8 seconds.",
+  "reason": "Code-level objective satisfied during subgoal validation.",
+  "schema_version": "harness-alpha-verification-v1",
+  "solvable": true,
+  "structurally_valid": true,
+  "tier_name": "solved_verified",
+  "verification_gap": 0,
+  "visited_cells": 0
+}

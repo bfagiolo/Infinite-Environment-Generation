@@ -1,0 +1,20 @@
+{
+  "block_id": "sensor_region",
+  "version": "construction-kit-1.0",
+  "summary": "A non-blocking region used to measure goals, plates, checkpoints, triggers, and collection zones.",
+  "trigger_keywords": ["goal", "plate", "pressure", "switch", "trigger", "checkpoint", "zone", "marker", "collect", "touch", "reach", "score"],
+  "abstract_relation": "state predicate measured by overlap/proximity",
+  "creates": ["sensor=True static box or circle-like region", "named target region", "objective threshold"],
+  "constraints": [
+    "Use sensor=True for plates, switches, goals, checkpoints, and trigger regions unless the prompt explicitly requires a physical blocker.",
+    "Make check_objective match the visible sensor geometry and threshold.",
+    "For final goals, place the region on the actual reachable lane or enlarge it so the lane counts as success.",
+    "Do not let a sensor region physically block the moved object or agent."
+  ],
+  "composes_with": ["push_lane", "gated_path", "target_cluster", "zero_g_arena"],
+  "validator_checks": ["region_not_sensor", "target_threshold_or_sensor_too_tight", "target_offset_from_reachable_lane"],
+  "repair_guidance": [
+    "If target_threshold_or_sensor_too_tight appears, enlarge the sensor or align check_objective to the sensor radius.",
+    "If target_offset_from_reachable_lane appears, move the goal onto the lane or add access."
+  ]
+}

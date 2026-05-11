@@ -1,0 +1,449 @@
+{
+  "accent": "cyan_green",
+  "agent_avatar": "ship",
+  "background": "blueprint_grid",
+  "background_layers": [
+    {
+      "strength": 0.45999999999999996,
+      "type": "atmospheric_vignette"
+    },
+    {
+      "cell": 30,
+      "type": "simulation_grid"
+    },
+    {
+      "count": 110,
+      "type": "dust_motes"
+    },
+    {
+      "cell": 24,
+      "type": "simulation_grid"
+    },
+    {
+      "count": 55,
+      "type": "dust_motes"
+    },
+    {
+      "count": 5,
+      "theme": "structured",
+      "type": "set_dressing_props"
+    }
+  ],
+  "fast_variant": true,
+  "mood": "training_sim",
+  "motion_fx": [
+    "agent_trail",
+    "goal_breathe",
+    "scan_sweep"
+  ],
+  "object_skins": {
+    "*ball*": {
+      "fill": [
+        52,
+        232,
+        154
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        52,
+        232,
+        154
+      ],
+      "outline": [
+        245,
+        250,
+        255
+      ]
+    },
+    "*beacon*": {
+      "fill": [
+        21,
+        97,
+        64
+      ],
+      "fx": [
+        "goal_breathe",
+        "edge_bloom"
+      ],
+      "glow": [
+        52,
+        232,
+        154
+      ],
+      "outline": [
+        52,
+        232,
+        154
+      ]
+    },
+    "*crystal*": {
+      "fill": [
+        52,
+        232,
+        154
+      ],
+      "fx": [
+        "twinkle",
+        "edge_bloom"
+      ],
+      "glow": [
+        52,
+        232,
+        154
+      ],
+      "outline": [
+        245,
+        250,
+        255
+      ]
+    },
+    "*enemy*": {
+      "fill": [
+        158,
+        127,
+        53
+      ],
+      "fx": [
+        "danger_pulse",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        206,
+        86
+      ],
+      "outline": [
+        255,
+        206,
+        86
+      ]
+    },
+    "*exit*": {
+      "fill": [
+        21,
+        97,
+        64
+      ],
+      "fx": [
+        "goal_breathe",
+        "edge_bloom"
+      ],
+      "glow": [
+        52,
+        232,
+        154
+      ],
+      "outline": [
+        52,
+        232,
+        154
+      ]
+    },
+    "*fire*": {
+      "fill": [
+        255,
+        206,
+        86
+      ],
+      "fx": [
+        "hazard_flash",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        206,
+        86
+      ],
+      "outline": [
+        255,
+        235,
+        140
+      ]
+    },
+    "*floor*": {
+      "fill": [
+        27,
+        83,
+        89
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        72,
+        221,
+        236
+      ],
+      "outline": [
+        72,
+        221,
+        236
+      ]
+    },
+    "*goal*": {
+      "fill": [
+        21,
+        97,
+        64
+      ],
+      "fx": [
+        "goal_breathe",
+        "edge_bloom"
+      ],
+      "glow": [
+        52,
+        232,
+        154
+      ],
+      "outline": [
+        52,
+        232,
+        154
+      ]
+    },
+    "*hazard*": {
+      "fill": [
+        158,
+        127,
+        53
+      ],
+      "fx": [
+        "hazard_flash",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        206,
+        86
+      ],
+      "outline": [
+        255,
+        206,
+        86
+      ]
+    },
+    "*platform*": {
+      "fill": [
+        27,
+        83,
+        89
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        72,
+        221,
+        236
+      ],
+      "outline": [
+        72,
+        221,
+        236
+      ]
+    },
+    "*rock*": {
+      "fill": [
+        27,
+        83,
+        89
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        72,
+        221,
+        236
+      ],
+      "outline": [
+        72,
+        221,
+        236
+      ]
+    },
+    "*tree*": {
+      "fill": [
+        21,
+        97,
+        64
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "outline": [
+        52,
+        232,
+        154
+      ],
+      "trunk": [
+        27,
+        83,
+        89
+      ]
+    },
+    "*wall*": {
+      "fill": [
+        27,
+        83,
+        89
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        72,
+        221,
+        236
+      ],
+      "outline": [
+        72,
+        221,
+        236
+      ]
+    },
+    "*water*": {
+      "fill": [
+        27,
+        83,
+        89
+      ],
+      "foam": [
+        52,
+        232,
+        154
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "outline": [
+        72,
+        221,
+        236
+      ]
+    }
+  },
+  "palette": {
+    "background_color": [
+      10,
+      19,
+      22
+    ],
+    "hot": [
+      255,
+      206,
+      86
+    ],
+    "primary": [
+      72,
+      221,
+      236
+    ],
+    "secondary": [
+      52,
+      232,
+      154
+    ]
+  },
+  "seed": 3680654127,
+  "surface_fx": [
+    "grid_crosshairs",
+    "scanlines"
+  ],
+  "variant_index": 1,
+  "variant_label": "READABLE",
+  "variant_note": "same solved world with cleaner training-sim readability",
+  "visual_program": {
+    "background_layers": [
+      {
+        "color": [
+          72,
+          221,
+          236
+        ],
+        "count": 116,
+        "motion": "drift",
+        "primitive": "particle_field",
+        "speed": 0.21000000000000002
+      },
+      {
+        "color": [
+          52,
+          232,
+          154
+        ],
+        "count": 3,
+        "primitive": "radial_glow"
+      },
+      {
+        "cell": 30,
+        "color": [
+          72,
+          221,
+          236
+        ],
+        "primitive": "grid_overlay"
+      },
+      {
+        "color": [
+          52,
+          232,
+          154
+        ],
+        "count": 8,
+        "primitive": "contour_lines"
+      }
+    ],
+    "object_effects": [
+      {
+        "color": [
+          72,
+          221,
+          236
+        ],
+        "primitive": "motion_trail",
+        "selector": "agent"
+      },
+      {
+        "color": [
+          52,
+          232,
+          154
+        ],
+        "primitive": "portal_ring",
+        "selector": "goal|exit|target|beacon"
+      },
+      {
+        "color": [
+          255,
+          206,
+          86
+        ],
+        "primitive": "danger_pulse",
+        "selector": "hazard|enemy|fire|lava|bear"
+      },
+      {
+        "color": [
+          72,
+          221,
+          236
+        ],
+        "primitive": "rim_glow",
+        "selector": "wall|floor|platform|gate"
+      },
+      {
+        "color": [
+          52,
+          232,
+          154
+        ],
+        "primitive": "field_ring",
+        "rings": 2,
+        "selector": "goal|exit|target|beacon"
+      }
+    ],
+    "seed": 137
+  }
+}

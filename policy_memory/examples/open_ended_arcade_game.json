@@ -1,0 +1,17 @@
+{
+  "example_prompt": "A Pacman game where the agent is the player.",
+  "abstract_task": "open-ended arcade-style collection/navigation game with possible long-horizon strategy",
+  "conceptual_aliases": {
+    "games": ["pacman", "maze chase", "arcade collection", "avoid enemies"],
+    "objectives": ["collect pellets", "score points", "avoid hazards", "complete level"]
+  },
+  "task_family": "open_ended_game",
+  "required_tier": 4,
+  "validator_focus": ["agent_reach_region", "agent_touch_object", "progress_metrics"],
+  "reason": "Full game completion can require long-horizon planning or adversarial strategy. Require deterministic progress unless the generated profile decomposes the task into a short finite solved subgoal plan.",
+  "common_failures": [
+    "using BFS-only validation for collection gameplay",
+    "declaring all pellets as required when the simple validator can only verify progress",
+    "blocking start or goal cells with decorative maze geometry"
+  ]
+}

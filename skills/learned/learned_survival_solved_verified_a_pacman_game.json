@@ -1,0 +1,254 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "zero_g",
+    "interaction": [
+      "touch_contact",
+      "contact_trigger"
+    ],
+    "movement": "thrust_2d",
+    "notes": "Top-down thrust movement (zero-g). Walls constrain motion. Survival objective; pellets are optional collectible sensors."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: survival_time, required_survival_seconds, was_hit, empowered_time_left, min_distance_to_nearest_ghost, pellets_collected_fraction."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "ghost_contact_when_not_empowered",
+      "unfair_spawn_overlap",
+      "hazards_unregistered",
+      "ghost_unmoving"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Survive for 8 seconds in a Pac-Man style corridor loop while avoiding moving ghost hazards (power pellets grant temporary safety).",
+    "objective_type": "survival",
+    "progress_metrics": [
+      "survival_time",
+      "required_survival_seconds",
+      "was_hit",
+      "empowered_time_left",
+      "min_distance_to_nearest_ghost",
+      "pellets_collected_fraction"
+    ],
+    "required_capabilities": [
+      "thrust_2d",
+      "touch_contact",
+      "contact_trigger"
+    ],
+    "subgoals": [
+      {
+        "avoid_role": "hazard",
+        "kind": "survive_duration",
+        "seconds": 8
+      }
+    ],
+    "success_predicate": "agent remains unhit by hazards for required duration",
+    "targets": [
+      "global_drag",
+      "ghost_1",
+      "ghost_2",
+      "pellet_1",
+      "pellet_2",
+      "pellet_3",
+      "pellet_4",
+      "pellet_5",
+      "pellet_6",
+      "pellet_7",
+      "pellet_8",
+      "power_pellet_1",
+      "power_pellet_2",
+      "power_pellet_3",
+      "power_pellet_4"
+    ],
+    "validator_skills": [
+      "survival_timer_progress",
+      "hazard_presence",
+      "navigation_probe"
+    ]
+  },
+  "objective_type": "survival",
+  "skill_id": "learned_survival_solved_verified_a_pacman_game",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\a_pacman_game_seed1_repair2_env.py",
+  "source_prompt": "A pacman game",
+  "summary": "Survive for 8 seconds in a Pac-Man style corridor loop while avoiding moving ghost hazards (power pellets grant temporary safety). Validated as solved_verified with movement=thrust_2d, gravity=zero_g.",
+  "trigger_keywords": [
+    "2d",
+    "a",
+    "collected",
+    "contact",
+    "distance",
+    "empowered",
+    "fraction",
+    "g",
+    "game",
+    "ghost",
+    "hazard",
+    "hit",
+    "left",
+    "min",
+    "navigation",
+    "nearest",
+    "pacman",
+    "pellets",
+    "presence",
+    "probe",
+    "progress",
+    "required",
+    "seconds",
+    "survival",
+    "thrust",
+    "time",
+    "timer",
+    "to",
+    "touch",
+    "trigger",
+    "was",
+    "zero"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "zero_g",
+    "interaction": [
+      "touch_contact",
+      "contact_trigger"
+    ],
+    "movement": "thrust_2d",
+    "objective_type": "survival",
+    "oracle": "subgoal_plan",
+    "physics_relations": {
+      "intent_summary": "Create a top-down Pac-Man-style maze world where the player-controlled agent navigates corridors to collect pellets while avoiding moving ghost hazards.",
+      "relations": [
+        {
+          "fields": [
+            "gravity"
+          ],
+          "objects": [
+            "hazard"
+          ],
+          "parameters": {
+            "recurring": true,
+            "staggered": true
+          },
+          "probes": [
+            "semantic_dynamics",
+            "trajectory_change"
+          ],
+          "repair": "Create dynamic hazards with recurring/staggered motion and enough clearance for visible travel.",
+          "type": "hazard_motion"
+        },
+        {
+          "actors": [
+            "agent"
+          ],
+          "objects": [
+            "hazard"
+          ],
+          "parameters": {
+            "seconds": 8
+          },
+          "probes": [
+            "survival_duration",
+            "min_distance_to_hazard"
+          ],
+          "repair": "Leave fair dodge lanes and avoid unavoidable starting contact.",
+          "type": "avoid_hazard"
+        }
+      ],
+      "source": "deterministic_relation_inference",
+      "suggested_subgoals": [
+        {
+          "avoid_role": "hazard",
+          "kind": "survive_duration",
+          "seconds": 8
+        }
+      ],
+      "validator_strategy": {
+        "primary": "validate physics_relations, then objective_profile.subgoals",
+        "repair_unit": "failed relation, not failed task template",
+        "template_policy": "helpers are optional constructors; relations are the conceptual source of truth"
+      },
+      "version": "physics_relation_graph.v1",
+      "world_context": {
+        "gravity": "normal",
+        "movement_model": "Force-driven top-down movement with strong linear damping; collision-based navigation constrained by maze walls; optional gentle grid-snapping behavior is allowed but not required",
+        "perspective": "top_down_or_flat_floor",
+        "rationale": "Pac-Man is inherently a zero-gravity top-down maze chase; the core physical meaning is constrained corridor motion, collectible items, and moving hazards",
+        "support_model": "No platforms; navigation occurs in open space bounded by static wall colliders forming corridors",
+        "theme": "Classic arcade Pac-Man maze with pellets, power pellets, and roaming ghosts"
+      }
+    },
+    "progress_metrics": [
+      "survival_time",
+      "required_survival_seconds",
+      "was_hit",
+      "empowered_time_left",
+      "min_distance_to_nearest_ghost",
+      "pellets_collected_fraction"
+    ],
+    "relation_subgoals": [
+      {
+        "avoid_role": "hazard",
+        "kind": "survive_duration",
+        "seconds": 8
+      }
+    ],
+    "required_capabilities": [
+      "thrust_2d",
+      "touch_contact",
+      "contact_trigger"
+    ],
+    "subgoals": [
+      {
+        "avoid_role": "hazard",
+        "kind": "survive_duration",
+        "seconds": 8
+      }
+    ],
+    "validator_skills": [
+      "survival_timer_progress",
+      "hazard_presence",
+      "navigation_probe"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during post-subgoal grace validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

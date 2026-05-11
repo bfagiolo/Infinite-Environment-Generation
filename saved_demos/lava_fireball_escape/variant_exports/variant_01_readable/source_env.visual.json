@@ -1,0 +1,88 @@
+{
+  "world_identity": "volcanic_foundry",
+  "palette": {
+    "background_color": [24, 8, 5],
+    "primary": [255, 154, 52],
+    "secondary": [255, 221, 92],
+    "hot": [255, 50, 18]
+  },
+  "agent_avatar": "human",
+  "style_tags": [
+    "volcanic_escape",
+    "raining_fire",
+    "obsidian_platforms",
+    "high_heat"
+  ],
+  "object_skins": {
+    "agent": {
+      "material": "runner",
+      "fill": [255, 226, 176],
+      "outline": [255, 250, 230],
+      "glow": [255, 154, 52],
+      "fx": ["agent_trail"]
+    },
+    "*fireball*": {
+      "material": "falling_fireball",
+      "fill": [255, 64, 16],
+      "outline": [255, 238, 114],
+      "glow": [255, 102, 28],
+      "fx": ["flame_orb", "motion_trail", "hazard_flash"]
+    },
+    "*lava*": {
+      "material": "lava_wave",
+      "fill": [255, 54, 14],
+      "outline": [255, 184, 52],
+      "glow": [255, 84, 22],
+      "fx": ["lava_wave", "crack_glow"]
+    },
+    "*bridge*": {
+      "material": "obsidian_bridge",
+      "fill": [34, 22, 28],
+      "outline": [255, 135, 52],
+      "glow": [255, 80, 22],
+      "fx": ["edge_bloom"]
+    },
+    "*floor*": {
+      "material": "basalt",
+      "fill": [31, 22, 26],
+      "outline": [120, 70, 58],
+      "glow": [255, 75, 20],
+      "fx": ["crack_glow"]
+    },
+    "*spire*": {
+      "material": "basalt_spire",
+      "fill": [28, 20, 28],
+      "outline": [164, 74, 46],
+      "glow": [255, 78, 24],
+      "fx": ["edge_bloom"]
+    },
+    "*vent*": {
+      "material": "ember_vent",
+      "fill": [58, 27, 28],
+      "outline": [255, 168, 50],
+      "glow": [255, 92, 18],
+      "fx": ["falling_embers", "edge_bloom"]
+    },
+    "*exit*": {
+      "material": "obsidian_exit_gate",
+      "fill": [34, 20, 31],
+      "outline": [255, 218, 100],
+      "glow": [255, 72, 38],
+      "fx": ["goal_breathe", "gate_unlock_flash"]
+    }
+  },
+  "visual_program": {
+    "background_layers": [
+      {"primitive": "heat_shimmer", "color": [255, 78, 18]},
+      {"primitive": "particle_field", "count": 130, "motion": "updraft", "speed": 0.42, "color": [255, 128, 34]},
+      {"primitive": "ribbon_flow", "count": 7, "speed": 0.18, "color": [255, 72, 20]},
+      {"primitive": "radial_glow", "count": 4, "color": [255, 90, 22]}
+    ],
+    "object_effects": [
+      {"selector": "fireball|falling_fireball", "primitive": "motion_trail", "color": [255, 72, 18]},
+      {"selector": "fireball|falling_fireball", "primitive": "flame_orb", "color": [255, 196, 70]},
+      {"selector": "lava|molten", "primitive": "danger_pulse", "color": [255, 60, 18]},
+      {"selector": "exit|goal", "primitive": "portal_ring", "color": [255, 206, 82]}
+    ]
+  }
+}

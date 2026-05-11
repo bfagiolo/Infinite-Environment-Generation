@@ -1,0 +1,211 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "notes": "Local smoke template uses physical force only."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: agent_x_position, agent_goal_distance."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "blocked_path",
+      "agent_underpowered"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Navigate through two narrow passages and reach the goal.",
+    "objective_type": "navigation_goal",
+    "progress_metrics": [
+      "agent_x_position",
+      "agent_goal_distance"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "success_predicate": "agent crosses the verified progress threshold toward the goal",
+    "targets": [
+      "goal"
+    ],
+    "validator_skills": [
+      "navigation_probe"
+    ]
+  },
+  "objective_type": "navigation_goal",
+  "skill_id": "learned_navigation_goal_solved_verified_local_fast_mode_smoke",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\local_fast_mode_smoke_seed1_repair1_env.py",
+  "source_prompt": "local fast mode smoke",
+  "summary": "Navigate through two narrow passages and reach the goal. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "agent",
+    "contact",
+    "distance",
+    "fast",
+    "force",
+    "goal",
+    "ground",
+    "local",
+    "mode",
+    "navigation",
+    "normal",
+    "position",
+    "probe",
+    "smoke",
+    "touch",
+    "x"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "objective_type": "navigation_goal",
+    "oracle": "subgoal_plan",
+    "physics_relations": {
+      "intent_summary": "Create a small local arena where the agent moves in a faster-than-normal mode and must navigate through visible smoke to reach an exit.",
+      "physical_parameters": {
+        "agent": {
+          "friction_policy": "high enough for contact tasks; unrestricted thrust only in zero_g",
+          "repair_knobs": [
+            "agent_strength",
+            "agent_radius",
+            "agent_start"
+          ],
+          "strength_policy": "scale with max scene mass and gravity"
+        },
+        "clearance": {},
+        "fields": {},
+        "gravity": {
+          "explicit": false,
+          "model": "normal",
+          "repair_knob": "EnvConfig.gravity"
+        },
+        "objects": {},
+        "surfaces": {}
+      },
+      "relations": [
+        {
+          "actors": [
+            "agent"
+          ],
+          "probes": [
+            "path_reachability",
+            "agent_moves_toward_target",
+            "check_objective"
+          ],
+          "regions": [
+            "goal"
+          ],
+          "repair": "Place the target on a reachable route and keep the region non-blocking.",
+          "type": "agent_reaches_region"
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "layout",
+          "policy": "add explicit JSON-like layout values for repairable physical parameters",
+          "relation": "custom_physics",
+          "scope": "layout"
+        }
+      ],
+      "source": "deterministic_relation_inference",
+      "suggested_subgoals": [
+        {
+          "kind": "agent_reach_region",
+          "target": "goal"
+        }
+      ],
+      "validator_strategy": {
+        "parameter_policy": "validate physical properties such as mass, friction, restitution, gravity, slope, clearance, and impulse before broad regeneration",
+        "primary": "validate physics_relations, then objective_profile.subgoals",
+        "repair_unit": "failed relation, not failed task template",
+        "template_policy": "helpers are optional constructors; relations are the conceptual source of truth"
+      },
+      "version": "physics_relation_graph.v2",
+      "world_context": {
+        "gravity": "normal",
+        "movement_model": "force-driven rigid body locomotion with capped top speed set higher than default (fast mode)",
+        "perspective": "side_view_platformer",
+        "rationale": "Interpret 'local' as a compact enclosed space, 'fast mode' as higher acceleration/speed tuning, and 'smoke' as prominent visual/area effect the agent must pass through.",
+        "support_model": "solid static floor and boundary walls; gentle ramped route if elevation changes",
+        "theme": "industrial training room filled with drifting smoke"
+      }
+    },
+    "progress_metrics": [
+      "agent_x_position",
+      "agent_goal_distance"
+    ],
+    "relation_subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "validator_skills": [
+      "navigation_probe"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

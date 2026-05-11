@@ -1,0 +1,273 @@
+{
+  "accepted": true,
+  "achieved_tier": 5,
+  "blocking_object": null,
+  "contract_valid": true,
+  "details": {
+    "capability_profile": {
+      "allowed_controls": [
+        "apply_force_x",
+        "apply_force_y",
+        "brake"
+      ],
+      "forbidden_controls": [
+        "teleport",
+        "direct_object_move",
+        "direct_object_rotation",
+        "direct_goal_state_write"
+      ],
+      "gravity": "normal",
+      "interaction": [
+        "touch_contact"
+      ],
+      "movement": "ground_force",
+      "notes": "Saved demo uses deterministic BaseEnv controls."
+    },
+    "completed_subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "water_pool",
+        "threshold": 95
+      },
+      {
+        "kind": "agent_reach_region",
+        "target": "beacon",
+        "threshold": 112
+      }
+    ],
+    "gameplay_profile": {
+      "gameplay_loop": "navigation_goal",
+      "source": "curated_demo_library",
+      "source_prompt": "A tropical water channel where the agent jumps in, swims across, and climbs out to reach a beacon.",
+      "world_context": {
+        "gravity_model": "side_view_gravity",
+        "movement_model": "ground_force",
+        "route_assumption": "stage objectives on reachable routes"
+      }
+    },
+    "has_agent": true,
+    "layout_plan": {
+      "layout_type": "saved_showcase_demo",
+      "route_first": true,
+      "source": "curated_demo_library"
+    },
+    "mechanism_diagnostics": [],
+    "minimum_acceptance_tier": 5,
+    "object_count": 8,
+    "objective": "check_objective",
+    "objective_profile": {
+      "failure_modes": [
+        "blocked_path",
+        "insufficient_progress"
+      ],
+      "minimum_acceptance_tier": 5,
+      "objective_description": "Cross the water channel and reach the beacon.",
+      "objective_type": "navigation_goal",
+      "progress_metrics": [
+        "distance_to_target"
+      ],
+      "required_capabilities": [
+        "ground_force",
+        "touch_contact"
+      ],
+      "subgoals": [
+        {
+          "kind": "agent_reach_region",
+          "target": "water_pool",
+          "threshold": 95
+        },
+        {
+          "kind": "agent_reach_region",
+          "target": "beacon",
+          "threshold": 112
+        }
+      ],
+      "success_predicate": "code-level deterministic state satisfies the saved demo objective",
+      "targets": [
+        "beacon"
+      ],
+      "validator_skills": [
+        "saved_demo_oracle"
+      ]
+    },
+    "objective_step": 179,
+    "objective_targets": [
+      "beacon"
+    ],
+    "objective_type": "navigation_goal",
+    "oracle": "subgoal_plan",
+    "physics_parameter_probes": [],
+    "physics_relations": {
+      "relations": [
+        {
+          "kind": "agent_reach_region",
+          "target": "water_pool",
+          "threshold": 95
+        },
+        {
+          "kind": "agent_reach_region",
+          "target": "beacon",
+          "threshold": 112
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "layout",
+          "scope": "demo"
+        }
+      ],
+      "source": "curated_demo_library"
+    },
+    "pre_rollout_probes": [
+      {
+        "diagnosis": "target_registered",
+        "metrics": {
+          "registered": true,
+          "target_name": "water_pool"
+        },
+        "name": "concrete_target",
+        "objects": [
+          "water_pool"
+        ],
+        "passed": true,
+        "repair": "Target is registered.",
+        "severity": "info",
+        "tier_evidence": 1
+      },
+      {
+        "diagnosis": "target_registered",
+        "metrics": {
+          "registered": true,
+          "target_name": "beacon"
+        },
+        "name": "concrete_target",
+        "objects": [
+          "beacon"
+        ],
+        "passed": true,
+        "repair": "Target is registered.",
+        "severity": "info",
+        "tier_evidence": 1
+      }
+    ],
+    "probe_plan": [
+      {
+        "probes": [
+          "concrete_target",
+          "path_reachability",
+          "agent_moves_toward_target",
+          "target_containment"
+        ],
+        "subgoal_kind": "agent_reach_region"
+      },
+      {
+        "probes": [
+          "concrete_target",
+          "path_reachability",
+          "agent_moves_toward_target",
+          "target_containment"
+        ],
+        "subgoal_kind": "agent_reach_region"
+      }
+    ],
+    "semantic_requirements": [],
+    "subgoal_progress": [
+      {
+        "current_distance": 300.73609927282956,
+        "distance_reduced": 114.287,
+        "index": 1,
+        "kind": "agent_reach_region",
+        "start_distance": 415.0228909349459
+      },
+      {
+        "current_distance": 125.13351590775271,
+        "distance_reduced": 582.968,
+        "index": 2,
+        "kind": "agent_reach_region",
+        "start_distance": 708.1016876127327
+      }
+    ],
+    "validator_route": {
+      "allowed_controls": [
+        "apply_force_x",
+        "apply_force_y",
+        "brake"
+      ],
+      "forbidden_controls": [
+        "teleport",
+        "direct_object_move",
+        "direct_object_rotation",
+        "direct_goal_state_write"
+      ],
+      "gravity": "normal",
+      "interaction": [
+        "touch_contact"
+      ],
+      "movement": "ground_force",
+      "objective_type": "navigation_goal",
+      "oracle": "subgoal_plan",
+      "physics_relations": {
+        "relations": [
+          {
+            "kind": "agent_reach_region",
+            "target": "water_pool",
+            "threshold": 95
+          },
+          {
+            "kind": "agent_reach_region",
+            "target": "beacon",
+            "threshold": 112
+          }
+        ],
+        "repair_knobs": [
+          {
+            "knob": "layout",
+            "scope": "demo"
+          }
+        ],
+        "source": "curated_demo_library"
+      },
+      "progress_metrics": [
+        "distance_to_target"
+      ],
+      "relation_subgoals": [],
+      "required_capabilities": [
+        "ground_force",
+        "touch_contact"
+      ],
+      "subgoals": [
+        {
+          "kind": "agent_reach_region",
+          "target": "water_pool",
+          "threshold": 95
+        },
+        {
+          "kind": "agent_reach_region",
+          "target": "beacon",
+          "threshold": 112
+        }
+      ],
+      "validator_skills": [
+        "saved_demo_oracle"
+      ]
+    }
+  },
+  "env_class": "WaterSwimBeaconSavedEnv",
+  "env_path": "saved_demos\\water_swim_beacon\\env.py",
+  "exported_at": "2026-05-09T16:37:50.347622+00:00",
+  "kinetic_progress": true,
+  "kinetic_solved": true,
+  "minimum_acceptance_tier": 5,
+  "objective_tier": 5,
+  "objective_valid": true,
+  "operational_acceptance_tier": 5,
+  "path": [],
+  "prompt": "A tropical water channel where the agent jumps in, swims across, and climbs out to reach a beacon.",
+  "reason": "Code-level objective satisfied during subgoal validation.",
+  "schema_version": "harness-alpha-verification-v1",
+  "solvable": true,
+  "structurally_valid": true,
+  "tier_name": "solved_verified",
+  "verification_gap": 0,
+  "visited_cells": 0
+}

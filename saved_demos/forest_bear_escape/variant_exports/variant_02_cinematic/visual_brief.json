@@ -1,0 +1,396 @@
+{
+  "accent": "pink_cyan",
+  "agent_avatar": "human",
+  "background": "radar_sweep",
+  "fast_variant": {
+    "enabled": true,
+    "physics_source_locked": true,
+    "variant_index": 2,
+    "variant_label": "CINEMATIC"
+  },
+  "lighting": [
+    "warm_lantern",
+    "soft_glow",
+    "bioluminescent"
+  ],
+  "materials": [
+    "wood",
+    "vine_wall",
+    "leaf_mass"
+  ],
+  "mood": "cyber_grid",
+  "motion_fx": [
+    "agent_trail",
+    "particle_sparks",
+    "impact_ripples"
+  ],
+  "palette": {
+    "background_color": [
+      13,
+      10,
+      22
+    ],
+    "hot": [
+      255,
+      200,
+      80
+    ],
+    "primary": [
+      255,
+      116,
+      215
+    ],
+    "secondary": [
+      87,
+      232,
+      255
+    ]
+  },
+  "presentation": "visual_director_recipe",
+  "prompt": "A forest clearing where the agent must escape to a cabin while a bear chases from the trees.",
+  "recipe": {
+    "accent": "sunlit_forest",
+    "agent_avatar": "human",
+    "animation_cues": {
+      "agent": [
+        "run_pose",
+        "escape_sprint"
+      ],
+      "bear_chaser": [
+        "chase_pose",
+        "paw_stride",
+        "pursuit_pulse"
+      ],
+      "cabin_exit": [
+        "warm_goal_pulse"
+      ]
+    },
+    "background": "canopy_depth",
+    "background_layers": [
+      {
+        "alpha": 0.1,
+        "color": "#1b5f35",
+        "count": 120,
+        "primitive": "texture_noise"
+      },
+      {
+        "color": "#baf48d",
+        "count": 36,
+        "motion": "drift",
+        "primitive": "particle_field",
+        "speed": 0.08
+      },
+      {
+        "alpha": 0.08,
+        "color": "#ffe0a3",
+        "count": 3,
+        "primitive": "radial_glow"
+      }
+    ],
+    "camera_fx": [
+      "subtle_chase_shake"
+    ],
+    "fast_variant": true,
+    "lighting": [
+      "dappled_sun",
+      "soft_rim_light",
+      "canopy_shadow"
+    ],
+    "mood": "organic_maze",
+    "motion_fx": [
+      "agent_trail",
+      "goal_breathe",
+      "hazard_flash",
+      "leaf_sparks"
+    ],
+    "object_skins": {
+      "agent": {
+        "fill": [
+          247,
+          244,
+          220
+        ],
+        "glow": [
+          96,
+          255,
+          152
+        ],
+        "material": "runner_stick_figure",
+        "outline": [
+          255,
+          255,
+          245
+        ]
+      },
+      "bear_chaser": {
+        "fill": [
+          112,
+          68,
+          36
+        ],
+        "fx": [
+          "pursuit_pulse",
+          "paw_motion"
+        ],
+        "glow": [
+          209,
+          130,
+          69
+        ],
+        "material": "bear_avatar",
+        "outline": [
+          248,
+          196,
+          122
+        ]
+      },
+      "cabin_exit": {
+        "fill": [
+          121,
+          73,
+          40
+        ],
+        "fx": [
+          "warm_window_glow"
+        ],
+        "glow": [
+          255,
+          206,
+          108
+        ],
+        "material": "wood_cabin",
+        "outline": [
+          255,
+          218,
+          150
+        ],
+        "roof": [
+          70,
+          35,
+          26
+        ]
+      },
+      "mossy_escape_path": {
+        "alpha": 0.36,
+        "fill": [
+          62,
+          112,
+          54
+        ],
+        "material": "moss_path",
+        "outline": [
+          168,
+          226,
+          117
+        ]
+      },
+      "pine_tree": {
+        "fill": [
+          32,
+          122,
+          61
+        ],
+        "fx": [
+          "leaf_sway"
+        ],
+        "material": "evergreen_tree",
+        "outline": [
+          130,
+          230,
+          122
+        ],
+        "trunk": [
+          91,
+          57,
+          31
+        ]
+      }
+    },
+    "palette": {
+      "background": "#07120c",
+      "hazard": "#d18245",
+      "primary": "#f7f4dc",
+      "secondary": "#54d86f"
+    },
+    "seed": 51028,
+    "semantic_props": [
+      {
+        "count": 8,
+        "placement": "background",
+        "semantic": "pine tree silhouette"
+      },
+      {
+        "count": 4,
+        "placement": "horizon",
+        "semantic": "forest canopy shadow"
+      },
+      {
+        "count": 1,
+        "placement": "objective",
+        "semantic": "warm cabin window"
+      }
+    ],
+    "surface_fx": [
+      "organic_stripes",
+      "leaf_noise",
+      "soft_vignette"
+    ],
+    "variant_index": 2,
+    "variant_label": "CINEMATIC",
+    "variant_note": "same solved world with higher-energy demo styling",
+    "world_identity": "overgrown_living_maze"
+  },
+  "schema_version": "harness-alpha-visual-brief-v1",
+  "scores": {
+    "overgrown_living_maze": 999
+  },
+  "semantic_assets": [
+    {
+      "asset_tags": [
+        "background",
+        "background-elements",
+        "forest",
+        "tree"
+      ],
+      "name": "tree02.png",
+      "pack": "background-elements",
+      "path": "assets/library/kenney/background-elements/PNG/Flat/tree02.png",
+      "placement": "edges",
+      "renderer_only": true,
+      "requested_tags": [
+        "tree"
+      ],
+      "role": "background_prop",
+      "semantic": "tree"
+    },
+    {
+      "asset_tags": [
+        "background",
+        "background-elements",
+        "grass"
+      ],
+      "name": "grass2.png",
+      "pack": "background-elements",
+      "path": "assets/library/kenney/background-elements/PNG/Flat/grass2.png",
+      "placement": "edges",
+      "renderer_only": true,
+      "requested_tags": [
+        "grass"
+      ],
+      "role": "background_prop",
+      "semantic": "grass"
+    },
+    {
+      "asset_tags": [
+        "foliage-pack",
+        "forest",
+        "grass",
+        "leaf",
+        "tree"
+      ],
+      "name": "foliagePack_042.png",
+      "pack": "foliage-pack",
+      "path": "assets/library/kenney/foliage-pack/PNG/Retina/foliagePack_042.png",
+      "placement": "edges",
+      "renderer_only": true,
+      "requested_tags": [
+        "leaf"
+      ],
+      "role": "background_prop",
+      "semantic": "leaf"
+    },
+    {
+      "asset_tags": [
+        "background",
+        "background-elements",
+        "cloud"
+      ],
+      "name": "cloud2.png",
+      "pack": "background-elements",
+      "path": "assets/library/kenney/background-elements/PNG/Flat/cloud2.png",
+      "placement": "edges",
+      "renderer_only": true,
+      "requested_tags": [
+        "cloud"
+      ],
+      "role": "background_prop",
+      "semantic": "cloud"
+    },
+    {
+      "asset_tags": [
+        "background",
+        "background-elements",
+        "forest",
+        "tree"
+      ],
+      "name": "tree12.png",
+      "pack": "background-elements",
+      "path": "assets/library/kenney/background-elements/PNG/tree12.png",
+      "placement": "object",
+      "renderer_only": true,
+      "requested_tags": [
+        "tree"
+      ],
+      "role": "object_accent",
+      "semantic": "tree"
+    }
+  ],
+  "semantic_context": {
+    "keywords": [
+      "escape",
+      "goal"
+    ],
+    "object_names": [
+      "floor",
+      "ceiling",
+      "left_wall",
+      "right_wall",
+      "mossy_escape_path",
+      "pine_tree_1",
+      "pine_tree_2",
+      "pine_tree_3",
+      "pine_tree_4",
+      "pine_tree_5",
+      "pine_tree_6",
+      "pine_tree_7",
+      "pine_tree_8",
+      "agent",
+      "bear_chaser",
+      "cabin_exit"
+    ],
+    "objective_type": "navigation_goal",
+    "prompt": "A forest clearing where the agent must escape to a cabin while a bear chases from the trees.",
+    "roles": [
+      "agent",
+      "goal",
+      "hazard",
+      "obstacle",
+      "region",
+      "terrain"
+    ]
+  },
+  "semantic_props": [
+    {
+      "count": 8,
+      "placement": "background",
+      "semantic": "pine tree silhouette"
+    },
+    {
+      "count": 4,
+      "placement": "horizon",
+      "semantic": "forest canopy shadow"
+    },
+    {
+      "count": 1,
+      "placement": "objective",
+      "semantic": "warm cabin window"
+    }
+  ],
+  "shape_language": "organic_irregular",
+  "source": "visual_recipe",
+  "surface_fx": [
+    "crt_vignette",
+    "procedural_noise"
+  ],
+  "visual_program": null
+}

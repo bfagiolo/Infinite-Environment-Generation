@@ -1,0 +1,1683 @@
+{
+  "constraints": [],
+  "exported_at": "2026-05-09T15:48:11.095793+00:00",
+  "fast_variant": {
+    "enabled": true,
+    "note": "same solved world with alternate palette/material language",
+    "physics_source_locked": true,
+    "variant_index": 3,
+    "variant_label": "ALT WORLD"
+  },
+  "force_zones": [],
+  "mechanisms": [],
+  "objective": {
+    "capability_profile": {
+      "allowed_controls": [
+        "apply_force_x",
+        "apply_force_y",
+        "brake"
+      ],
+      "forbidden_controls": [
+        "teleport",
+        "direct_object_move",
+        "direct_object_rotation",
+        "direct_goal_state_write"
+      ],
+      "gravity": "zero_g",
+      "interaction": [
+        "touch_contact"
+      ],
+      "movement": "ground_force",
+      "notes": "Saved demo uses deterministic BaseEnv controls."
+    },
+    "gameplay_profile": {
+      "gameplay_loop": "navigation_goal",
+      "source": "curated_demo_library",
+      "source_prompt": "A forest clearing where the agent must escape to a cabin while a bear chases from the trees.",
+      "world_context": {
+        "gravity_model": "top_down_flat",
+        "movement_model": "ground_force",
+        "route_assumption": "stage objectives on reachable routes"
+      }
+    },
+    "layout_plan": {
+      "layout_type": "saved_showcase_demo",
+      "route_first": true,
+      "source": "curated_demo_library"
+    },
+    "objective_active": true,
+    "objective_profile": {
+      "failure_modes": [
+        "blocked_path",
+        "insufficient_progress"
+      ],
+      "minimum_acceptance_tier": 5,
+      "objective_description": "Reach the cabin exit while a bear pursues from the forest.",
+      "objective_type": "navigation_goal",
+      "progress_metrics": [
+        "distance_to_target"
+      ],
+      "required_capabilities": [
+        "ground_force",
+        "touch_contact"
+      ],
+      "subgoals": [
+        {
+          "kind": "agent_reach_region",
+          "target": "cabin_exit",
+          "threshold": 68
+        }
+      ],
+      "success_predicate": "code-level deterministic state satisfies the saved demo objective",
+      "targets": [
+        "cabin_exit"
+      ],
+      "validator_skills": [
+        "saved_demo_oracle"
+      ]
+    },
+    "objective_satisfied": false,
+    "objective_targets": [
+      "cabin_exit"
+    ],
+    "objective_type": "navigation_goal",
+    "physics_relations": {
+      "relations": [
+        {
+          "kind": "agent_reach_region",
+          "target": "cabin_exit",
+          "threshold": 68
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "layout",
+          "scope": "demo"
+        }
+      ],
+      "source": "curated_demo_library"
+    },
+    "semantic_requirements": [
+      {
+        "actor": "bear_chaser",
+        "kind": "chasing",
+        "target": "agent"
+      }
+    ],
+    "targets_remaining": [
+      "cabin_exit"
+    ],
+    "targets_touched": []
+  },
+  "objects": [
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          0.0,
+          0.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_segment",
+      "metadata": {
+        "material": "boundary"
+      },
+      "name": "floor",
+      "role": "terrain",
+      "shapes": [
+        {
+          "a": [
+            40.0,
+            40.0
+          ],
+          "b": [
+            920.0,
+            40.0
+          ],
+          "bb": {
+            "bottom": 35.0,
+            "left": 35.0,
+            "right": 925.0,
+            "top": 45.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_a": [
+            40.0,
+            40.0
+          ],
+          "local_b": [
+            920.0,
+            40.0
+          ],
+          "radius": 5.0,
+          "sensor": false,
+          "source_type": "Segment",
+          "type": "segment"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          0.0,
+          0.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_segment",
+      "metadata": {
+        "material": "boundary"
+      },
+      "name": "ceiling",
+      "role": "terrain",
+      "shapes": [
+        {
+          "a": [
+            40.0,
+            600.0
+          ],
+          "b": [
+            920.0,
+            600.0
+          ],
+          "bb": {
+            "bottom": 595.0,
+            "left": 35.0,
+            "right": 925.0,
+            "top": 605.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_a": [
+            40.0,
+            600.0
+          ],
+          "local_b": [
+            920.0,
+            600.0
+          ],
+          "radius": 5.0,
+          "sensor": false,
+          "source_type": "Segment",
+          "type": "segment"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          0.0,
+          0.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_segment",
+      "metadata": {
+        "material": "boundary"
+      },
+      "name": "left_wall",
+      "role": "terrain",
+      "shapes": [
+        {
+          "a": [
+            40.0,
+            40.0
+          ],
+          "b": [
+            40.0,
+            600.0
+          ],
+          "bb": {
+            "bottom": 35.0,
+            "left": 35.0,
+            "right": 45.0,
+            "top": 605.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_a": [
+            40.0,
+            40.0
+          ],
+          "local_b": [
+            40.0,
+            600.0
+          ],
+          "radius": 5.0,
+          "sensor": false,
+          "source_type": "Segment",
+          "type": "segment"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          0.0,
+          0.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_segment",
+      "metadata": {
+        "material": "boundary"
+      },
+      "name": "right_wall",
+      "role": "terrain",
+      "shapes": [
+        {
+          "a": [
+            920.0,
+            40.0
+          ],
+          "b": [
+            920.0,
+            600.0
+          ],
+          "bb": {
+            "bottom": 35.0,
+            "left": 915.0,
+            "right": 925.0,
+            "top": 605.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_a": [
+            920.0,
+            40.0
+          ],
+          "local_b": [
+            920.0,
+            600.0
+          ],
+          "radius": 5.0,
+          "sensor": false,
+          "source_type": "Segment",
+          "type": "segment"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          470.0,
+          335.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "forest_path": true,
+        "material": "moss_path",
+        "visual_only": true
+      },
+      "name": "mossy_escape_path",
+      "role": "region",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 292.0,
+            "left": 85.0,
+            "right": 855.0,
+            "top": 378.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -385.0,
+              -43.0
+            ],
+            [
+              385.0,
+              -43.0
+            ],
+            [
+              385.0,
+              43.0
+            ],
+            [
+              -385.0,
+              43.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              85.0,
+              292.0
+            ],
+            [
+              855.0,
+              292.0
+            ],
+            [
+              855.0,
+              378.0
+            ],
+            [
+              85.0,
+              378.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          205.0,
+          170.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "blocks_path": true,
+        "forest": true,
+        "material": "evergreen_tree"
+      },
+      "name": "pine_tree_1",
+      "role": "obstacle",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 129.0,
+            "left": 186.0,
+            "right": 224.0,
+            "top": 211.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -19.0,
+              -41.0
+            ],
+            [
+              19.0,
+              -41.0
+            ],
+            [
+              19.0,
+              41.0
+            ],
+            [
+              -19.0,
+              41.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              186.0,
+              129.0
+            ],
+            [
+              224.0,
+              129.0
+            ],
+            [
+              224.0,
+              211.0
+            ],
+            [
+              186.0,
+              211.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          245.0,
+          480.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "blocks_path": true,
+        "forest": true,
+        "material": "evergreen_tree"
+      },
+      "name": "pine_tree_2",
+      "role": "obstacle",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 431.0,
+            "left": 223.0,
+            "right": 267.0,
+            "top": 529.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -22.0,
+              -49.0
+            ],
+            [
+              22.0,
+              -49.0
+            ],
+            [
+              22.0,
+              49.0
+            ],
+            [
+              -22.0,
+              49.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              223.0,
+              431.0
+            ],
+            [
+              267.0,
+              431.0
+            ],
+            [
+              267.0,
+              529.0
+            ],
+            [
+              223.0,
+              529.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          355.0,
+          245.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "blocks_path": true,
+        "forest": true,
+        "material": "evergreen_tree"
+      },
+      "name": "pine_tree_3",
+      "role": "obstacle",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 207.0,
+            "left": 338.0,
+            "right": 372.0,
+            "top": 283.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -17.0,
+              -38.0
+            ],
+            [
+              17.0,
+              -38.0
+            ],
+            [
+              17.0,
+              38.0
+            ],
+            [
+              -17.0,
+              38.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              338.0,
+              207.0
+            ],
+            [
+              372.0,
+              207.0
+            ],
+            [
+              372.0,
+              283.0
+            ],
+            [
+              338.0,
+              283.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          440.0,
+          500.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "blocks_path": true,
+        "forest": true,
+        "material": "evergreen_tree"
+      },
+      "name": "pine_tree_4",
+      "role": "obstacle",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 448.0,
+            "left": 417.0,
+            "right": 463.0,
+            "top": 552.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -23.0,
+              -52.0
+            ],
+            [
+              23.0,
+              -52.0
+            ],
+            [
+              23.0,
+              52.0
+            ],
+            [
+              -23.0,
+              52.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              417.0,
+              448.0
+            ],
+            [
+              463.0,
+              448.0
+            ],
+            [
+              463.0,
+              552.0
+            ],
+            [
+              417.0,
+              552.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          585.0,
+          190.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "blocks_path": true,
+        "forest": true,
+        "material": "evergreen_tree"
+      },
+      "name": "pine_tree_5",
+      "role": "obstacle",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 144.0,
+            "left": 565.0,
+            "right": 605.0,
+            "top": 236.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -20.0,
+              -46.0
+            ],
+            [
+              20.0,
+              -46.0
+            ],
+            [
+              20.0,
+              46.0
+            ],
+            [
+              -20.0,
+              46.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              565.0,
+              144.0
+            ],
+            [
+              605.0,
+              144.0
+            ],
+            [
+              605.0,
+              236.0
+            ],
+            [
+              565.0,
+              236.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          665.0,
+          490.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "blocks_path": true,
+        "forest": true,
+        "material": "evergreen_tree"
+      },
+      "name": "pine_tree_6",
+      "role": "obstacle",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 437.0,
+            "left": 641.0,
+            "right": 689.0,
+            "top": 543.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -24.0,
+              -53.0
+            ],
+            [
+              24.0,
+              -53.0
+            ],
+            [
+              24.0,
+              53.0
+            ],
+            [
+              -24.0,
+              53.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              641.0,
+              437.0
+            ],
+            [
+              689.0,
+              437.0
+            ],
+            [
+              689.0,
+              543.0
+            ],
+            [
+              641.0,
+              543.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          760.0,
+          280.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "blocks_path": true,
+        "forest": true,
+        "material": "evergreen_tree"
+      },
+      "name": "pine_tree_7",
+      "role": "obstacle",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 234.0,
+            "left": 740.0,
+            "right": 780.0,
+            "top": 326.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -20.0,
+              -46.0
+            ],
+            [
+              20.0,
+              -46.0
+            ],
+            [
+              20.0,
+              46.0
+            ],
+            [
+              -20.0,
+              46.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              740.0,
+              234.0
+            ],
+            [
+              780.0,
+              234.0
+            ],
+            [
+              780.0,
+              326.0
+            ],
+            [
+              740.0,
+              326.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          835.0,
+          430.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "blocks_path": true,
+        "forest": true,
+        "material": "evergreen_tree"
+      },
+      "name": "pine_tree_8",
+      "role": "obstacle",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 374.0,
+            "left": 809.0,
+            "right": 861.0,
+            "top": 486.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -26.0,
+              -56.0
+            ],
+            [
+              26.0,
+              -56.0
+            ],
+            [
+              26.0,
+              56.0
+            ],
+            [
+              -26.0,
+              56.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              809.0,
+              374.0
+            ],
+            [
+              861.0,
+              374.0
+            ],
+            [
+              861.0,
+              486.0
+            ],
+            [
+              809.0,
+              486.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 1.0,
+        "moment": 128.0,
+        "position": [
+          105.0,
+          105.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "dynamic_circle",
+      "metadata": {
+        "avatar_hint": "runner",
+        "forest_escape": true,
+        "runner": true
+      },
+      "name": "agent",
+      "role": "agent",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 89.0,
+            "left": 89.0,
+            "right": 121.0,
+            "top": 121.0
+          },
+          "center": [
+            105.0,
+            105.0
+          ],
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.72,
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "radius": 16.0,
+          "sensor": false,
+          "source_type": "Circle",
+          "type": "circle"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 2.1,
+        "moment": 656.25,
+        "position": [
+          760.0,
+          150.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "dynamic_circle",
+      "metadata": {
+        "animal": "bear",
+        "chaser": true,
+        "material": "bear_avatar",
+        "pursuer": true
+      },
+      "name": "bear_chaser",
+      "role": "hazard",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 125.0,
+            "left": 735.0,
+            "right": 785.0,
+            "top": 175.0
+          },
+          "center": [
+            760.0,
+            150.0
+          ],
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.54,
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "radius": 25.0,
+          "sensor": false,
+          "source_type": "Circle",
+          "type": "circle"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          840.0,
+          520.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "cabin": true,
+        "glow": "warm",
+        "material": "wood_cabin",
+        "safe_house": true
+      },
+      "name": "cabin_exit",
+      "role": "goal",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 476.0,
+            "left": 784.0,
+            "right": 896.0,
+            "top": 564.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -56.0,
+              -44.0
+            ],
+            [
+              56.0,
+              -44.0
+            ],
+            [
+              56.0,
+              44.0
+            ],
+            [
+              -56.0,
+              44.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              784.0,
+              476.0
+            ],
+            [
+              896.0,
+              476.0
+            ],
+            [
+              896.0,
+              564.0
+            ],
+            [
+              784.0,
+              564.0
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "schema_version": "harness-alpha-world-v1",
+  "semantic_context": {
+    "keywords": [
+      "escape",
+      "goal"
+    ],
+    "object_names": [
+      "floor",
+      "ceiling",
+      "left_wall",
+      "right_wall",
+      "mossy_escape_path",
+      "pine_tree_1",
+      "pine_tree_2",
+      "pine_tree_3",
+      "pine_tree_4",
+      "pine_tree_5",
+      "pine_tree_6",
+      "pine_tree_7",
+      "pine_tree_8",
+      "agent",
+      "bear_chaser",
+      "cabin_exit"
+    ],
+    "objective_type": "navigation_goal",
+    "prompt": "A forest clearing where the agent must escape to a cabin while a bear chases from the trees.",
+    "roles": [
+      "agent",
+      "goal",
+      "hazard",
+      "obstacle",
+      "region",
+      "terrain"
+    ]
+  },
+  "solvability_check": {
+    "agent_radius": 16,
+    "goal": [
+      840.0,
+      520.0
+    ],
+    "grid_size": 24.0,
+    "metadata": {},
+    "notes": "",
+    "start": [
+      105.0,
+      105.0
+    ]
+  },
+  "source": {
+    "env_class": "ForestBearEscapeSavedEnv",
+    "env_path": "saved_demos\\forest_bear_escape\\env.py",
+    "prompt": "A forest clearing where the agent must escape to a cabin while a bear chases from the trees.",
+    "seed": 0,
+    "variant_label": "ALT WORLD",
+    "variant_of": "saved_demos\\forest_bear_escape\\env.py"
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "visual_brief": {
+    "accent": "violet_lime",
+    "agent_avatar": "human",
+    "background": "crystal_speckle",
+    "fast_variant": {
+      "enabled": true,
+      "physics_source_locked": true,
+      "variant_index": 3,
+      "variant_label": "ALT WORLD"
+    },
+    "lighting": [
+      "warm_lantern",
+      "soft_glow",
+      "bioluminescent"
+    ],
+    "materials": [
+      "wood",
+      "vine_wall",
+      "leaf_mass"
+    ],
+    "mood": "crystal_cavern",
+    "motion_fx": [
+      "agent_trail",
+      "crystal_shimmer",
+      "goal_breathe"
+    ],
+    "palette": {
+      "background_color": [
+        14,
+        13,
+        24
+      ],
+      "hot": [
+        255,
+        86,
+        142
+      ],
+      "primary": [
+        170,
+        115,
+        255
+      ],
+      "secondary": [
+        178,
+        255,
+        86
+      ]
+    },
+    "presentation": "visual_director_recipe",
+    "prompt": "A forest clearing where the agent must escape to a cabin while a bear chases from the trees.",
+    "recipe": {
+      "accent": "sunlit_forest",
+      "agent_avatar": "human",
+      "animation_cues": {
+        "agent": [
+          "run_pose",
+          "escape_sprint"
+        ],
+        "bear_chaser": [
+          "chase_pose",
+          "paw_stride",
+          "pursuit_pulse"
+        ],
+        "cabin_exit": [
+          "warm_goal_pulse"
+        ]
+      },
+      "background": "canopy_depth",
+      "background_layers": [
+        {
+          "alpha": 0.1,
+          "color": "#1b5f35",
+          "count": 120,
+          "primitive": "texture_noise"
+        },
+        {
+          "color": "#baf48d",
+          "count": 36,
+          "motion": "drift",
+          "primitive": "particle_field",
+          "speed": 0.08
+        },
+        {
+          "alpha": 0.08,
+          "color": "#ffe0a3",
+          "count": 3,
+          "primitive": "radial_glow"
+        }
+      ],
+      "camera_fx": [
+        "subtle_chase_shake"
+      ],
+      "fast_variant": true,
+      "lighting": [
+        "dappled_sun",
+        "soft_rim_light",
+        "canopy_shadow"
+      ],
+      "mood": "organic_maze",
+      "motion_fx": [
+        "agent_trail",
+        "goal_breathe",
+        "hazard_flash",
+        "leaf_sparks"
+      ],
+      "object_skins": {
+        "agent": {
+          "fill": [
+            247,
+            244,
+            220
+          ],
+          "glow": [
+            96,
+            255,
+            152
+          ],
+          "material": "runner_stick_figure",
+          "outline": [
+            255,
+            255,
+            245
+          ]
+        },
+        "bear_chaser": {
+          "fill": [
+            112,
+            68,
+            36
+          ],
+          "fx": [
+            "pursuit_pulse",
+            "paw_motion"
+          ],
+          "glow": [
+            209,
+            130,
+            69
+          ],
+          "material": "bear_avatar",
+          "outline": [
+            248,
+            196,
+            122
+          ]
+        },
+        "cabin_exit": {
+          "fill": [
+            121,
+            73,
+            40
+          ],
+          "fx": [
+            "warm_window_glow"
+          ],
+          "glow": [
+            255,
+            206,
+            108
+          ],
+          "material": "wood_cabin",
+          "outline": [
+            255,
+            218,
+            150
+          ],
+          "roof": [
+            70,
+            35,
+            26
+          ]
+        },
+        "mossy_escape_path": {
+          "alpha": 0.36,
+          "fill": [
+            62,
+            112,
+            54
+          ],
+          "material": "moss_path",
+          "outline": [
+            168,
+            226,
+            117
+          ]
+        },
+        "pine_tree": {
+          "fill": [
+            32,
+            122,
+            61
+          ],
+          "fx": [
+            "leaf_sway"
+          ],
+          "material": "evergreen_tree",
+          "outline": [
+            130,
+            230,
+            122
+          ],
+          "trunk": [
+            91,
+            57,
+            31
+          ]
+        }
+      },
+      "palette": {
+        "background": "#07120c",
+        "hazard": "#d18245",
+        "primary": "#f7f4dc",
+        "secondary": "#54d86f"
+      },
+      "seed": 51028,
+      "semantic_props": [
+        {
+          "count": 8,
+          "placement": "background",
+          "semantic": "pine tree silhouette"
+        },
+        {
+          "count": 4,
+          "placement": "horizon",
+          "semantic": "forest canopy shadow"
+        },
+        {
+          "count": 1,
+          "placement": "objective",
+          "semantic": "warm cabin window"
+        }
+      ],
+      "surface_fx": [
+        "organic_stripes",
+        "leaf_noise",
+        "soft_vignette"
+      ],
+      "variant_index": 3,
+      "variant_label": "ALT WORLD",
+      "variant_note": "same solved world with alternate palette/material language",
+      "world_identity": "overgrown_living_maze"
+    },
+    "schema_version": "harness-alpha-visual-brief-v1",
+    "scores": {
+      "overgrown_living_maze": 999
+    },
+    "semantic_assets": [
+      {
+        "asset_tags": [
+          "background",
+          "background-elements",
+          "forest",
+          "tree"
+        ],
+        "name": "tree02.png",
+        "pack": "background-elements",
+        "path": "assets/library/kenney/background-elements/PNG/Flat/tree02.png",
+        "placement": "edges",
+        "renderer_only": true,
+        "requested_tags": [
+          "tree"
+        ],
+        "role": "background_prop",
+        "semantic": "tree"
+      },
+      {
+        "asset_tags": [
+          "background",
+          "background-elements",
+          "grass"
+        ],
+        "name": "grass2.png",
+        "pack": "background-elements",
+        "path": "assets/library/kenney/background-elements/PNG/Flat/grass2.png",
+        "placement": "edges",
+        "renderer_only": true,
+        "requested_tags": [
+          "grass"
+        ],
+        "role": "background_prop",
+        "semantic": "grass"
+      },
+      {
+        "asset_tags": [
+          "foliage-pack",
+          "forest",
+          "grass",
+          "leaf",
+          "tree"
+        ],
+        "name": "foliagePack_042.png",
+        "pack": "foliage-pack",
+        "path": "assets/library/kenney/foliage-pack/PNG/Retina/foliagePack_042.png",
+        "placement": "edges",
+        "renderer_only": true,
+        "requested_tags": [
+          "leaf"
+        ],
+        "role": "background_prop",
+        "semantic": "leaf"
+      },
+      {
+        "asset_tags": [
+          "background",
+          "background-elements",
+          "cloud"
+        ],
+        "name": "cloud2.png",
+        "pack": "background-elements",
+        "path": "assets/library/kenney/background-elements/PNG/Flat/cloud2.png",
+        "placement": "edges",
+        "renderer_only": true,
+        "requested_tags": [
+          "cloud"
+        ],
+        "role": "background_prop",
+        "semantic": "cloud"
+      },
+      {
+        "asset_tags": [
+          "background",
+          "background-elements",
+          "forest",
+          "tree"
+        ],
+        "name": "tree12.png",
+        "pack": "background-elements",
+        "path": "assets/library/kenney/background-elements/PNG/tree12.png",
+        "placement": "object",
+        "renderer_only": true,
+        "requested_tags": [
+          "tree"
+        ],
+        "role": "object_accent",
+        "semantic": "tree"
+      }
+    ],
+    "semantic_context": {
+      "keywords": [
+        "escape",
+        "goal"
+      ],
+      "object_names": [
+        "floor",
+        "ceiling",
+        "left_wall",
+        "right_wall",
+        "mossy_escape_path",
+        "pine_tree_1",
+        "pine_tree_2",
+        "pine_tree_3",
+        "pine_tree_4",
+        "pine_tree_5",
+        "pine_tree_6",
+        "pine_tree_7",
+        "pine_tree_8",
+        "agent",
+        "bear_chaser",
+        "cabin_exit"
+      ],
+      "objective_type": "navigation_goal",
+      "prompt": "A forest clearing where the agent must escape to a cabin while a bear chases from the trees.",
+      "roles": [
+        "agent",
+        "goal",
+        "hazard",
+        "obstacle",
+        "region",
+        "terrain"
+      ]
+    },
+    "semantic_props": [
+      {
+        "count": 8,
+        "placement": "background",
+        "semantic": "pine tree silhouette"
+      },
+      {
+        "count": 4,
+        "placement": "horizon",
+        "semantic": "forest canopy shadow"
+      },
+      {
+        "count": 1,
+        "placement": "objective",
+        "semantic": "warm cabin window"
+      }
+    ],
+    "shape_language": "organic_irregular",
+    "source": "visual_recipe",
+    "surface_fx": [
+      "crystal_facets",
+      "film_grain"
+    ],
+    "visual_program": null
+  },
+  "world": {
+    "agent_strength": 4120.2,
+    "damping": 0.97,
+    "gravity": [
+      0.0,
+      0.0
+    ],
+    "height": 640,
+    "iterations": 30,
+    "time_step": 0.016666666666666666,
+    "width": 960
+  }
+}

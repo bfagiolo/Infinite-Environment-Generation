@@ -1,0 +1,40 @@
+{
+  "assets": [
+    {
+      "asset_tags": [
+        "ball",
+        "equipment",
+        "sports",
+        "sports-pack"
+      ],
+      "name": "ball_soccer2.png",
+      "pack": "sports-pack",
+      "path": "assets/library/kenney/sports-pack/PNG/Equipment/ball_soccer2.png",
+      "placement": "object",
+      "renderer_only": true,
+      "requested_tags": [
+        "ball"
+      ],
+      "role": "object_accent",
+      "semantic": "ball"
+    },
+    {
+      "asset_tags": [
+        "flag",
+        "goal",
+        "new-platformer-pack",
+        "sports"
+      ],
+      "name": "flag_green_b.png",
+      "pack": "new-platformer-pack",
+      "path": "assets/library/kenney/new-platformer-pack/Sprites/Tiles/Double/flag_green_b.png",
+      "placement": "object",
+      "renderer_only": true,
+      "requested_tags": [
+        "goal"
+      ],
+      "role": "object_accent",
+      "semantic": "goal"
+    }
+  ]
+}

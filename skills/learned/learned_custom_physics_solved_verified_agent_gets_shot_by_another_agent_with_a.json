@@ -1,0 +1,236 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "notes": "Side-view range. The trainee can move with forces, but success is being struck by the shooter-fired bullet."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: time_since_start, time_to_first_shot, bullet_travel_distance, min_bullet_agent_distance, agent_speed_after_hit."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "no_projectile_motion",
+      "projectile_missed_agent",
+      "tunneling_or_no_contact_detected",
+      "hit_not_registered"
+    ],
+    "minimum_acceptance_tier": 4,
+    "objective_description": "Be hit by a bullet projectile fired from the shooter agent.",
+    "objective_type": "custom_physics",
+    "progress_metrics": [
+      "time_since_start",
+      "time_to_first_shot",
+      "bullet_travel_distance",
+      "min_bullet_agent_distance",
+      "agent_speed_after_hit"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "interaction": "projectile_contact",
+        "kind": "agent_touch_object",
+        "target": "bullet_projectile"
+      }
+    ],
+    "success_predicate": "a shooter-origin bullet overlaps/collides with the trainee agent within duration_seconds",
+    "targets": [
+      "agent",
+      "shooter_agent",
+      "bullet_projectile"
+    ],
+    "validator_skills": [
+      "navigation_probe"
+    ]
+  },
+  "objective_type": "custom_physics",
+  "skill_id": "learned_custom_physics_solved_verified_agent_gets_shot_by_another_agent_with_a",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\agent_gets_shot_by_another_seed1_repair1_env.py",
+  "source_prompt": "Agent gets shot by another agent with a gun",
+  "summary": "Be hit by a bullet projectile fired from the shooter agent. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "a",
+    "after",
+    "agent",
+    "another",
+    "bullet",
+    "by",
+    "contact",
+    "custom",
+    "distance",
+    "first",
+    "force",
+    "gets",
+    "ground",
+    "gun",
+    "hit",
+    "min",
+    "navigation",
+    "normal",
+    "physics",
+    "probe",
+    "shot",
+    "since",
+    "speed",
+    "start",
+    "time",
+    "to",
+    "touch",
+    "travel",
+    "with"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "objective_type": "custom_physics",
+    "oracle": "subgoal_plan",
+    "physics_relations": {
+      "intent_summary": "A controllable agent is physically hit by a projectile fired from another agent\u2019s gun in a simple 2D arena.",
+      "physical_parameters": {
+        "agent": {
+          "friction_policy": "high enough for contact tasks; unrestricted thrust only in zero_g",
+          "repair_knobs": [
+            "agent_strength",
+            "agent_radius",
+            "agent_start"
+          ],
+          "strength_policy": "scale with max scene mass and gravity"
+        },
+        "clearance": {},
+        "fields": {},
+        "gravity": {
+          "explicit": false,
+          "model": "normal",
+          "repair_knob": "EnvConfig.gravity"
+        },
+        "objects": {},
+        "surfaces": {}
+      },
+      "relations": [
+        {
+          "actors": [
+            "agent"
+          ],
+          "probes": [
+            "path_reachability",
+            "agent_moves_toward_target",
+            "check_objective"
+          ],
+          "regions": [
+            "goal"
+          ],
+          "repair": "Place the target on a reachable route and keep the region non-blocking.",
+          "type": "agent_reaches_region"
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "layout",
+          "policy": "add explicit JSON-like layout values for repairable physical parameters",
+          "relation": "custom_physics",
+          "scope": "layout"
+        }
+      ],
+      "source": "deterministic_relation_inference",
+      "suggested_subgoals": [
+        {
+          "kind": "agent_reach_region",
+          "target": "goal"
+        }
+      ],
+      "validator_strategy": {
+        "parameter_policy": "validate physical properties such as mass, friction, restitution, gravity, slope, clearance, and impulse before broad regeneration",
+        "primary": "validate physics_relations, then objective_profile.subgoals",
+        "repair_unit": "failed relation, not failed task template",
+        "template_policy": "helpers are optional constructors; relations are the conceptual source of truth"
+      },
+      "version": "physics_relation_graph.v2",
+      "world_context": {
+        "gravity": "normal",
+        "movement_model": "Force-driven dynamic rigid bodies with mild damping; agent can walk/slide and is affected by impacts.",
+        "perspective": "side_view_platformer",
+        "rationale": "The prompt centers on shooting as projectile hazard; a flat range ensures the shot, collision, and resulting knockback are clearly visible and validator-friendly.",
+        "support_model": "A flat ground platform spanning the arena with optional simple side walls to keep entities on-screen.",
+        "theme": "Minimal combat training range"
+      }
+    },
+    "progress_metrics": [
+      "time_since_start",
+      "time_to_first_shot",
+      "bullet_travel_distance",
+      "min_bullet_agent_distance",
+      "agent_speed_after_hit"
+    ],
+    "relation_subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "interaction": "projectile_contact",
+        "kind": "agent_touch_object",
+        "target": "bullet_projectile"
+      }
+    ],
+    "validator_skills": [
+      "navigation_probe"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

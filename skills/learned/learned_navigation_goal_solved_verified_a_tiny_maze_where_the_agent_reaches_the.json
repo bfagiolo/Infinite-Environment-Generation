@@ -1,0 +1,138 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "notes": "Local smoke template uses physical force only."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: agent_x_position, agent_goal_distance."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "blocked_path",
+      "agent_underpowered"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Navigate through two narrow passages and reach the goal.",
+    "objective_type": "navigation_goal",
+    "progress_metrics": [
+      "agent_x_position",
+      "agent_goal_distance"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "success_predicate": "agent crosses the verified progress threshold toward the goal",
+    "targets": [
+      "goal"
+    ],
+    "validator_skills": [
+      "navigation_probe"
+    ]
+  },
+  "objective_type": "navigation_goal",
+  "skill_id": "learned_navigation_goal_solved_verified_a_tiny_maze_where_the_agent_reaches_the",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\a_tiny_maze_where_the_seed1_repair1_env.py",
+  "source_prompt": "A tiny maze where the agent reaches the exit",
+  "summary": "Navigate through two narrow passages and reach the goal. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "a",
+    "agent",
+    "contact",
+    "distance",
+    "exit",
+    "force",
+    "goal",
+    "ground",
+    "maze",
+    "navigation",
+    "normal",
+    "position",
+    "probe",
+    "reaches",
+    "the",
+    "tiny",
+    "touch",
+    "where",
+    "x"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "objective_type": "navigation_goal",
+    "oracle": "subgoal_plan",
+    "progress_metrics": [
+      "agent_x_position",
+      "agent_goal_distance"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "validator_skills": [
+      "navigation_probe"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

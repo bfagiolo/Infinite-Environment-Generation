@@ -1,0 +1,387 @@
+{
+  "accepted": true,
+  "achieved_tier": 5,
+  "blocking_object": null,
+  "contract_valid": true,
+  "details": {
+    "capability_profile": {
+      "allowed_controls": [
+        "apply_force_x",
+        "apply_force_y",
+        "brake"
+      ],
+      "forbidden_controls": [
+        "teleport",
+        "direct_object_move",
+        "direct_object_rotation",
+        "direct_goal_state_write"
+      ],
+      "gravity": "zero_g",
+      "interaction": [
+        "touch_contact"
+      ],
+      "movement": "thrust_2d",
+      "notes": "Saved demo uses deterministic BaseEnv controls."
+    },
+    "completed_subgoals": [
+      {
+        "kind": "agent_touch_object",
+        "object": "crystal_1",
+        "threshold": 62
+      },
+      {
+        "kind": "agent_touch_object",
+        "object": "crystal_2",
+        "threshold": 62
+      },
+      {
+        "kind": "agent_touch_object",
+        "object": "crystal_3",
+        "threshold": 62
+      },
+      {
+        "kind": "agent_touch_object",
+        "object": "crystal_4",
+        "threshold": 62
+      }
+    ],
+    "gameplay_profile": {
+      "gameplay_loop": "multi_target_touch",
+      "source": "curated_demo_library",
+      "source_prompt": "A zero-gravity salvage field where the agent must touch four drifting crystals.",
+      "world_context": {
+        "gravity_model": "zero_g",
+        "movement_model": "thrust_2d",
+        "route_assumption": "stage objectives on reachable routes"
+      }
+    },
+    "has_agent": true,
+    "layout_plan": {
+      "layout_type": "saved_showcase_demo",
+      "route_first": true,
+      "source": "curated_demo_library"
+    },
+    "mechanism_diagnostics": [],
+    "minimum_acceptance_tier": 5,
+    "object_count": 9,
+    "objective": "check_objective",
+    "objective_profile": {
+      "failure_modes": [
+        "blocked_path",
+        "insufficient_progress"
+      ],
+      "minimum_acceptance_tier": 5,
+      "objective_description": "Touch four crystals in a zero-gravity salvage field.",
+      "objective_type": "multi_target_touch",
+      "progress_metrics": [
+        "distance_to_target"
+      ],
+      "required_capabilities": [
+        "ground_force",
+        "touch_contact"
+      ],
+      "subgoals": [
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_1",
+          "threshold": 62
+        },
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_2",
+          "threshold": 62
+        },
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_3",
+          "threshold": 62
+        },
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_4",
+          "threshold": 62
+        }
+      ],
+      "success_predicate": "code-level deterministic state satisfies the saved demo objective",
+      "targets": [
+        "crystal_1",
+        "crystal_2",
+        "crystal_3",
+        "crystal_4"
+      ],
+      "validator_skills": [
+        "saved_demo_oracle"
+      ]
+    },
+    "objective_step": 186,
+    "objective_targets": [
+      "crystal_1",
+      "crystal_2",
+      "crystal_3",
+      "crystal_4"
+    ],
+    "objective_type": "multi_target_touch",
+    "oracle": "subgoal_plan",
+    "physics_parameter_probes": [],
+    "physics_relations": {
+      "relations": [
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_1",
+          "threshold": 62
+        },
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_2",
+          "threshold": 62
+        },
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_3",
+          "threshold": 62
+        },
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_4",
+          "threshold": 62
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "layout",
+          "scope": "demo"
+        }
+      ],
+      "source": "curated_demo_library"
+    },
+    "pre_rollout_probes": [
+      {
+        "diagnosis": "target_registered",
+        "metrics": {
+          "registered": true,
+          "target_name": "crystal_1"
+        },
+        "name": "concrete_target",
+        "objects": [
+          "crystal_1"
+        ],
+        "passed": true,
+        "repair": "Target is registered.",
+        "severity": "info",
+        "tier_evidence": 1
+      },
+      {
+        "diagnosis": "target_registered",
+        "metrics": {
+          "registered": true,
+          "target_name": "crystal_2"
+        },
+        "name": "concrete_target",
+        "objects": [
+          "crystal_2"
+        ],
+        "passed": true,
+        "repair": "Target is registered.",
+        "severity": "info",
+        "tier_evidence": 1
+      },
+      {
+        "diagnosis": "target_registered",
+        "metrics": {
+          "registered": true,
+          "target_name": "crystal_3"
+        },
+        "name": "concrete_target",
+        "objects": [
+          "crystal_3"
+        ],
+        "passed": true,
+        "repair": "Target is registered.",
+        "severity": "info",
+        "tier_evidence": 1
+      },
+      {
+        "diagnosis": "target_registered",
+        "metrics": {
+          "registered": true,
+          "target_name": "crystal_4"
+        },
+        "name": "concrete_target",
+        "objects": [
+          "crystal_4"
+        ],
+        "passed": true,
+        "repair": "Target is registered.",
+        "severity": "info",
+        "tier_evidence": 1
+      }
+    ],
+    "probe_plan": [
+      {
+        "probes": [
+          "concrete_target",
+          "agent_moves_toward_target",
+          "contact_or_proximity"
+        ],
+        "subgoal_kind": "agent_touch_object"
+      },
+      {
+        "probes": [
+          "concrete_target",
+          "agent_moves_toward_target",
+          "contact_or_proximity"
+        ],
+        "subgoal_kind": "agent_touch_object"
+      },
+      {
+        "probes": [
+          "concrete_target",
+          "agent_moves_toward_target",
+          "contact_or_proximity"
+        ],
+        "subgoal_kind": "agent_touch_object"
+      },
+      {
+        "probes": [
+          "concrete_target",
+          "agent_moves_toward_target",
+          "contact_or_proximity"
+        ],
+        "subgoal_kind": "agent_touch_object"
+      }
+    ],
+    "semantic_requirements": [],
+    "subgoal_progress": [
+      {
+        "current_distance": 478.605717252349,
+        "distance_reduced": -259.289,
+        "index": 1,
+        "kind": "agent_touch_object",
+        "start_distance": 219.31712199461307
+      },
+      {
+        "current_distance": 299.56861336382565,
+        "distance_reduced": 94.671,
+        "index": 2,
+        "kind": "agent_touch_object",
+        "start_distance": 394.23977475642914
+      },
+      {
+        "current_distance": 162.06097353404115,
+        "distance_reduced": 410.324,
+        "index": 3,
+        "kind": "agent_touch_object",
+        "start_distance": 572.3853597009623
+      },
+      {
+        "current_distance": 65.0941764197671,
+        "distance_reduced": 612.567,
+        "index": 4,
+        "kind": "agent_touch_object",
+        "start_distance": 677.661419884591
+      }
+    ],
+    "validator_route": {
+      "allowed_controls": [
+        "apply_force_x",
+        "apply_force_y",
+        "brake"
+      ],
+      "forbidden_controls": [
+        "teleport",
+        "direct_object_move",
+        "direct_object_rotation",
+        "direct_goal_state_write"
+      ],
+      "gravity": "zero_g",
+      "interaction": [
+        "touch_contact"
+      ],
+      "movement": "thrust_2d",
+      "objective_type": "multi_target_touch",
+      "oracle": "subgoal_plan",
+      "physics_relations": {
+        "relations": [
+          {
+            "kind": "agent_touch_object",
+            "object": "crystal_1",
+            "threshold": 62
+          },
+          {
+            "kind": "agent_touch_object",
+            "object": "crystal_2",
+            "threshold": 62
+          },
+          {
+            "kind": "agent_touch_object",
+            "object": "crystal_3",
+            "threshold": 62
+          },
+          {
+            "kind": "agent_touch_object",
+            "object": "crystal_4",
+            "threshold": 62
+          }
+        ],
+        "repair_knobs": [
+          {
+            "knob": "layout",
+            "scope": "demo"
+          }
+        ],
+        "source": "curated_demo_library"
+      },
+      "progress_metrics": [
+        "distance_to_target"
+      ],
+      "relation_subgoals": [],
+      "required_capabilities": [
+        "ground_force",
+        "touch_contact"
+      ],
+      "subgoals": [
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_1",
+          "threshold": 62
+        },
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_2",
+          "threshold": 62
+        },
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_3",
+          "threshold": 62
+        },
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_4",
+          "threshold": 62
+        }
+      ],
+      "validator_skills": [
+        "saved_demo_oracle"
+      ]
+    }
+  },
+  "env_class": "DemoZeroGravityCrystalsEnv",
+  "env_path": "saved_demos\\zero_gravity_crystals\\env.py",
+  "exported_at": "2026-05-08T18:02:12.099935+00:00",
+  "kinetic_progress": true,
+  "kinetic_solved": true,
+  "minimum_acceptance_tier": 5,
+  "objective_tier": 5,
+  "objective_valid": true,
+  "operational_acceptance_tier": 5,
+  "path": [],
+  "prompt": "A zero-gravity salvage field where the agent must touch four drifting crystals.",
+  "reason": "Code-level objective satisfied during subgoal validation.",
+  "schema_version": "harness-alpha-verification-v1",
+  "solvable": true,
+  "structurally_valid": true,
+  "tier_name": "solved_verified",
+  "verification_gap": 0,
+  "visited_cells": 0
+}

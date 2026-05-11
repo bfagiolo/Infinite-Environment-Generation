@@ -1,0 +1,807 @@
+{
+  "accent": "aqua_coral",
+  "agent_avatar": "human",
+  "animation_cues": {
+    "agent": [
+      "jump_in_pose",
+      "swim_stroke",
+      "climb_out_pose"
+    ],
+    "beacon": [
+      "aqua_goal_pulse"
+    ],
+    "water_pool": [
+      "surface_wave",
+      "splash_on_entry",
+      "bubble_trail"
+    ]
+  },
+  "background": "sunlit_lagoon",
+  "background_layers": [
+    {
+      "strength": 0.45999999999999996,
+      "type": "atmospheric_vignette"
+    },
+    {
+      "count": 95,
+      "type": "cold_mist"
+    },
+    {
+      "count": 34,
+      "type": "organic_canopy"
+    },
+    {
+      "count": 65,
+      "type": "dust_motes"
+    },
+    {
+      "cell": 24,
+      "type": "simulation_grid"
+    },
+    {
+      "count": 55,
+      "type": "dust_motes"
+    },
+    {
+      "count": 5,
+      "theme": "structured",
+      "type": "set_dressing_props"
+    }
+  ],
+  "camera_fx": [
+    "soft_splash_shake"
+  ],
+  "fast_variant": true,
+  "lighting": [
+    "caustic_light",
+    "soft_rim_light",
+    "beacon_glow"
+  ],
+  "mood": "tropical_water",
+  "motion_fx": [
+    "agent_trail",
+    "water_ripples",
+    "goal_breathe"
+  ],
+  "object_skins": {
+    "*ball*": {
+      "fill": [
+        255,
+        168,
+        92
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        168,
+        92
+      ],
+      "outline": [
+        245,
+        250,
+        255
+      ]
+    },
+    "*bank*": {
+      "fill": [
+        224,
+        176,
+        92
+      ],
+      "fx": [
+        "shore_grain",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        168,
+        92
+      ],
+      "outline": [
+        255,
+        218,
+        128
+      ]
+    },
+    "*beacon*": {
+      "fill": [
+        107,
+        70,
+        38
+      ],
+      "fx": [
+        "goal_breathe",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        168,
+        92
+      ],
+      "outline": [
+        255,
+        168,
+        92
+      ]
+    },
+    "*crystal*": {
+      "fill": [
+        255,
+        168,
+        92
+      ],
+      "fx": [
+        "twinkle",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        168,
+        92
+      ],
+      "outline": [
+        245,
+        250,
+        255
+      ]
+    },
+    "*current*": {
+      "alpha": 0.3,
+      "fill": [
+        64,
+        232,
+        235
+      ],
+      "fx": [
+        "current_arrows",
+        "bubbles",
+        "edge_bloom"
+      ],
+      "glow": [
+        35,
+        238,
+        245
+      ],
+      "outline": [
+        255,
+        168,
+        92
+      ]
+    },
+    "*enemy*": {
+      "fill": [
+        158,
+        44,
+        85
+      ],
+      "fx": [
+        "danger_pulse",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        72,
+        138
+      ],
+      "outline": [
+        255,
+        72,
+        138
+      ]
+    },
+    "*exit*": {
+      "fill": [
+        107,
+        70,
+        38
+      ],
+      "fx": [
+        "goal_breathe",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        168,
+        92
+      ],
+      "outline": [
+        255,
+        168,
+        92
+      ]
+    },
+    "*fire*": {
+      "fill": [
+        255,
+        72,
+        138
+      ],
+      "fx": [
+        "hazard_flash",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        72,
+        138
+      ],
+      "outline": [
+        255,
+        235,
+        140
+      ]
+    },
+    "*floor*": {
+      "fill": [
+        13,
+        90,
+        93
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        35,
+        238,
+        245
+      ],
+      "outline": [
+        35,
+        238,
+        245
+      ]
+    },
+    "*goal*": {
+      "fill": [
+        107,
+        70,
+        38
+      ],
+      "fx": [
+        "goal_breathe",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        168,
+        92
+      ],
+      "outline": [
+        255,
+        168,
+        92
+      ]
+    },
+    "*hazard*": {
+      "fill": [
+        158,
+        44,
+        85
+      ],
+      "fx": [
+        "hazard_flash",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        72,
+        138
+      ],
+      "outline": [
+        255,
+        72,
+        138
+      ]
+    },
+    "*platform*": {
+      "fill": [
+        13,
+        90,
+        93
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        35,
+        238,
+        245
+      ],
+      "outline": [
+        35,
+        238,
+        245
+      ]
+    },
+    "*rock*": {
+      "fill": [
+        13,
+        90,
+        93
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        35,
+        238,
+        245
+      ],
+      "outline": [
+        35,
+        238,
+        245
+      ]
+    },
+    "*tree*": {
+      "fill": [
+        107,
+        70,
+        38
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "outline": [
+        255,
+        168,
+        92
+      ],
+      "trunk": [
+        13,
+        90,
+        93
+      ]
+    },
+    "*wall*": {
+      "fill": [
+        13,
+        90,
+        93
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        35,
+        238,
+        245
+      ],
+      "outline": [
+        35,
+        238,
+        245
+      ]
+    },
+    "*water*": {
+      "alpha": 0.64,
+      "fill": [
+        15,
+        168,
+        198
+      ],
+      "foam": [
+        255,
+        168,
+        92
+      ],
+      "fx": [
+        "surface_wave",
+        "caustics",
+        "bubbles",
+        "edge_bloom"
+      ],
+      "glow": [
+        35,
+        238,
+        245
+      ],
+      "outline": [
+        35,
+        238,
+        245
+      ]
+    },
+    "agent": {
+      "fill": [
+        255,
+        250,
+        215
+      ],
+      "fx": [
+        "swim_stroke",
+        "bubble_trail",
+        "edge_bloom"
+      ],
+      "glow": [
+        35,
+        238,
+        245
+      ],
+      "material": "swimmer_stick_figure",
+      "outline": [
+        255,
+        255,
+        255
+      ]
+    },
+    "beacon": {
+      "fill": [
+        255,
+        168,
+        92
+      ],
+      "fx": [
+        "goal_breathe",
+        "beacon_ray",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        168,
+        92
+      ],
+      "material": "tropical_beacon",
+      "outline": [
+        245,
+        250,
+        255
+      ]
+    },
+    "buoyancy_current": {
+      "alpha": 0.3,
+      "fill": [
+        64,
+        232,
+        235
+      ],
+      "fx": [
+        "current_arrows",
+        "bubbles",
+        "edge_bloom"
+      ],
+      "glow": [
+        35,
+        238,
+        245
+      ],
+      "material": "water_current",
+      "outline": [
+        255,
+        168,
+        92
+      ]
+    },
+    "left_bank": {
+      "fill": [
+        224,
+        176,
+        92
+      ],
+      "fx": [
+        "shore_grain",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        168,
+        92
+      ],
+      "material": "sand_bank",
+      "outline": [
+        255,
+        218,
+        128
+      ]
+    },
+    "left_jump_lip": {
+      "fill": [
+        224,
+        176,
+        92
+      ],
+      "fx": [
+        "shore_grain",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        168,
+        92
+      ],
+      "material": "stone_lip",
+      "outline": [
+        255,
+        218,
+        128
+      ]
+    },
+    "right_bank": {
+      "fill": [
+        224,
+        176,
+        92
+      ],
+      "fx": [
+        "shore_grain",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        168,
+        92
+      ],
+      "material": "sand_bank",
+      "outline": [
+        255,
+        218,
+        128
+      ]
+    },
+    "right_climb_lip": {
+      "fill": [
+        224,
+        176,
+        92
+      ],
+      "fx": [
+        "shore_grain",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        168,
+        92
+      ],
+      "material": "stone_lip",
+      "outline": [
+        255,
+        218,
+        128
+      ]
+    },
+    "swim_zone": {
+      "alpha": 0.64,
+      "fill": [
+        15,
+        168,
+        198
+      ],
+      "foam": [
+        255,
+        168,
+        92
+      ],
+      "fx": [
+        "surface_wave",
+        "caustics",
+        "bubbles",
+        "edge_bloom"
+      ],
+      "glow": [
+        35,
+        238,
+        245
+      ],
+      "outline": [
+        35,
+        238,
+        245
+      ]
+    },
+    "water_current": {
+      "alpha": 0.3,
+      "fill": [
+        64,
+        232,
+        235
+      ],
+      "fx": [
+        "current_arrows",
+        "bubbles",
+        "edge_bloom"
+      ],
+      "glow": [
+        35,
+        238,
+        245
+      ],
+      "outline": [
+        255,
+        168,
+        92
+      ]
+    },
+    "water_pool": {
+      "alpha": 0.64,
+      "fill": [
+        15,
+        168,
+        198
+      ],
+      "foam": [
+        255,
+        168,
+        92
+      ],
+      "fx": [
+        "surface_wave",
+        "caustics",
+        "bubbles",
+        "edge_bloom"
+      ],
+      "glow": [
+        35,
+        238,
+        245
+      ],
+      "material": "tropical_water",
+      "outline": [
+        35,
+        238,
+        245
+      ]
+    }
+  },
+  "palette": {
+    "background_color": [
+      3,
+      24,
+      26
+    ],
+    "hot": [
+      255,
+      72,
+      138
+    ],
+    "primary": [
+      35,
+      238,
+      245
+    ],
+    "secondary": [
+      255,
+      168,
+      92
+    ]
+  },
+  "seed": 62142,
+  "semantic_props": [
+    {
+      "count": 1,
+      "placement": "platforms",
+      "semantic": "water surface waves"
+    },
+    {
+      "count": 5,
+      "placement": "edges",
+      "semantic": "tropical leaves"
+    },
+    {
+      "count": 1,
+      "placement": "objective",
+      "semantic": "glowing island beacon"
+    }
+  ],
+  "surface_fx": [
+    "film_grain",
+    "procedural_noise"
+  ],
+  "variant_index": 1,
+  "variant_label": "LAGOON",
+  "variant_note": "same solved swim with warm lagoon highlights",
+  "visual_program": {
+    "background_layers": [
+      {
+        "color": [
+          35,
+          238,
+          245
+        ],
+        "count": 116,
+        "motion": "drift",
+        "primitive": "particle_field",
+        "speed": 0.21000000000000002
+      },
+      {
+        "color": [
+          255,
+          168,
+          92
+        ],
+        "count": 3,
+        "primitive": "radial_glow"
+      },
+      {
+        "color": [
+          35,
+          238,
+          245
+        ],
+        "count": 18,
+        "primitive": "contour_lines"
+      },
+      {
+        "color": [
+          255,
+          168,
+          92
+        ],
+        "count": 130,
+        "motion": "drift",
+        "primitive": "particle_field",
+        "speed": 0.08
+      },
+      {
+        "cell": 30,
+        "color": [
+          35,
+          238,
+          245
+        ],
+        "primitive": "grid_overlay"
+      },
+      {
+        "color": [
+          255,
+          168,
+          92
+        ],
+        "count": 8,
+        "primitive": "contour_lines"
+      }
+    ],
+    "object_effects": [
+      {
+        "color": [
+          35,
+          238,
+          245
+        ],
+        "primitive": "motion_trail",
+        "selector": "agent"
+      },
+      {
+        "color": [
+          255,
+          168,
+          92
+        ],
+        "primitive": "portal_ring",
+        "selector": "goal|exit|target|beacon"
+      },
+      {
+        "color": [
+          255,
+          72,
+          138
+        ],
+        "primitive": "danger_pulse",
+        "selector": "hazard|enemy|fire|lava|bear"
+      },
+      {
+        "color": [
+          35,
+          238,
+          245
+        ],
+        "primitive": "rim_glow",
+        "selector": "wall|floor|platform|gate"
+      },
+      {
+        "color": [
+          255,
+          168,
+          92
+        ],
+        "primitive": "field_ring",
+        "rings": 2,
+        "selector": "goal|exit|target|beacon"
+      }
+    ],
+    "seed": 137
+  },
+  "world_identity": "underwater_lab"
+}

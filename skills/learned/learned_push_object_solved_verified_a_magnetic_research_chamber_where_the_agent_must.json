@@ -1,0 +1,192 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "push_contact",
+      "touch_contact",
+      "contact_trigger"
+    ],
+    "movement": "ground_force",
+    "notes": "Agent moves via physical forces on a stable floor. Ball is moved by contact and influenced by a deterministic force zone."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: ball_distance_to_field_center, ball_distance_to_ring_center, ball_in_ring_dwell_steps."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "ball_not_pushable",
+      "field_too_strong",
+      "ring_capture_too_strict",
+      "blocked_path"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Guide the charged ball through a magnetic force field and capture it in the target ring.",
+    "objective_type": "push_object",
+    "progress_metrics": [
+      "ball_distance_to_field_center",
+      "ball_distance_to_ring_center",
+      "ball_in_ring_dwell_steps"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "push_contact",
+      "environmental_force"
+    ],
+    "subgoals": [
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "charged_ball",
+        "region": "magnetic_region"
+      },
+      {
+        "field": "magnetic_region",
+        "kind": "field_force_interaction",
+        "object": "charged_ball",
+        "target": "target_ring"
+      },
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "charged_ball",
+        "region": "target_ring"
+      }
+    ],
+    "success_predicate": "charged_ball center remains within target_ring capture radius for a minimum dwell duration",
+    "targets": [
+      "charged_ball",
+      "magnetic_region",
+      "target_ring"
+    ],
+    "validator_skills": [
+      "push_object_probe",
+      "field_effect"
+    ]
+  },
+  "objective_type": "push_object",
+  "skill_id": "learned_push_object_solved_verified_a_magnetic_research_chamber_where_the_agent_must",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\a_magnetic_research_chamber_where_seed1_repair1_env_auto_repaired_1.py",
+  "source_prompt": "A magnetic research chamber where the agent must guide a charged ball through a force field into a target ring.",
+  "summary": "Guide the charged ball through a magnetic force field and capture it in the target ring. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "a",
+    "agent",
+    "ball",
+    "center",
+    "chamber",
+    "charged",
+    "contact",
+    "distance",
+    "dwell",
+    "effect",
+    "environmental",
+    "field",
+    "force",
+    "ground",
+    "guide",
+    "in",
+    "into",
+    "magnetic",
+    "must",
+    "normal",
+    "object",
+    "probe",
+    "push",
+    "research",
+    "ring",
+    "steps",
+    "target",
+    "the",
+    "through",
+    "to",
+    "where"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "push_contact",
+      "touch_contact",
+      "contact_trigger"
+    ],
+    "movement": "ground_force",
+    "objective_type": "push_object",
+    "oracle": "subgoal_plan",
+    "progress_metrics": [
+      "ball_distance_to_field_center",
+      "ball_distance_to_ring_center",
+      "ball_in_ring_dwell_steps"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "push_contact",
+      "environmental_force"
+    ],
+    "subgoals": [
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "charged_ball",
+        "region": "magnetic_region"
+      },
+      {
+        "field": "magnetic_region",
+        "kind": "field_force_interaction",
+        "object": "charged_ball",
+        "target": "target_ring"
+      },
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "charged_ball",
+        "region": "target_ring"
+      }
+    ],
+    "validator_skills": [
+      "push_object_probe",
+      "field_effect"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during post-subgoal grace validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

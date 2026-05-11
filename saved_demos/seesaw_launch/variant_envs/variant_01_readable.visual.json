@@ -1,0 +1,223 @@
+{
+  "accent": "cyan_green",
+  "agent_avatar": "human",
+  "animation_cues": {
+    "agent": [
+      "brace_pose",
+      "launch_pose"
+    ],
+    "heavy_ball": [
+      "drop_weight",
+      "impact_ripple"
+    ],
+    "high_goal": [
+      "goal_pulse"
+    ],
+    "seesaw_plank": [
+      "lever_rotation_arc"
+    ]
+  },
+  "background": "blueprint_grid",
+  "background_layers": [
+    {
+      "alpha": 0.07,
+      "color": "#ffd45c",
+      "count": 3,
+      "primitive": "radial_glow"
+    },
+    {
+      "alpha": 0.06,
+      "cell": 48,
+      "color": "#7b5a30",
+      "primitive": "grid_overlay"
+    },
+    {
+      "color": "#ffd45c",
+      "count": 24,
+      "primitive": "particle_field",
+      "speed": 0.04
+    }
+  ],
+  "camera_fx": [
+    "subtle_impact_shake"
+  ],
+  "fast_variant": true,
+  "lighting": [
+    "warm_spotlight",
+    "rim_light",
+    "lever_glow"
+  ],
+  "mood": "training_sim",
+  "motion_fx": [
+    "agent_trail",
+    "goal_breathe",
+    "scan_sweep"
+  ],
+  "object_skins": {
+    "heavy_ball": {
+      "fill": [
+        88,
+        94,
+        100
+      ],
+      "fx": [
+        "weight_shadow",
+        "impact_ripples"
+      ],
+      "glow": [
+        255,
+        145,
+        82
+      ],
+      "material": "heavy_iron_ball",
+      "outline": [
+        225,
+        235,
+        232
+      ]
+    },
+    "high_goal": {
+      "fill": [
+        48,
+        231,
+        155
+      ],
+      "fx": [
+        "goal_breathe",
+        "target_ring"
+      ],
+      "glow": [
+        48,
+        231,
+        155
+      ],
+      "material": "floating_target_ring",
+      "outline": [
+        219,
+        255,
+        234
+      ]
+    },
+    "launch_pad": {
+      "alpha": 0.42,
+      "fill": [
+        255,
+        196,
+        72
+      ],
+      "fx": [
+        "impact_ripples"
+      ],
+      "material": "impact_pad",
+      "outline": [
+        255,
+        240,
+        166
+      ]
+    },
+    "left_load_label": {
+      "alpha": 0.36,
+      "fill": [
+        255,
+        122,
+        69
+      ],
+      "material": "load_zone_marker",
+      "outline": [
+        255,
+        215,
+        140
+      ]
+    },
+    "pivot": {
+      "fill": [
+        92,
+        79,
+        67
+      ],
+      "glow": [
+        255,
+        190,
+        84
+      ],
+      "material": "seesaw_pivot",
+      "outline": [
+        255,
+        220,
+        138
+      ]
+    },
+    "right_launch_label": {
+      "alpha": 0.34,
+      "fill": [
+        48,
+        231,
+        155
+      ],
+      "material": "launch_zone_marker",
+      "outline": [
+        219,
+        255,
+        234
+      ]
+    },
+    "seesaw_plank": {
+      "fill": [
+        164,
+        96,
+        42
+      ],
+      "fx": [
+        "lever_arc",
+        "wood_grain"
+      ],
+      "glow": [
+        255,
+        198,
+        78
+      ],
+      "material": "seesaw_plank",
+      "outline": [
+        255,
+        213,
+        115
+      ],
+      "stripe": [
+        92,
+        50,
+        25
+      ]
+    }
+  },
+  "palette": {
+    "background_color": [
+      10,
+      19,
+      22
+    ],
+    "hot": [
+      255,
+      206,
+      86
+    ],
+    "primary": [
+      72,
+      221,
+      236
+    ],
+    "secondary": [
+      52,
+      232,
+      154
+    ]
+  },
+  "seed": 31678,
+  "surface_fx": [
+    "grid_crosshairs",
+    "scanlines"
+  ],
+  "variant_index": 1,
+  "variant_label": "READABLE",
+  "variant_note": "same solved world with cleaner training-sim readability",
+  "world_identity": "clockwork_mechanism_room"
+}

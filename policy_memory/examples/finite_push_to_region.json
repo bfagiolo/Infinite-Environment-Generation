@@ -1,0 +1,24 @@
+{
+  "example_prompt": "A room where the agent must push a blue box onto a pressure plate to open a gate.",
+  "abstract_task": "move a dynamic object to a target region, optionally followed by mechanism activation",
+  "conceptual_aliases": {
+    "actions": ["push", "shove", "nudge", "roll", "slide", "move"],
+    "objects": ["box", "crate", "barrel", "rock", "boulder", "puck"],
+    "regions": ["pressure plate", "switch", "pad", "target zone", "goal zone", "marker"]
+  },
+  "task_family": "finite_object_displacement",
+  "required_tier": 5,
+  "validator_focus": ["move_object_to_region", "activate_mechanism", "agent_reach_region"],
+  "core_affordances": [
+    "moved object is dynamic",
+    "target region is non-blocking sensor geometry",
+    "agent, object, and target region are roughly aligned",
+    "object starts close enough to target region for the generic push controller"
+  ],
+  "common_failures": [
+    "object too far from target region",
+    "target region created as a solid blocker instead of sensor=True",
+    "agent starts on the wrong side of the object",
+    "solid wall lies between object and region"
+  ]
+}

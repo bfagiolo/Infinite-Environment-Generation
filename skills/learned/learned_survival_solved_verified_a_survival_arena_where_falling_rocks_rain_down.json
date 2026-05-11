@@ -1,0 +1,182 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "notes": "Agent dodges falling rocks in a bounded arena using physical ground forces only."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: survival_steps, required_survival_steps, time_survived_seconds_est, hits_taken, min_distance_to_rock."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "hazards_missing",
+      "hazard_spawns_overlap_agent",
+      "unavoidable_hits",
+      "agent_underpowered",
+      "arena_escape"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Survive for ten seconds while rocks rain down. Fail if any rock hits the agent.",
+    "objective_type": "survival",
+    "progress_metrics": [
+      "survival_steps",
+      "required_survival_steps",
+      "time_survived_seconds_est",
+      "hits_taken",
+      "min_distance_to_rock"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "duration_seconds": 10.0,
+        "failure_condition": "any rock contacts the agent",
+        "kind": "survive_duration"
+      }
+    ],
+    "success_predicate": "steps_survived >= required_survival_steps AND hits_taken == 0",
+    "targets": [
+      "agent",
+      "safe_region",
+      "rock_1",
+      "rock_2",
+      "rock_3",
+      "rock_4",
+      "rock_5",
+      "rock_6",
+      "rock_7",
+      "rock_8",
+      "rock_9",
+      "rock_10",
+      "rock_11",
+      "rock_12",
+      "rock_13",
+      "rock_14",
+      "rock_15",
+      "rock_16",
+      "rock_17",
+      "rock_18"
+    ],
+    "validator_skills": [
+      "survive_duration"
+    ]
+  },
+  "objective_type": "survival",
+  "skill_id": "learned_survival_solved_verified_a_survival_arena_where_falling_rocks_rain_down",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\a_survival_arena_where_falling_seed1_repair2_env.py",
+  "source_prompt": "A survival arena where falling rocks rain down and the agent must survive for ten seconds.",
+  "summary": "Survive for ten seconds while rocks rain down. Fail if any rock hits the agent. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "a",
+    "agent",
+    "and",
+    "arena",
+    "contact",
+    "distance",
+    "down",
+    "duration",
+    "est",
+    "falling",
+    "for",
+    "force",
+    "ground",
+    "hits",
+    "min",
+    "must",
+    "normal",
+    "rain",
+    "required",
+    "rock",
+    "rocks",
+    "seconds",
+    "steps",
+    "survival",
+    "survive",
+    "survived",
+    "taken",
+    "ten",
+    "the",
+    "time",
+    "to",
+    "touch",
+    "where"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "objective_type": "survival",
+    "oracle": "subgoal_plan",
+    "progress_metrics": [
+      "survival_steps",
+      "required_survival_steps",
+      "time_survived_seconds_est",
+      "hits_taken",
+      "min_distance_to_rock"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "duration_seconds": 10.0,
+        "failure_condition": "any rock contacts the agent",
+        "kind": "survive_duration"
+      }
+    ],
+    "validator_skills": [
+      "survive_duration"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

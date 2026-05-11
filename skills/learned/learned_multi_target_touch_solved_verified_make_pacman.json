@@ -1,0 +1,202 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "notes": "Top-down-ish movement via ground forces; pellets are non-blocking sensors."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: num_pellets_touched, min_distance_to_untouched_pellet."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "blocked_path",
+      "target_too_small",
+      "agent_underpowered"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Collect all pellets by touching them (Pacman-style) while navigating around central obstacles.",
+    "objective_type": "multi_target_touch",
+    "progress_metrics": [
+      "num_pellets_touched",
+      "min_distance_to_untouched_pellet"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_touch_object",
+        "target": "pellet_1"
+      },
+      {
+        "kind": "agent_touch_object",
+        "target": "pellet_2"
+      },
+      {
+        "kind": "agent_touch_object",
+        "target": "pellet_3"
+      },
+      {
+        "kind": "agent_touch_object",
+        "target": "pellet_4"
+      },
+      {
+        "kind": "agent_touch_object",
+        "target": "pellet_5"
+      },
+      {
+        "kind": "agent_touch_object",
+        "target": "pellet_6"
+      },
+      {
+        "kind": "agent_touch_object",
+        "target": "pellet_7"
+      },
+      {
+        "kind": "agent_touch_object",
+        "target": "pellet_8"
+      }
+    ],
+    "success_predicate": "all pellet targets have been touched by the agent (within a proximity threshold)",
+    "targets": [
+      "pellet_1",
+      "pellet_2",
+      "pellet_3",
+      "pellet_4",
+      "pellet_5",
+      "pellet_6",
+      "pellet_7",
+      "pellet_8"
+    ],
+    "validator_skills": [
+      "subgoal_plan"
+    ]
+  },
+  "objective_type": "multi_target_touch",
+  "skill_id": "learned_multi_target_touch_solved_verified_make_pacman",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\make_pacman_seed1_repair1_env.py",
+  "source_prompt": "Make Pacman",
+  "summary": "Collect all pellets by touching them (Pacman-style) while navigating around central obstacles. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "contact",
+    "distance",
+    "force",
+    "ground",
+    "make",
+    "min",
+    "multi",
+    "normal",
+    "num",
+    "pacman",
+    "pellet",
+    "pellets",
+    "plan",
+    "subgoal",
+    "target",
+    "to",
+    "touch",
+    "touched",
+    "untouched"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "objective_type": "multi_target_touch",
+    "oracle": "subgoal_plan",
+    "progress_metrics": [
+      "num_pellets_touched",
+      "min_distance_to_untouched_pellet"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_touch_object",
+        "target": "pellet_1"
+      },
+      {
+        "kind": "agent_touch_object",
+        "target": "pellet_2"
+      },
+      {
+        "kind": "agent_touch_object",
+        "target": "pellet_3"
+      },
+      {
+        "kind": "agent_touch_object",
+        "target": "pellet_4"
+      },
+      {
+        "kind": "agent_touch_object",
+        "target": "pellet_5"
+      },
+      {
+        "kind": "agent_touch_object",
+        "target": "pellet_6"
+      },
+      {
+        "kind": "agent_touch_object",
+        "target": "pellet_7"
+      },
+      {
+        "kind": "agent_touch_object",
+        "target": "pellet_8"
+      }
+    ],
+    "validator_skills": [
+      "subgoal_plan"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

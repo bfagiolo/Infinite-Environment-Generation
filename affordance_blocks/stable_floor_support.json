@@ -1,0 +1,20 @@
+{
+  "block_id": "stable_floor_support",
+  "version": "construction-kit-1.0",
+  "summary": "Creates passive stability for dynamic objects before agent contact.",
+  "trigger_keywords": ["stable", "floor", "ground", "support", "shelf", "rest", "push", "slide", "box", "crate", "barrel", "ball"],
+  "abstract_relation": "object remains controllable before interaction",
+  "creates": ["static floor/ground segment", "support shelf", "low-jitter resting surface"],
+  "constraints": [
+    "Dynamic objects used in manipulation should drift <= 8 px during passive stability checks.",
+    "Place the support just below the object so the object rests without overlap.",
+    "Use low elasticity and moderate friction unless the prompt explicitly requires bouncing or sliding.",
+    "Name support geometry clearly, e.g. main_floor, support_shelf, or guide_floor."
+  ],
+  "composes_with": ["push_lane", "sensor_region", "gated_path"],
+  "validator_checks": ["object_not_passively_stable", "physics_instability"],
+  "repair_guidance": [
+    "If object_not_passively_stable appears, add or reposition a floor/shelf/rail under the object.",
+    "Avoid placing the object in midair unless the capability profile says zero_g or flying."
+  ]
+}

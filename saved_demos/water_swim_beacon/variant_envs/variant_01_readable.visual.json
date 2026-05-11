@@ -1,0 +1,250 @@
+{
+  "accent": "cyan_green",
+  "agent_avatar": "human",
+  "animation_cues": {
+    "agent": [
+      "jump_in_pose",
+      "swim_stroke",
+      "climb_out_pose"
+    ],
+    "beacon": [
+      "aqua_goal_pulse"
+    ],
+    "water_pool": [
+      "surface_wave",
+      "splash_on_entry",
+      "bubble_trail"
+    ]
+  },
+  "background": "blueprint_grid",
+  "background_layers": [
+    {
+      "alpha": 0.08,
+      "color": "#39e8ff",
+      "count": 12,
+      "primitive": "contour_lines"
+    },
+    {
+      "color": "#b8fff4",
+      "count": 42,
+      "motion": "updraft",
+      "primitive": "particle_field",
+      "speed": 0.06
+    },
+    {
+      "alpha": 0.06,
+      "color": "#39e8ff",
+      "count": 2,
+      "primitive": "radial_glow"
+    }
+  ],
+  "camera_fx": [
+    "soft_splash_shake"
+  ],
+  "fast_variant": true,
+  "lighting": [
+    "caustic_light",
+    "soft_rim_light",
+    "beacon_glow"
+  ],
+  "mood": "training_sim",
+  "motion_fx": [
+    "agent_trail",
+    "goal_breathe",
+    "scan_sweep"
+  ],
+  "object_skins": {
+    "agent": {
+      "fill": [
+        255,
+        246,
+        210
+      ],
+      "fx": [
+        "swim_stroke",
+        "bubble_trail"
+      ],
+      "glow": [
+        57,
+        232,
+        255
+      ],
+      "material": "swimmer_stick_figure",
+      "outline": [
+        255,
+        255,
+        242
+      ]
+    },
+    "beacon": {
+      "fill": [
+        57,
+        232,
+        255
+      ],
+      "fx": [
+        "goal_breathe",
+        "beacon_ray"
+      ],
+      "glow": [
+        57,
+        232,
+        255
+      ],
+      "material": "tropical_beacon",
+      "outline": [
+        241,
+        255,
+        248
+      ]
+    },
+    "buoyancy_current": {
+      "alpha": 0.22,
+      "fill": [
+        60,
+        196,
+        220
+      ],
+      "fx": [
+        "current_arrows",
+        "bubbles"
+      ],
+      "material": "water_current",
+      "outline": [
+        185,
+        255,
+        244
+      ]
+    },
+    "left_bank": {
+      "fill": [
+        214,
+        183,
+        114
+      ],
+      "fx": [
+        "shore_grain"
+      ],
+      "material": "sand_bank",
+      "outline": [
+        255,
+        230,
+        155
+      ]
+    },
+    "left_jump_lip": {
+      "fill": [
+        95,
+        118,
+        116
+      ],
+      "material": "stone_lip",
+      "outline": [
+        188,
+        230,
+        218
+      ]
+    },
+    "right_bank": {
+      "fill": [
+        214,
+        183,
+        114
+      ],
+      "fx": [
+        "shore_grain"
+      ],
+      "material": "sand_bank",
+      "outline": [
+        255,
+        230,
+        155
+      ]
+    },
+    "right_climb_lip": {
+      "fill": [
+        95,
+        118,
+        116
+      ],
+      "material": "stone_lip",
+      "outline": [
+        188,
+        230,
+        218
+      ]
+    },
+    "water_pool": {
+      "alpha": 0.56,
+      "fill": [
+        27,
+        144,
+        196
+      ],
+      "foam": [
+        221,
+        255,
+        248
+      ],
+      "fx": [
+        "surface_wave",
+        "caustics",
+        "bubbles"
+      ],
+      "material": "tropical_water",
+      "outline": [
+        105,
+        247,
+        255
+      ]
+    }
+  },
+  "palette": {
+    "background_color": [
+      10,
+      19,
+      22
+    ],
+    "hot": [
+      255,
+      206,
+      86
+    ],
+    "primary": [
+      72,
+      221,
+      236
+    ],
+    "secondary": [
+      52,
+      232,
+      154
+    ]
+  },
+  "seed": 62142,
+  "semantic_props": [
+    {
+      "count": 1,
+      "placement": "platforms",
+      "semantic": "water surface waves"
+    },
+    {
+      "count": 5,
+      "placement": "edges",
+      "semantic": "tropical leaves"
+    },
+    {
+      "count": 1,
+      "placement": "objective",
+      "semantic": "glowing island beacon"
+    }
+  ],
+  "surface_fx": [
+    "grid_crosshairs",
+    "scanlines"
+  ],
+  "variant_index": 1,
+  "variant_label": "READABLE",
+  "variant_note": "same solved world with cleaner training-sim readability",
+  "world_identity": "underwater_lab"
+}

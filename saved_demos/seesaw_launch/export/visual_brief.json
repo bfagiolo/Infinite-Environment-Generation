@@ -1,0 +1,329 @@
+{
+  "accent": "teal_yellow",
+  "agent_avatar": "human",
+  "background": "circuit_board",
+  "lighting": [
+    "neon_bloom",
+    "soft_glow"
+  ],
+  "materials": [
+    "wood",
+    "brushed_steel",
+    "gate_metal",
+    "rubber"
+  ],
+  "mood": "mechanical_factory",
+  "motion_fx": [
+    "agent_trail",
+    "goal_breathe"
+  ],
+  "palette": {
+    "background_color": [
+      16,
+      13,
+      11
+    ],
+    "hot": [
+      255,
+      122,
+      69
+    ],
+    "primary": [
+      255,
+      212,
+      92
+    ],
+    "secondary": [
+      48,
+      231,
+      155
+    ]
+  },
+  "presentation": "visual_director_recipe",
+  "prompt": "A weighted seesaw puzzle where a heavy ball must launch the agent to a high goal.",
+  "recipe": {
+    "accent": "amber_emerald",
+    "agent_avatar": "human",
+    "animation_cues": {
+      "agent": [
+        "brace_pose",
+        "launch_pose"
+      ],
+      "heavy_ball": [
+        "drop_weight",
+        "impact_ripple"
+      ],
+      "high_goal": [
+        "goal_pulse"
+      ],
+      "seesaw_plank": [
+        "lever_rotation_arc"
+      ]
+    },
+    "background": "warm_mechanism_stage",
+    "background_layers": [
+      {
+        "alpha": 0.07,
+        "color": "#ffd45c",
+        "count": 3,
+        "primitive": "radial_glow"
+      },
+      {
+        "alpha": 0.06,
+        "cell": 48,
+        "color": "#7b5a30",
+        "primitive": "grid_overlay"
+      },
+      {
+        "color": "#ffd45c",
+        "count": 24,
+        "primitive": "particle_field",
+        "speed": 0.04
+      }
+    ],
+    "camera_fx": [
+      "subtle_impact_shake"
+    ],
+    "lighting": [
+      "warm_spotlight",
+      "rim_light",
+      "lever_glow"
+    ],
+    "mood": "mechanical_factory",
+    "motion_fx": [
+      "agent_trail",
+      "object_trail",
+      "goal_breathe",
+      "impact_ripples",
+      "lever_arc"
+    ],
+    "object_skins": {
+      "heavy_ball": {
+        "fill": [
+          88,
+          94,
+          100
+        ],
+        "fx": [
+          "weight_shadow",
+          "impact_ripples"
+        ],
+        "glow": [
+          255,
+          145,
+          82
+        ],
+        "material": "heavy_iron_ball",
+        "outline": [
+          225,
+          235,
+          232
+        ]
+      },
+      "high_goal": {
+        "fill": [
+          48,
+          231,
+          155
+        ],
+        "fx": [
+          "goal_breathe",
+          "target_ring"
+        ],
+        "glow": [
+          48,
+          231,
+          155
+        ],
+        "material": "floating_target_ring",
+        "outline": [
+          219,
+          255,
+          234
+        ]
+      },
+      "launch_pad": {
+        "alpha": 0.42,
+        "fill": [
+          255,
+          196,
+          72
+        ],
+        "fx": [
+          "impact_ripples"
+        ],
+        "material": "impact_pad",
+        "outline": [
+          255,
+          240,
+          166
+        ]
+      },
+      "left_load_label": {
+        "alpha": 0.36,
+        "fill": [
+          255,
+          122,
+          69
+        ],
+        "material": "load_zone_marker",
+        "outline": [
+          255,
+          215,
+          140
+        ]
+      },
+      "pivot": {
+        "fill": [
+          92,
+          79,
+          67
+        ],
+        "glow": [
+          255,
+          190,
+          84
+        ],
+        "material": "seesaw_pivot",
+        "outline": [
+          255,
+          220,
+          138
+        ]
+      },
+      "right_launch_label": {
+        "alpha": 0.34,
+        "fill": [
+          48,
+          231,
+          155
+        ],
+        "material": "launch_zone_marker",
+        "outline": [
+          219,
+          255,
+          234
+        ]
+      },
+      "seesaw_plank": {
+        "fill": [
+          164,
+          96,
+          42
+        ],
+        "fx": [
+          "lever_arc",
+          "wood_grain"
+        ],
+        "glow": [
+          255,
+          198,
+          78
+        ],
+        "material": "seesaw_plank",
+        "outline": [
+          255,
+          213,
+          115
+        ],
+        "stripe": [
+          92,
+          50,
+          25
+        ]
+      }
+    },
+    "palette": {
+      "background": "#100d0b",
+      "hazard": "#ff7a45",
+      "primary": "#ffd45c",
+      "secondary": "#30e79b"
+    },
+    "seed": 31577,
+    "surface_fx": [
+      "stage_vignette",
+      "brass_grid",
+      "mechanism_crosshairs"
+    ],
+    "world_identity": "clockwork_mechanism_room"
+  },
+  "schema_version": "harness-alpha-visual-brief-v1",
+  "scores": {
+    "clockwork_mechanism_room": 999
+  },
+  "semantic_assets": [
+    {
+      "asset_tags": [
+        "ball",
+        "equipment",
+        "sports",
+        "sports-pack"
+      ],
+      "name": "ball_soccer2.png",
+      "pack": "sports-pack",
+      "path": "assets/library/kenney/sports-pack/PNG/Equipment/ball_soccer2.png",
+      "placement": "object",
+      "renderer_only": true,
+      "requested_tags": [
+        "ball"
+      ],
+      "role": "object_accent",
+      "semantic": "ball"
+    },
+    {
+      "asset_tags": [
+        "flag",
+        "goal",
+        "new-platformer-pack",
+        "sports"
+      ],
+      "name": "flag_green_b.png",
+      "pack": "new-platformer-pack",
+      "path": "assets/library/kenney/new-platformer-pack/Sprites/Tiles/Double/flag_green_b.png",
+      "placement": "object",
+      "renderer_only": true,
+      "requested_tags": [
+        "goal"
+      ],
+      "role": "object_accent",
+      "semantic": "goal"
+    }
+  ],
+  "semantic_context": {
+    "keywords": [
+      "ball",
+      "goal"
+    ],
+    "object_names": [
+      "ground",
+      "left_load_label",
+      "right_launch_label",
+      "seesaw_plank",
+      "pivot",
+      "launch_pad",
+      "heavy_ball",
+      "agent",
+      "high_goal"
+    ],
+    "objective_type": "navigation_goal",
+    "prompt": "A weighted seesaw puzzle where a heavy ball must launch the agent to a high goal.",
+    "roles": [
+      "agent",
+      "goal",
+      "mechanism",
+      "object",
+      "region",
+      "support",
+      "terrain",
+      "trigger"
+    ]
+  },
+  "semantic_props": [],
+  "shape_language": "heavy_industrial",
+  "source": "visual_recipe",
+  "surface_fx": [
+    "scanlines",
+    "grid_crosshairs"
+  ],
+  "visual_program": null
+}

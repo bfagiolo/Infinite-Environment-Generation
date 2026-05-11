@@ -1,0 +1,100 @@
+{
+  "background_layers": [
+    {
+      "color": [
+        125,
+        212,
+        255
+      ],
+      "count": 220,
+      "motion": "drift",
+      "primitive": "particle_field",
+      "speed": 0.18
+    },
+    {
+      "color": [
+        210,
+        112,
+        255
+      ],
+      "count": 54,
+      "motion": "orbit",
+      "primitive": "particle_field",
+      "speed": 0.35
+    },
+    {
+      "color": [
+        88,
+        128,
+        255
+      ],
+      "count": 5,
+      "primitive": "radial_glow"
+    },
+    {
+      "color": [
+        255,
+        78,
+        160
+      ],
+      "count": 5,
+      "primitive": "ribbon_flow",
+      "speed": 0.1
+    },
+    {
+      "color": [
+        98,
+        220,
+        255
+      ],
+      "primitive": "scanline_roll"
+    }
+  ],
+  "object_effects": [
+    {
+      "color": [
+        78,
+        224,
+        255
+      ],
+      "primitive": "motion_trail",
+      "selector": "agent|hero_interceptor"
+    },
+    {
+      "color": [
+        255,
+        62,
+        118
+      ],
+      "primitive": "danger_pulse",
+      "selector": "enemy_ship|enemy_fighter"
+    },
+    {
+      "color": [
+        255,
+        62,
+        118
+      ],
+      "primitive": "motion_trail",
+      "selector": "enemy_shot|laser|projectile"
+    },
+    {
+      "color": [
+        255,
+        210,
+        236
+      ],
+      "primitive": "spark_burst",
+      "selector": "enemy_shot|laser|projectile"
+    },
+    {
+      "color": [
+        76,
+        156,
+        255
+      ],
+      "primitive": "rim_glow",
+      "selector": "capital_ship"
+    }
+  ]
+}

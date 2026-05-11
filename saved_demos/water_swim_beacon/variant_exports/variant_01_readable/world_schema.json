@@ -1,0 +1,1166 @@
+{
+  "constraints": [],
+  "exported_at": "2026-05-09T16:37:50.347622+00:00",
+  "fast_variant": {
+    "enabled": true,
+    "note": "same solved world with cleaner training-sim readability",
+    "physics_source_locked": true,
+    "variant_index": 1,
+    "variant_label": "READABLE"
+  },
+  "force_zones": [
+    {
+      "affected_names": [
+        "agent"
+      ],
+      "affected_roles": [],
+      "falloff": 0.0,
+      "force": [
+        190.0,
+        310.0
+      ],
+      "metadata": {
+        "affected_names": [
+          "agent"
+        ],
+        "affected_roles": [],
+        "current": true,
+        "falloff": 0.0,
+        "force": [
+          190.0,
+          310.0
+        ],
+        "force_zone": true,
+        "kind": "force_zone",
+        "mode": "constant",
+        "strength": 363.59317925395686,
+        "swim_current": true,
+        "water": true
+      },
+      "mode": "constant",
+      "name": "buoyancy_current",
+      "object_name": "buoyancy_current",
+      "strength": 363.59317925395686
+    }
+  ],
+  "mechanisms": [],
+  "objective": {
+    "capability_profile": {
+      "allowed_controls": [
+        "apply_force_x",
+        "apply_force_y",
+        "brake"
+      ],
+      "forbidden_controls": [
+        "teleport",
+        "direct_object_move",
+        "direct_object_rotation",
+        "direct_goal_state_write"
+      ],
+      "gravity": "normal",
+      "interaction": [
+        "touch_contact"
+      ],
+      "movement": "ground_force",
+      "notes": "Saved demo uses deterministic BaseEnv controls."
+    },
+    "gameplay_profile": {
+      "gameplay_loop": "navigation_goal",
+      "source": "curated_demo_library",
+      "source_prompt": "A tropical water channel where the agent jumps in, swims across, and climbs out to reach a beacon.",
+      "world_context": {
+        "gravity_model": "side_view_gravity",
+        "movement_model": "ground_force",
+        "route_assumption": "stage objectives on reachable routes"
+      }
+    },
+    "layout_plan": {
+      "layout_type": "saved_showcase_demo",
+      "route_first": true,
+      "source": "curated_demo_library"
+    },
+    "objective_active": true,
+    "objective_profile": {
+      "failure_modes": [
+        "blocked_path",
+        "insufficient_progress"
+      ],
+      "minimum_acceptance_tier": 5,
+      "objective_description": "Cross the water channel and reach the beacon.",
+      "objective_type": "navigation_goal",
+      "progress_metrics": [
+        "distance_to_target"
+      ],
+      "required_capabilities": [
+        "ground_force",
+        "touch_contact"
+      ],
+      "subgoals": [
+        {
+          "kind": "agent_reach_region",
+          "target": "water_pool",
+          "threshold": 95
+        },
+        {
+          "kind": "agent_reach_region",
+          "target": "beacon",
+          "threshold": 112
+        }
+      ],
+      "success_predicate": "code-level deterministic state satisfies the saved demo objective",
+      "targets": [
+        "beacon"
+      ],
+      "validator_skills": [
+        "saved_demo_oracle"
+      ]
+    },
+    "objective_satisfied": false,
+    "objective_targets": [
+      "beacon"
+    ],
+    "objective_type": "navigation_goal",
+    "physics_relations": {
+      "relations": [
+        {
+          "kind": "agent_reach_region",
+          "target": "water_pool",
+          "threshold": 95
+        },
+        {
+          "kind": "agent_reach_region",
+          "target": "beacon",
+          "threshold": 112
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "layout",
+          "scope": "demo"
+        }
+      ],
+      "source": "curated_demo_library"
+    },
+    "semantic_requirements": [],
+    "targets_remaining": [
+      "beacon"
+    ],
+    "targets_touched": []
+  },
+  "objects": [
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          170.0,
+          235.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "material": "sand_bank",
+        "tropical": true
+      },
+      "name": "left_bank",
+      "role": "terrain",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 200.0,
+            "left": 20.0,
+            "right": 320.0,
+            "top": 270.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -150.0,
+              -35.0
+            ],
+            [
+              150.0,
+              -35.0
+            ],
+            [
+              150.0,
+              35.0
+            ],
+            [
+              -150.0,
+              35.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              20.0,
+              200.0
+            ],
+            [
+              320.0,
+              200.0
+            ],
+            [
+              320.0,
+              270.0
+            ],
+            [
+              20.0,
+              270.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          790.0,
+          235.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "material": "sand_bank",
+        "tropical": true
+      },
+      "name": "right_bank",
+      "role": "terrain",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 200.0,
+            "left": 640.0,
+            "right": 940.0,
+            "top": 270.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -150.0,
+              -35.0
+            ],
+            [
+              150.0,
+              -35.0
+            ],
+            [
+              150.0,
+              35.0
+            ],
+            [
+              -150.0,
+              35.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              640.0,
+              200.0
+            ],
+            [
+              940.0,
+              200.0
+            ],
+            [
+              940.0,
+              270.0
+            ],
+            [
+              640.0,
+              270.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          318.0,
+          204.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "jump_in_edge": true,
+        "material": "stone_lip",
+        "visual_only": true
+      },
+      "name": "left_jump_lip",
+      "role": "region",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 141.0,
+            "left": 306.0,
+            "right": 330.0,
+            "top": 267.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.72,
+          "local_vertices": [
+            [
+              -12.0,
+              -63.0
+            ],
+            [
+              12.0,
+              -63.0
+            ],
+            [
+              12.0,
+              63.0
+            ],
+            [
+              -12.0,
+              63.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              306.0,
+              141.0
+            ],
+            [
+              330.0,
+              141.0
+            ],
+            [
+              330.0,
+              267.0
+            ],
+            [
+              306.0,
+              267.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          646.0,
+          204.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "climb_out_edge": true,
+        "material": "stone_lip",
+        "visual_only": true
+      },
+      "name": "right_climb_lip",
+      "role": "region",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 141.0,
+            "left": 632.0,
+            "right": 660.0,
+            "top": 267.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.74,
+          "local_vertices": [
+            [
+              -14.0,
+              -63.0
+            ],
+            [
+              14.0,
+              -63.0
+            ],
+            [
+              14.0,
+              63.0
+            ],
+            [
+              -14.0,
+              63.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              632.0,
+              141.0
+            ],
+            [
+              660.0,
+              141.0
+            ],
+            [
+              660.0,
+              267.0
+            ],
+            [
+              632.0,
+              267.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          482.0,
+          112.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "buoyancy": true,
+        "material": "tropical_water",
+        "slows_agent": true,
+        "surface_y": 220.0,
+        "swim_zone": true,
+        "water": true
+      },
+      "name": "water_pool",
+      "role": "water",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 3.0,
+            "left": 318.0,
+            "right": 646.0,
+            "top": 221.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.0,
+          "local_vertices": [
+            [
+              -164.0,
+              -109.0
+            ],
+            [
+              164.0,
+              -109.0
+            ],
+            [
+              164.0,
+              109.0
+            ],
+            [
+              -164.0,
+              109.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              318.0,
+              3.0
+            ],
+            [
+              646.0,
+              3.0
+            ],
+            [
+              646.0,
+              221.0
+            ],
+            [
+              318.0,
+              221.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          482.0,
+          122.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "affected_names": [
+          "agent"
+        ],
+        "affected_roles": [],
+        "current": true,
+        "falloff": 0.0,
+        "force": [
+          190.0,
+          310.0
+        ],
+        "force_zone": true,
+        "kind": "force_zone",
+        "mode": "constant",
+        "strength": 363.59317925395686,
+        "swim_current": true,
+        "water": true
+      },
+      "name": "buoyancy_current",
+      "role": "force_zone",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 8.0,
+            "left": 315.0,
+            "right": 649.0,
+            "top": 236.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -167.0,
+              -114.0
+            ],
+            [
+              167.0,
+              -114.0
+            ],
+            [
+              167.0,
+              114.0
+            ],
+            [
+              -167.0,
+              114.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              315.0,
+              8.0
+            ],
+            [
+              649.0,
+              8.0
+            ],
+            [
+              649.0,
+              236.0
+            ],
+            [
+              315.0,
+              236.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 1.0,
+        "moment": 128.0,
+        "position": [
+          112.0,
+          300.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "dynamic_circle",
+      "metadata": {
+        "avatar_hint": "swimmer",
+        "can_swim": true,
+        "swimmer": true
+      },
+      "name": "agent",
+      "role": "agent",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 284.0,
+            "left": 96.0,
+            "right": 128.0,
+            "top": 316.0
+          },
+          "center": [
+            112.0,
+            300.0
+          ],
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.5,
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "radius": 16.0,
+          "sensor": false,
+          "source_type": "Circle",
+          "type": "circle"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          820.0,
+          312.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "beacon": true,
+        "glow": "aqua",
+        "material": "tropical_beacon"
+      },
+      "name": "beacon",
+      "role": "goal",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 253.0,
+            "left": 758.0,
+            "right": 882.0,
+            "top": 371.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -62.0,
+              -59.0
+            ],
+            [
+              62.0,
+              -59.0
+            ],
+            [
+              62.0,
+              59.0
+            ],
+            [
+              -62.0,
+              59.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              758.0,
+              253.0
+            ],
+            [
+              882.0,
+              253.0
+            ],
+            [
+              882.0,
+              371.0
+            ],
+            [
+              758.0,
+              371.0
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "schema_version": "harness-alpha-world-v1",
+  "semantic_context": {
+    "keywords": [
+      "goal",
+      "jump"
+    ],
+    "object_names": [
+      "left_bank",
+      "right_bank",
+      "left_jump_lip",
+      "right_climb_lip",
+      "water_pool",
+      "buoyancy_current",
+      "agent",
+      "beacon"
+    ],
+    "objective_type": "navigation_goal",
+    "prompt": "A tropical water channel where the agent jumps in, swims across, and climbs out to reach a beacon.",
+    "roles": [
+      "agent",
+      "force_zone",
+      "goal",
+      "region",
+      "terrain",
+      "water"
+    ]
+  },
+  "solvability_check": {
+    "agent_radius": 16,
+    "goal": [
+      820.0,
+      312.0
+    ],
+    "grid_size": 24.0,
+    "metadata": {},
+    "notes": "",
+    "start": [
+      112.0,
+      300.0
+    ]
+  },
+  "source": {
+    "env_class": "WaterSwimBeaconSavedEnv",
+    "env_path": "saved_demos\\water_swim_beacon\\env.py",
+    "prompt": "A tropical water channel where the agent jumps in, swims across, and climbs out to reach a beacon.",
+    "seed": 0,
+    "variant_label": "READABLE",
+    "variant_of": "saved_demos\\water_swim_beacon\\env.py"
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "visual_brief": {
+    "accent": "cyan_green",
+    "agent_avatar": "human",
+    "background": "blueprint_grid",
+    "fast_variant": {
+      "enabled": true,
+      "physics_source_locked": true,
+      "variant_index": 1,
+      "variant_label": "READABLE"
+    },
+    "lighting": [
+      "neon_bloom",
+      "soft_glow"
+    ],
+    "materials": [
+      "stone",
+      "dark_metal",
+      "sensor_plate"
+    ],
+    "mood": "training_sim",
+    "motion_fx": [
+      "agent_trail",
+      "goal_breathe",
+      "scan_sweep"
+    ],
+    "palette": {
+      "background_color": [
+        10,
+        19,
+        22
+      ],
+      "hot": [
+        255,
+        206,
+        86
+      ],
+      "primary": [
+        72,
+        221,
+        236
+      ],
+      "secondary": [
+        52,
+        232,
+        154
+      ]
+    },
+    "presentation": "visual_director_recipe",
+    "prompt": "A tropical water channel where the agent jumps in, swims across, and climbs out to reach a beacon.",
+    "recipe": {
+      "accent": "mint_coral",
+      "agent_avatar": "human",
+      "animation_cues": {
+        "agent": [
+          "jump_in_pose",
+          "swim_stroke",
+          "climb_out_pose"
+        ],
+        "beacon": [
+          "aqua_goal_pulse"
+        ],
+        "water_pool": [
+          "surface_wave",
+          "splash_on_entry",
+          "bubble_trail"
+        ]
+      },
+      "background": "underwater_caustics",
+      "background_layers": [
+        {
+          "alpha": 0.08,
+          "color": "#39e8ff",
+          "count": 12,
+          "primitive": "contour_lines"
+        },
+        {
+          "color": "#b8fff4",
+          "count": 42,
+          "motion": "updraft",
+          "primitive": "particle_field",
+          "speed": 0.06
+        },
+        {
+          "alpha": 0.06,
+          "color": "#39e8ff",
+          "count": 2,
+          "primitive": "radial_glow"
+        }
+      ],
+      "camera_fx": [
+        "soft_splash_shake"
+      ],
+      "fast_variant": true,
+      "lighting": [
+        "caustic_light",
+        "soft_rim_light",
+        "beacon_glow"
+      ],
+      "mood": "underwater_lab",
+      "motion_fx": [
+        "agent_trail",
+        "water_ripples",
+        "bubble_trail",
+        "goal_breathe",
+        "splash_burst"
+      ],
+      "object_skins": {
+        "agent": {
+          "fill": [
+            255,
+            246,
+            210
+          ],
+          "fx": [
+            "swim_stroke",
+            "bubble_trail"
+          ],
+          "glow": [
+            57,
+            232,
+            255
+          ],
+          "material": "swimmer_stick_figure",
+          "outline": [
+            255,
+            255,
+            242
+          ]
+        },
+        "beacon": {
+          "fill": [
+            57,
+            232,
+            255
+          ],
+          "fx": [
+            "goal_breathe",
+            "beacon_ray"
+          ],
+          "glow": [
+            57,
+            232,
+            255
+          ],
+          "material": "tropical_beacon",
+          "outline": [
+            241,
+            255,
+            248
+          ]
+        },
+        "buoyancy_current": {
+          "alpha": 0.22,
+          "fill": [
+            60,
+            196,
+            220
+          ],
+          "fx": [
+            "current_arrows",
+            "bubbles"
+          ],
+          "material": "water_current",
+          "outline": [
+            185,
+            255,
+            244
+          ]
+        },
+        "left_bank": {
+          "fill": [
+            214,
+            183,
+            114
+          ],
+          "fx": [
+            "shore_grain"
+          ],
+          "material": "sand_bank",
+          "outline": [
+            255,
+            230,
+            155
+          ]
+        },
+        "left_jump_lip": {
+          "fill": [
+            95,
+            118,
+            116
+          ],
+          "material": "stone_lip",
+          "outline": [
+            188,
+            230,
+            218
+          ]
+        },
+        "right_bank": {
+          "fill": [
+            214,
+            183,
+            114
+          ],
+          "fx": [
+            "shore_grain"
+          ],
+          "material": "sand_bank",
+          "outline": [
+            255,
+            230,
+            155
+          ]
+        },
+        "right_climb_lip": {
+          "fill": [
+            95,
+            118,
+            116
+          ],
+          "material": "stone_lip",
+          "outline": [
+            188,
+            230,
+            218
+          ]
+        },
+        "water_pool": {
+          "alpha": 0.56,
+          "fill": [
+            27,
+            144,
+            196
+          ],
+          "foam": [
+            221,
+            255,
+            248
+          ],
+          "fx": [
+            "surface_wave",
+            "caustics",
+            "bubbles"
+          ],
+          "material": "tropical_water",
+          "outline": [
+            105,
+            247,
+            255
+          ]
+        }
+      },
+      "palette": {
+        "background": "#041824",
+        "hazard": "#ff9b63",
+        "primary": "#fff6d2",
+        "secondary": "#39e8ff"
+      },
+      "seed": 62041,
+      "semantic_props": [
+        {
+          "count": 1,
+          "placement": "platforms",
+          "semantic": "water surface waves"
+        },
+        {
+          "count": 5,
+          "placement": "edges",
+          "semantic": "tropical leaves"
+        },
+        {
+          "count": 1,
+          "placement": "objective",
+          "semantic": "glowing island beacon"
+        }
+      ],
+      "surface_fx": [
+        "underwater_caustics",
+        "shoreline_noise",
+        "soft_vignette"
+      ],
+      "variant_index": 1,
+      "variant_label": "READABLE",
+      "variant_note": "same solved world with cleaner training-sim readability",
+      "world_identity": "underwater_lab"
+    },
+    "schema_version": "harness-alpha-visual-brief-v1",
+    "scores": {
+      "underwater_lab": 999
+    },
+    "semantic_assets": [],
+    "semantic_context": {
+      "keywords": [
+        "goal",
+        "jump"
+      ],
+      "object_names": [
+        "left_bank",
+        "right_bank",
+        "left_jump_lip",
+        "right_climb_lip",
+        "water_pool",
+        "buoyancy_current",
+        "agent",
+        "beacon"
+      ],
+      "objective_type": "navigation_goal",
+      "prompt": "A tropical water channel where the agent jumps in, swims across, and climbs out to reach a beacon.",
+      "roles": [
+        "agent",
+        "force_zone",
+        "goal",
+        "region",
+        "terrain",
+        "water"
+      ]
+    },
+    "semantic_props": [
+      {
+        "count": 1,
+        "placement": "platforms",
+        "semantic": "water surface waves"
+      },
+      {
+        "count": 5,
+        "placement": "edges",
+        "semantic": "tropical leaves"
+      },
+      {
+        "count": 1,
+        "placement": "objective",
+        "semantic": "glowing island beacon"
+      }
+    ],
+    "shape_language": "technical_rectilinear",
+    "source": "visual_recipe",
+    "surface_fx": [
+      "grid_crosshairs",
+      "scanlines"
+    ],
+    "visual_program": null
+  },
+  "world": {
+    "agent_strength": 1962.0,
+    "damping": 0.993,
+    "gravity": [
+      0.0,
+      -520.0
+    ],
+    "height": 640,
+    "iterations": 30,
+    "time_step": 0.016666666666666666,
+    "width": 960
+  }
+}

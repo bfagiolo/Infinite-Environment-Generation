@@ -1,0 +1,16 @@
+{
+  "accepted": true,
+  "achieved_tier": 5,
+  "exported_at": "2026-05-08T18:02:12.103787+00:00",
+  "files": {
+    "semantic_assets": "semantic_assets.json",
+    "source_env": "source_env.py",
+    "verification": "verification.json",
+    "visual_brief": "visual_brief.json",
+    "visual_program": null,
+    "world_schema": "world_schema.json"
+  },
+  "schema_version": "harness-alpha-world-v1",
+  "source_env_path": "saved_demos\\zero_gravity_crystals\\env.py",
+  "tier_name": "solved_verified"
+}

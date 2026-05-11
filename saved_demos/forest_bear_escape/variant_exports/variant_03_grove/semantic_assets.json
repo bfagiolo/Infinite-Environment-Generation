@@ -1,0 +1,93 @@
+{
+  "assets": [
+    {
+      "asset_tags": [
+        "background",
+        "background-elements",
+        "forest",
+        "tree"
+      ],
+      "name": "tree02.png",
+      "pack": "background-elements",
+      "path": "assets/library/kenney/background-elements/PNG/Flat/tree02.png",
+      "placement": "edges",
+      "renderer_only": true,
+      "requested_tags": [
+        "tree"
+      ],
+      "role": "background_prop",
+      "semantic": "tree"
+    },
+    {
+      "asset_tags": [
+        "background",
+        "background-elements",
+        "grass"
+      ],
+      "name": "grass2.png",
+      "pack": "background-elements",
+      "path": "assets/library/kenney/background-elements/PNG/Flat/grass2.png",
+      "placement": "edges",
+      "renderer_only": true,
+      "requested_tags": [
+        "grass"
+      ],
+      "role": "background_prop",
+      "semantic": "grass"
+    },
+    {
+      "asset_tags": [
+        "foliage-pack",
+        "forest",
+        "grass",
+        "leaf",
+        "tree"
+      ],
+      "name": "foliagePack_042.png",
+      "pack": "foliage-pack",
+      "path": "assets/library/kenney/foliage-pack/PNG/Retina/foliagePack_042.png",
+      "placement": "edges",
+      "renderer_only": true,
+      "requested_tags": [
+        "leaf"
+      ],
+      "role": "background_prop",
+      "semantic": "leaf"
+    },
+    {
+      "asset_tags": [
+        "background",
+        "background-elements",
+        "cloud"
+      ],
+      "name": "cloud2.png",
+      "pack": "background-elements",
+      "path": "assets/library/kenney/background-elements/PNG/Flat/cloud2.png",
+      "placement": "edges",
+      "renderer_only": true,
+      "requested_tags": [
+        "cloud"
+      ],
+      "role": "background_prop",
+      "semantic": "cloud"
+    },
+    {
+      "asset_tags": [
+        "background",
+        "background-elements",
+        "forest",
+        "tree"
+      ],
+      "name": "tree12.png",
+      "pack": "background-elements",
+      "path": "assets/library/kenney/background-elements/PNG/tree12.png",
+      "placement": "object",
+      "renderer_only": true,
+      "requested_tags": [
+        "tree"
+      ],
+      "role": "object_accent",
+      "semantic": "tree"
+    }
+  ]
+}

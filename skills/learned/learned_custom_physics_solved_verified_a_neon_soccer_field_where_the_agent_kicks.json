@@ -1,0 +1,176 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact",
+      "kick_contact"
+    ],
+    "movement": "ground_force",
+    "notes": "Agent moves by physical force on a flat pitch; ball is light and low-friction for crisp kicks."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: agent_distance_to_ball, ball_distance_to_goal_line, ball_speed, ball_x, scored_state."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "agent_underpowered",
+      "goal_rejects_entry",
+      "ball_too_heavy",
+      "ball_stuck_on_posts"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Kick (strike) the soccer ball into the goal by sending it through the goal line region.",
+    "objective_type": "custom_physics",
+    "progress_metrics": [
+      "agent_distance_to_ball",
+      "ball_distance_to_goal_line",
+      "ball_speed",
+      "ball_x",
+      "scored_state"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact",
+      "kick_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_touch_object",
+        "target": "soccer_ball"
+      },
+      {
+        "interaction": "kick_contact",
+        "kind": "strike_object_to_region",
+        "object": "soccer_ball",
+        "region": "goal_line"
+      }
+    ],
+    "success_predicate": "soccer_ball enters goal_line sensor region (proximity threshold to goal_line).",
+    "targets": [
+      "soccer_ball",
+      "goal_line"
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "navigation_probe"
+    ]
+  },
+  "objective_type": "custom_physics",
+  "skill_id": "learned_custom_physics_solved_verified_a_neon_soccer_field_where_the_agent_kicks",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\a_neon_soccer_field_where_seed1_repair1_env_auto_repaired_1.py",
+  "source_prompt": "A neon soccer field where the agent kicks a soccer ball into the goal.",
+  "summary": "Kick (strike) the soccer ball into the goal by sending it through the goal line region. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "a",
+    "agent",
+    "ball",
+    "contact",
+    "custom",
+    "distance",
+    "field",
+    "force",
+    "goal",
+    "ground",
+    "into",
+    "kick",
+    "kicks",
+    "line",
+    "navigation",
+    "neon",
+    "normal",
+    "physics",
+    "plan",
+    "probe",
+    "scored",
+    "soccer",
+    "speed",
+    "state",
+    "subgoal",
+    "the",
+    "to",
+    "touch",
+    "where",
+    "x"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact",
+      "kick_contact"
+    ],
+    "movement": "ground_force",
+    "objective_type": "custom_physics",
+    "oracle": "subgoal_plan",
+    "progress_metrics": [
+      "agent_distance_to_ball",
+      "ball_distance_to_goal_line",
+      "ball_speed",
+      "ball_x",
+      "scored_state"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact",
+      "kick_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_touch_object",
+        "target": "soccer_ball"
+      },
+      {
+        "interaction": "kick_contact",
+        "kind": "strike_object_to_region",
+        "object": "soccer_ball",
+        "region": "goal_line"
+      }
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "navigation_probe"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

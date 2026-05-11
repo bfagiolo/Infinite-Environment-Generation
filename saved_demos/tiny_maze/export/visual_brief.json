@@ -1,0 +1,113 @@
+{
+  "accent": "deep_space_neon",
+  "agent_avatar": "ship",
+  "background": "parallax_starfield",
+  "lighting": [
+    "neon_bloom",
+    "holographic",
+    "low_key"
+  ],
+  "materials": [
+    "asteroid",
+    "energy_field",
+    "dark_metal"
+  ],
+  "mood": "deep_space",
+  "motion_fx": [
+    "agent_trail",
+    "goal_breathe",
+    "zero_g_drift",
+    "particle_sparks"
+  ],
+  "palette": {
+    "background_color": [
+      5,
+      8,
+      20
+    ],
+    "hot": [
+      255,
+      91,
+      181
+    ],
+    "primary": [
+      86,
+      210,
+      255
+    ],
+    "secondary": [
+      177,
+      89,
+      255
+    ]
+  },
+  "presentation": "clean_demo_mode",
+  "prompt": "A tiny neon maze where the agent must reach a glowing exit.",
+  "recipe": {},
+  "schema_version": "harness-alpha-visual-brief-v1",
+  "scores": {
+    "alien_biome": 0,
+    "asteroid_belt": 0,
+    "clockwork_chamber": 0,
+    "cornfield_maze": 0,
+    "cosmic_research": 2,
+    "crystal_cavern": 0,
+    "cyber_grid": 0,
+    "deep_space": 5,
+    "desert_ruins": 0,
+    "electric_substation": 0,
+    "hazard_arena": 0,
+    "ice_facility": 0,
+    "industrial_noir": 0,
+    "magnetic_lab": 0,
+    "mechanical_factory": 0,
+    "minimalist_sandbox": 0,
+    "orbital_station": 0,
+    "organic_maze": 2,
+    "overgrown_garden": 0,
+    "research_lab": 0,
+    "retro_arcade": 0,
+    "toxic_swamp": 0,
+    "training_sim": 1,
+    "underwater_lab": 0,
+    "volcanic_foundry": 0
+  },
+  "semantic_assets": [],
+  "semantic_context": {
+    "keywords": [
+      "gate",
+      "goal",
+      "maze"
+    ],
+    "object_names": [
+      "floor",
+      "ceiling",
+      "left_wall",
+      "right_wall",
+      "maze_wall_north",
+      "maze_wall_south",
+      "maze_wall_gate",
+      "maze_corner_guard",
+      "agent",
+      "maze_waypoint_1",
+      "maze_waypoint_2",
+      "exit_zone"
+    ],
+    "objective_type": "navigation_goal",
+    "prompt": "A tiny neon maze where the agent must reach a glowing exit.",
+    "roles": [
+      "agent",
+      "goal",
+      "obstacle",
+      "terrain"
+    ]
+  },
+  "semantic_props": [],
+  "shape_language": "technical_rectilinear",
+  "source": "inferred",
+  "surface_fx": [
+    "film_grain",
+    "grid_crosshairs"
+  ],
+  "visual_program": null
+}

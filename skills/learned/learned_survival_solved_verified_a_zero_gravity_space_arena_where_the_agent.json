@@ -1,0 +1,185 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "thrust_forward",
+      "rotate_left",
+      "rotate_right",
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write",
+      "direct_velocity_set"
+    ],
+    "gravity": "zero_g",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "thrust_2d",
+    "notes": "Zero-g inertial ship controlled by thrust/forces and rotation; survival requires dodging hazard projectiles."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: survival_steps, required_survival_steps, time_elapsed_seconds, was_hit, active_projectiles, min_distance_to_nearest_hazard, projectiles_spawned_total."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "hit_by_projectile",
+      "unavoidable_spawn",
+      "hazards_not_moving"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Survive for 8 seconds without being hit by any enemy projectile in a zero-g arena.",
+    "objective_type": "survival",
+    "progress_metrics": [
+      "survival_steps",
+      "required_survival_steps",
+      "time_elapsed_seconds",
+      "was_hit",
+      "active_projectiles",
+      "min_distance_to_nearest_hazard",
+      "projectiles_spawned_total"
+    ],
+    "required_capabilities": [
+      "thrust_2d",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "avoid_role": "hazard",
+        "duration_seconds": 8.0,
+        "kind": "survive_duration"
+      }
+    ],
+    "success_predicate": "not was_hit and survival_steps >= required_survival_steps",
+    "targets": [
+      "enemy_ship_1",
+      "enemy_ship_2",
+      "enemy_shot_1",
+      "enemy_shot_2"
+    ],
+    "validator_skills": [
+      "survive_duration",
+      "projectile_hazard_avoidance"
+    ]
+  },
+  "objective_type": "survival",
+  "skill_id": "learned_survival_solved_verified_a_zero_gravity_space_arena_where_the_agent",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\a_zero_gravity_space_arena_seed1_repair2_env.py",
+  "source_prompt": "A zero gravity space arena where the agent spaceship must avoid shots from enemy spaceships for 8 seconds.",
+  "summary": "Survive for 8 seconds without being hit by any enemy projectile in a zero-g arena. Validated as solved_verified with movement=thrust_2d, gravity=zero_g.",
+  "trigger_keywords": [
+    "2d",
+    "8",
+    "a",
+    "active",
+    "agent",
+    "arena",
+    "avoid",
+    "avoidance",
+    "contact",
+    "distance",
+    "duration",
+    "elapsed",
+    "enemy",
+    "for",
+    "from",
+    "g",
+    "gravity",
+    "hazard",
+    "hit",
+    "min",
+    "must",
+    "nearest",
+    "projectile",
+    "projectiles",
+    "required",
+    "seconds",
+    "shots",
+    "space",
+    "spaceship",
+    "spaceships",
+    "spawned",
+    "steps",
+    "survival",
+    "survive",
+    "the",
+    "thrust",
+    "time",
+    "to",
+    "total",
+    "touch"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "thrust_forward",
+      "rotate_left",
+      "rotate_right",
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write",
+      "direct_velocity_set"
+    ],
+    "gravity": "zero_g",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "thrust_2d",
+    "objective_type": "survival",
+    "oracle": "subgoal_plan",
+    "progress_metrics": [
+      "survival_steps",
+      "required_survival_steps",
+      "time_elapsed_seconds",
+      "was_hit",
+      "active_projectiles",
+      "min_distance_to_nearest_hazard",
+      "projectiles_spawned_total"
+    ],
+    "required_capabilities": [
+      "thrust_2d",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "avoid_role": "hazard",
+        "duration_seconds": 8.0,
+        "kind": "survive_duration"
+      }
+    ],
+    "validator_skills": [
+      "survive_duration",
+      "projectile_hazard_avoidance"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

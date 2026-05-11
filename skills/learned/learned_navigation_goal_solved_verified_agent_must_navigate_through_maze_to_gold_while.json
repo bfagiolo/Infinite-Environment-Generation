@@ -1,0 +1,152 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "notes": "Agent is a rolling body moved by forces; enemies are passive dynamic bodies with initial velocities that bounce in the arena."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: distance_to_goal_center, min_distance_to_enemy, agent_touched."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "blocked_path",
+      "agent_underpowered",
+      "touched_by_enemy"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Navigate through the maze to reach the gold goal without being touched by roaming enemies.",
+    "objective_type": "navigation_goal",
+    "progress_metrics": [
+      "distance_to_goal_center",
+      "min_distance_to_enemy",
+      "agent_touched"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "success_predicate": "agent enters goal region AND agent has not been touched by any enemy",
+    "targets": [
+      "goal",
+      "enemy_1",
+      "enemy_2"
+    ],
+    "validator_skills": [
+      "navigation_probe"
+    ]
+  },
+  "objective_type": "navigation_goal",
+  "skill_id": "learned_navigation_goal_solved_verified_agent_must_navigate_through_maze_to_gold_while",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\agent_must_navigate_through_maze_seed1_repair1_env.py",
+  "source_prompt": "Agent must navigate through maze to gold while avoiding enemies trying to touch it. If agent gets touched. it loses",
+  "summary": "Navigate through the maze to reach the gold goal without being touched by roaming enemies. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "agent",
+    "avoiding",
+    "center",
+    "contact",
+    "distance",
+    "enemies",
+    "enemy",
+    "force",
+    "gets",
+    "goal",
+    "gold",
+    "ground",
+    "if",
+    "it",
+    "loses",
+    "maze",
+    "min",
+    "must",
+    "navigate",
+    "navigation",
+    "normal",
+    "probe",
+    "through",
+    "to",
+    "touch",
+    "touched",
+    "trying",
+    "while"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "objective_type": "navigation_goal",
+    "oracle": "subgoal_plan",
+    "progress_metrics": [
+      "distance_to_goal_center",
+      "min_distance_to_enemy",
+      "agent_touched"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "validator_skills": [
+      "navigation_probe"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

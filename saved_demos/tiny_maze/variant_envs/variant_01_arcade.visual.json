@@ -1,0 +1,574 @@
+{
+  "accent": "magenta_orange",
+  "agent_avatar": "ship",
+  "background": "retro_vignette",
+  "background_layers": [
+    {
+      "strength": 0.45999999999999996,
+      "type": "atmospheric_vignette"
+    },
+    {
+      "cell": 30,
+      "type": "simulation_grid"
+    },
+    {
+      "count": 110,
+      "type": "dust_motes"
+    },
+    {
+      "cell": 24,
+      "type": "simulation_grid"
+    },
+    {
+      "count": 55,
+      "type": "dust_motes"
+    },
+    {
+      "count": 5,
+      "theme": "structured",
+      "type": "set_dressing_props"
+    }
+  ],
+  "fast_variant": true,
+  "mood": "retro_arcade",
+  "motion_fx": [
+    "agent_trail",
+    "goal_breathe",
+    "particle_sparks"
+  ],
+  "object_skins": {
+    "*ball*": {
+      "fill": [
+        255,
+        78,
+        205
+      ],
+      "fx": [
+        "edge_bloom",
+        "impact_ripples"
+      ],
+      "glow": [
+        91,
+        235,
+        255
+      ],
+      "outline": [
+        255,
+        246,
+        224
+      ]
+    },
+    "*beacon*": {
+      "fill": [
+        107,
+        69,
+        26
+      ],
+      "fx": [
+        "goal_breathe",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        166,
+        64
+      ],
+      "outline": [
+        255,
+        166,
+        64
+      ]
+    },
+    "*crystal*": {
+      "fill": [
+        255,
+        166,
+        64
+      ],
+      "fx": [
+        "twinkle",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        166,
+        64
+      ],
+      "outline": [
+        245,
+        250,
+        255
+      ]
+    },
+    "*enemy*": {
+      "fill": [
+        56,
+        145,
+        158
+      ],
+      "fx": [
+        "danger_pulse",
+        "edge_bloom"
+      ],
+      "glow": [
+        91,
+        235,
+        255
+      ],
+      "outline": [
+        91,
+        235,
+        255
+      ]
+    },
+    "*exit*": {
+      "fill": [
+        96,
+        63,
+        24
+      ],
+      "fx": [
+        "goal_breathe",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        166,
+        64
+      ],
+      "outline": [
+        255,
+        166,
+        64
+      ]
+    },
+    "*fire*": {
+      "fill": [
+        91,
+        235,
+        255
+      ],
+      "fx": [
+        "hazard_flash",
+        "edge_bloom"
+      ],
+      "glow": [
+        91,
+        235,
+        255
+      ],
+      "outline": [
+        255,
+        235,
+        140
+      ]
+    },
+    "*floor*": {
+      "fill": [
+        96,
+        29,
+        77
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        78,
+        205
+      ],
+      "outline": [
+        255,
+        78,
+        205
+      ]
+    },
+    "*goal*": {
+      "fill": [
+        96,
+        63,
+        24
+      ],
+      "fx": [
+        "goal_breathe",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        166,
+        64
+      ],
+      "outline": [
+        255,
+        166,
+        64
+      ]
+    },
+    "*hazard*": {
+      "fill": [
+        56,
+        145,
+        158
+      ],
+      "fx": [
+        "hazard_flash",
+        "edge_bloom"
+      ],
+      "glow": [
+        91,
+        235,
+        255
+      ],
+      "outline": [
+        91,
+        235,
+        255
+      ]
+    },
+    "*hoop*": {
+      "fill": [
+        91,
+        235,
+        255
+      ],
+      "fx": [
+        "goal_breathe",
+        "edge_bloom"
+      ],
+      "glow": [
+        91,
+        235,
+        255
+      ],
+      "outline": [
+        255,
+        248,
+        225
+      ]
+    },
+    "*maze*": {
+      "fill": [
+        51,
+        15,
+        41
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        78,
+        205
+      ],
+      "outline": [
+        255,
+        78,
+        205
+      ]
+    },
+    "*platform*": {
+      "fill": [
+        96,
+        29,
+        77
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        78,
+        205
+      ],
+      "outline": [
+        255,
+        78,
+        205
+      ]
+    },
+    "*rock*": {
+      "fill": [
+        96,
+        29,
+        77
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        78,
+        205
+      ],
+      "outline": [
+        255,
+        78,
+        205
+      ]
+    },
+    "*tree*": {
+      "fill": [
+        107,
+        69,
+        26
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "outline": [
+        255,
+        166,
+        64
+      ],
+      "trunk": [
+        96,
+        29,
+        77
+      ]
+    },
+    "*wall*": {
+      "fill": [
+        51,
+        15,
+        41
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        78,
+        205
+      ],
+      "outline": [
+        255,
+        78,
+        205
+      ]
+    },
+    "*water*": {
+      "fill": [
+        96,
+        29,
+        77
+      ],
+      "foam": [
+        255,
+        166,
+        64
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "outline": [
+        255,
+        78,
+        205
+      ]
+    },
+    "backboard": {
+      "fill": [
+        210,
+        225,
+        235
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        166,
+        64
+      ],
+      "outline": [
+        255,
+        166,
+        64
+      ]
+    },
+    "basketball": {
+      "fill": [
+        255,
+        78,
+        205
+      ],
+      "fx": [
+        "edge_bloom",
+        "impact_ripples"
+      ],
+      "glow": [
+        91,
+        235,
+        255
+      ],
+      "outline": [
+        255,
+        246,
+        224
+      ]
+    },
+    "court": {
+      "fill": [
+        61,
+        18,
+        49
+      ],
+      "fx": [
+        "edge_bloom",
+        "material_stripes"
+      ],
+      "glow": [
+        255,
+        78,
+        205
+      ],
+      "outline": [
+        255,
+        78,
+        205
+      ]
+    },
+    "hoop": {
+      "fill": [
+        91,
+        235,
+        255
+      ],
+      "fx": [
+        "goal_breathe",
+        "edge_bloom"
+      ],
+      "glow": [
+        91,
+        235,
+        255
+      ],
+      "outline": [
+        255,
+        248,
+        225
+      ]
+    }
+  },
+  "palette": {
+    "background_color": [
+      16,
+      7,
+      24
+    ],
+    "hot": [
+      91,
+      235,
+      255
+    ],
+    "primary": [
+      255,
+      78,
+      205
+    ],
+    "secondary": [
+      255,
+      166,
+      64
+    ]
+  },
+  "seed": 3680654127,
+  "surface_fx": [
+    "crt_vignette",
+    "scanlines"
+  ],
+  "variant_index": 1,
+  "variant_label": "ARCADE",
+  "variant_note": "same solved route with arcade cabinet energy",
+  "visual_program": {
+    "background_layers": [
+      {
+        "color": [
+          255,
+          78,
+          205
+        ],
+        "count": 116,
+        "motion": "drift",
+        "primitive": "particle_field",
+        "speed": 0.21000000000000002
+      },
+      {
+        "color": [
+          255,
+          166,
+          64
+        ],
+        "count": 3,
+        "primitive": "radial_glow"
+      },
+      {
+        "cell": 30,
+        "color": [
+          255,
+          78,
+          205
+        ],
+        "primitive": "grid_overlay"
+      },
+      {
+        "color": [
+          255,
+          166,
+          64
+        ],
+        "count": 8,
+        "primitive": "contour_lines"
+      }
+    ],
+    "object_effects": [
+      {
+        "color": [
+          255,
+          78,
+          205
+        ],
+        "primitive": "motion_trail",
+        "selector": "agent"
+      },
+      {
+        "color": [
+          255,
+          166,
+          64
+        ],
+        "primitive": "portal_ring",
+        "selector": "goal|exit|target|beacon"
+      },
+      {
+        "color": [
+          91,
+          235,
+          255
+        ],
+        "primitive": "danger_pulse",
+        "selector": "hazard|enemy|fire|lava|bear"
+      },
+      {
+        "color": [
+          255,
+          78,
+          205
+        ],
+        "primitive": "rim_glow",
+        "selector": "wall|floor|platform|gate"
+      },
+      {
+        "color": [
+          255,
+          166,
+          64
+        ],
+        "primitive": "field_ring",
+        "rings": 2,
+        "selector": "goal|exit|target|beacon"
+      }
+    ],
+    "seed": 137
+  }
+}

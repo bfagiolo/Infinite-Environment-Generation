@@ -1,0 +1,42 @@
+{
+  "accent": "pink_cyan",
+  "agent_avatar": "ship",
+  "background": "radar_sweep",
+  "fast_variant": true,
+  "mood": "cyber_grid",
+  "motion_fx": [
+    "agent_trail",
+    "particle_sparks",
+    "impact_ripples"
+  ],
+  "palette": {
+    "background_color": [
+      13,
+      10,
+      22
+    ],
+    "hot": [
+      255,
+      200,
+      80
+    ],
+    "primary": [
+      255,
+      116,
+      215
+    ],
+    "secondary": [
+      87,
+      232,
+      255
+    ]
+  },
+  "seed": 2551553421,
+  "surface_fx": [
+    "crt_vignette",
+    "procedural_noise"
+  ],
+  "variant_index": 2,
+  "variant_label": "CINEMATIC",
+  "variant_note": "same solved world with higher-energy demo styling"
+}

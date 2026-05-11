@@ -1,0 +1,163 @@
+{
+  "assets": [
+    {
+      "asset_tags": [
+        "ship",
+        "simple-space",
+        "space",
+        "spaceship"
+      ],
+      "name": "ship_D.png",
+      "pack": "simple-space",
+      "path": "assets/library/kenney/simple-space/PNG/Retina/ship_D.png",
+      "placement": "sky",
+      "renderer_only": true,
+      "requested_tags": [
+        "ship"
+      ],
+      "role": "background_prop",
+      "semantic": "ship"
+    },
+    {
+      "asset_tags": [
+        "asteroid",
+        "meteor",
+        "simple-space",
+        "space"
+      ],
+      "name": "meteor_detailedSmall.png",
+      "pack": "simple-space",
+      "path": "assets/library/kenney/simple-space/PNG/Default/meteor_detailedSmall.png",
+      "placement": "sky",
+      "renderer_only": true,
+      "requested_tags": [
+        "asteroid"
+      ],
+      "role": "background_prop",
+      "semantic": "asteroid"
+    },
+    {
+      "asset_tags": [
+        "particle",
+        "particle-pack",
+        "star"
+      ],
+      "name": "star_05.png",
+      "pack": "particle-pack",
+      "path": "assets/library/kenney/particle-pack/PNG (Transparent)/star_05.png",
+      "placement": "sky",
+      "renderer_only": true,
+      "requested_tags": [
+        "star"
+      ],
+      "role": "background_prop",
+      "semantic": "star"
+    },
+    {
+      "asset_tags": [
+        "asteroid",
+        "meteor",
+        "simple-space",
+        "space"
+      ],
+      "name": "meteor_detailedLarge.png",
+      "pack": "simple-space",
+      "path": "assets/library/kenney/simple-space/PNG/Default/meteor_detailedLarge.png",
+      "placement": "sky",
+      "renderer_only": true,
+      "requested_tags": [
+        "meteor"
+      ],
+      "role": "background_prop",
+      "semantic": "meteor"
+    },
+    {
+      "asset_tags": [
+        "fire",
+        "lava",
+        "particle",
+        "particle-pack"
+      ],
+      "name": "fire_01.png",
+      "pack": "particle-pack",
+      "path": "assets/library/kenney/particle-pack/PNG (Transparent)/fire_01.png",
+      "placement": "hazard",
+      "renderer_only": true,
+      "requested_tags": [
+        "fire"
+      ],
+      "role": "effect_prop",
+      "semantic": "fire"
+    },
+    {
+      "asset_tags": [
+        "particle",
+        "particle-pack",
+        "spark"
+      ],
+      "name": "spark_05.png",
+      "pack": "particle-pack",
+      "path": "assets/library/kenney/particle-pack/PNG (Transparent)/spark_05.png",
+      "placement": "hazard",
+      "renderer_only": true,
+      "requested_tags": [
+        "spark"
+      ],
+      "role": "effect_prop",
+      "semantic": "spark"
+    },
+    {
+      "asset_tags": [
+        "particle",
+        "particle-pack",
+        "smoke"
+      ],
+      "name": "smoke_03.png",
+      "pack": "particle-pack",
+      "path": "assets/library/kenney/particle-pack/PNG (Transparent)/smoke_03.png",
+      "placement": "hazard",
+      "renderer_only": true,
+      "requested_tags": [
+        "smoke"
+      ],
+      "role": "effect_prop",
+      "semantic": "smoke"
+    },
+    {
+      "asset_tags": [
+        "fire",
+        "lava",
+        "particle",
+        "particle-pack"
+      ],
+      "name": "flame_05.png",
+      "pack": "particle-pack",
+      "path": "assets/library/kenney/particle-pack/PNG (Transparent)/flame_05.png",
+      "placement": "hazard",
+      "renderer_only": true,
+      "requested_tags": [
+        "lava"
+      ],
+      "role": "effect_prop",
+      "semantic": "lava"
+    },
+    {
+      "asset_tags": [
+        "ship",
+        "simple-space",
+        "space",
+        "spaceship"
+      ],
+      "name": "ship_G.png",
+      "pack": "simple-space",
+      "path": "assets/library/kenney/simple-space/PNG/Retina/ship_G.png",
+      "placement": "object",
+      "renderer_only": true,
+      "requested_tags": [
+        "ship"
+      ],
+      "role": "object_accent",
+      "semantic": "ship"
+    }
+  ]
+}

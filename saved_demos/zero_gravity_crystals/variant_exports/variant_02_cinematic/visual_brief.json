@@ -1,0 +1,120 @@
+{
+  "accent": "pink_cyan",
+  "agent_avatar": "ship",
+  "background": "radar_sweep",
+  "fast_variant": {
+    "enabled": true,
+    "physics_source_locked": true,
+    "variant_index": 2,
+    "variant_label": "CINEMATIC"
+  },
+  "lighting": [
+    "neon_bloom",
+    "holographic",
+    "low_key"
+  ],
+  "materials": [
+    "crystal",
+    "asteroid",
+    "energy_field",
+    "dark_metal"
+  ],
+  "mood": "cyber_grid",
+  "motion_fx": [
+    "agent_trail",
+    "particle_sparks",
+    "impact_ripples"
+  ],
+  "palette": {
+    "background_color": [
+      13,
+      10,
+      22
+    ],
+    "hot": [
+      255,
+      200,
+      80
+    ],
+    "primary": [
+      255,
+      116,
+      215
+    ],
+    "secondary": [
+      87,
+      232,
+      255
+    ]
+  },
+  "presentation": "clean_demo_mode",
+  "prompt": "A zero-gravity salvage field where the agent must touch four drifting crystals.",
+  "recipe": {
+    "fast_variant": true,
+    "variant_index": 2,
+    "variant_label": "CINEMATIC",
+    "variant_note": "same solved world with higher-energy demo styling"
+  },
+  "schema_version": "harness-alpha-visual-brief-v1",
+  "scores": {
+    "alien_biome": 0,
+    "asteroid_belt": 2,
+    "clockwork_chamber": 0,
+    "cornfield_maze": 0,
+    "cosmic_research": 2,
+    "crystal_cavern": 1,
+    "cyber_grid": 0,
+    "deep_space": 6,
+    "desert_ruins": 0,
+    "electric_substation": 0,
+    "hazard_arena": 0,
+    "ice_facility": 0,
+    "industrial_noir": 0,
+    "magnetic_lab": 0,
+    "mechanical_factory": 0,
+    "minimalist_sandbox": 0,
+    "orbital_station": 0,
+    "organic_maze": 0,
+    "overgrown_garden": 0,
+    "research_lab": 0,
+    "retro_arcade": 0,
+    "toxic_swamp": 0,
+    "training_sim": 0,
+    "underwater_lab": 0,
+    "volcanic_foundry": 0
+  },
+  "semantic_assets": [],
+  "semantic_context": {
+    "keywords": [
+      "field",
+      "goal",
+      "space"
+    ],
+    "object_names": [
+      "floor",
+      "ceiling",
+      "left_wall",
+      "right_wall",
+      "agent",
+      "crystal_1",
+      "crystal_2",
+      "crystal_3",
+      "crystal_4"
+    ],
+    "objective_type": "multi_target_touch",
+    "prompt": "A zero-gravity salvage field where the agent must touch four drifting crystals.",
+    "roles": [
+      "agent",
+      "goal",
+      "terrain"
+    ]
+  },
+  "semantic_props": [],
+  "shape_language": "technical_rectilinear",
+  "source": "inferred",
+  "surface_fx": [
+    "crt_vignette",
+    "procedural_noise"
+  ],
+  "visual_program": null
+}

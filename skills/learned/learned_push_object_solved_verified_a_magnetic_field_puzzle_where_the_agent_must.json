@@ -1,0 +1,200 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "push_contact",
+      "touch_contact",
+      "contact_trigger",
+      "environmental_force"
+    ],
+    "movement": "ground_force",
+    "notes": "Agent moves by physical force only; charged ball is pushable and is assisted by a constant-force magnetic zone."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: ball_distance_to_field_center, ball_inside_field_region, ball_distance_to_target_center, ball_inside_target_zone."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "agent_underpowered",
+      "ball_not_passively_stable",
+      "misaligned_push_lane",
+      "force_zone_misconfigured_or_too_weak",
+      "target_zone_not_sensor"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Push the charged ball into the magnetic force zone, then let the field carry it into the target zone.",
+    "objective_type": "push_object",
+    "progress_metrics": [
+      "ball_distance_to_field_center",
+      "ball_inside_field_region",
+      "ball_distance_to_target_center",
+      "ball_inside_target_zone"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "push_contact",
+      "environmental_force"
+    ],
+    "subgoals": [
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "charged_ball",
+        "region": "magnetic_region"
+      },
+      {
+        "effect": "field_advances_ball_toward_target",
+        "field": "magnetic_region",
+        "kind": "field_force_interaction",
+        "object": "charged_ball",
+        "target": "target_zone"
+      },
+      {
+        "interaction": "field_assisted",
+        "kind": "move_object_to_region",
+        "object": "charged_ball",
+        "region": "target_zone"
+      }
+    ],
+    "success_predicate": "charged_ball enters target_zone after being influenced by magnetic_region",
+    "targets": [
+      "charged_ball",
+      "magnetic_region",
+      "target_zone"
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "object_region_affordance",
+      "field_effect"
+    ]
+  },
+  "objective_type": "push_object",
+  "skill_id": "learned_push_object_solved_verified_a_magnetic_field_puzzle_where_the_agent_must",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\a_magnetic_field_puzzle_where_seed1_repair1_env.py",
+  "source_prompt": "A magnetic field puzzle where the agent must push a charged ball through a force zone into a target.",
+  "summary": "Push the charged ball into the magnetic force zone, then let the field carry it into the target zone. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "a",
+    "affordance",
+    "agent",
+    "ball",
+    "center",
+    "charged",
+    "contact",
+    "distance",
+    "effect",
+    "environmental",
+    "field",
+    "force",
+    "ground",
+    "inside",
+    "into",
+    "magnetic",
+    "must",
+    "normal",
+    "object",
+    "plan",
+    "push",
+    "puzzle",
+    "region",
+    "subgoal",
+    "target",
+    "the",
+    "through",
+    "to",
+    "where",
+    "zone"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "push_contact",
+      "touch_contact",
+      "contact_trigger",
+      "environmental_force"
+    ],
+    "movement": "ground_force",
+    "objective_type": "push_object",
+    "oracle": "subgoal_plan",
+    "progress_metrics": [
+      "ball_distance_to_field_center",
+      "ball_inside_field_region",
+      "ball_distance_to_target_center",
+      "ball_inside_target_zone"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "push_contact",
+      "environmental_force"
+    ],
+    "subgoals": [
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "charged_ball",
+        "region": "magnetic_region"
+      },
+      {
+        "effect": "field_advances_ball_toward_target",
+        "field": "magnetic_region",
+        "kind": "field_force_interaction",
+        "object": "charged_ball",
+        "target": "target_zone"
+      },
+      {
+        "interaction": "field_assisted",
+        "kind": "move_object_to_region",
+        "object": "charged_ball",
+        "region": "target_zone"
+      }
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "object_region_affordance",
+      "field_effect"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

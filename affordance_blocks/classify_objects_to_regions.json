@@ -1,0 +1,27 @@
+{
+  "block_id": "classify_objects_to_regions",
+  "version": "construction-kit-1.0",
+  "summary": "A sorting relation where multiple object classes must end in their matching named regions.",
+  "trigger_keywords": ["sort", "sorting", "separate", "classify", "red", "blue", "particles", "balls", "items", "bins", "basket", "matching", "groups"],
+  "abstract_relation": "classify_objects_to_regions",
+  "creates": ["typed dynamic objects", "matching sensor bins/regions", "class-to-region mapping", "per-class progress metrics"],
+  "constraints": [
+    "Declare explicit object name lists in the registry, e.g. self.red_particle_names and self.blue_particle_names.",
+    "Declare explicit region names, e.g. red_bin and blue_bin, and make bins sensor=True unless they are physical containers.",
+    "Do not use abstract targets like any_particle; every subgoal must reference concrete registered names or a deterministic list in check_objective.",
+    "For simple two-object sorting, Tier 5 can be required; for many particles or field-force sorting, Tier 4 progress may be honest until a stronger validator exists.",
+    "Use deterministic code-level truth: every red object is in red_bin and every blue object is in blue_bin, or measurable progress toward that condition."
+  ],
+  "composes_with": ["sensor_region", "stable_floor_support", "push_lane", "field_force_interaction"],
+  "validator_checks": [
+    "target_not_registered",
+    "move_object_to_region",
+    "subgoal_plan",
+    "progress_metrics"
+  ],
+  "repair_guidance": [
+    "If the validator sees abstract aliases, replace them with concrete object names or explicit registry lists.",
+    "If particles drift/fall, add stable support or switch to zero_g/field-force capability deliberately.",
+    "If the task has many particles, decompose into representative subgoals plus check_objective over all objects."
+  ]
+}

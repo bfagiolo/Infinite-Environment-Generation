@@ -1,0 +1,863 @@
+{
+  "Project_Constraints": {
+    "Base_Class": "BaseEnv",
+    "Required_Methods": ["__init__", "add_objects", "check_objective", "get_ground_truth"],
+    "Forbidden_Arguments": ["background_color", "seed", "angle", "debug_mode"]
+  },
+  "API_Reference": {
+    "create_static_box": {
+      "args": ["center", "size", "elasticity", "friction", "sensor", "name"],
+      "note": "To create tilted platforms, use segments. Do NOT use an 'angle' argument."
+    },
+    "create_dynamic_circle": {
+      "args": ["pos", "radius", "mass", "elasticity", "friction", "sensor", "name"]
+    },
+    "create_dynamic_box": {
+      "args": ["center", "size", "mass", "elasticity", "friction", "sensor", "name"],
+      "note": "Use this for dynamic planks, seesaws, levers, crates, and moving rectangular bodies."
+    },
+    "register_constraint": {
+      "args": ["type", "body_a", "body_b", "anchor_a", "anchor_b"]
+    },
+    "register_force_zone": {
+      "args": ["name", "center", "size", "force", "mode", "strength", "affected_names", "affected_roles", "falloff", "role", "metadata"],
+      "note": "Use this for magnetic fields, wind, conveyor/current regions, gravity wells, attraction, and repulsion. Do NOT override step() to implement field forces."
+    },
+    "create_pressure_plate": {
+      "args": ["name", "center", "size", "role", "elasticity", "friction", "metadata"],
+      "note": "Use this for pressure plates, buttons, switches, and trigger pads. It always creates a non-blocking sensor."
+    },
+    "create_horizontal_push_lane": {
+      "args": ["name", "agent_name", "object_name", "target_name", "agent_x", "object_x", "target_x", "lane_y", "agent_radius", "object_size", "object_mass", "object_friction", "target_size", "target_role", "target_kind", "support_thickness", "support_margin", "support_friction", "metadata"],
+      "note": "Use this for ground-based push/contact tasks. It creates stable support and aligns agent -> object -> target on one horizontal lane."
+    },
+    "create_pressure_plate_gate_corridor": {
+      "args": ["name", "agent_name", "object_name", "plate_name", "gate_name", "goal_name", "mechanism_name", "agent_x", "object_x", "plate_x", "gate_x", "goal_x", "lane_y", "agent_radius", "object_size", "object_mass", "object_friction", "plate_size", "gate_size", "goal_size", "support_margin", "metadata"],
+      "note": "Use this for push-box-onto-plate-to-open-gate-and-reach-goal tasks. It composes the stable push lane, passable gate mechanism, and final goal corridor."
+    },
+    "create_field_push_lane": {
+      "args": ["name", "agent_name", "object_name", "field_name", "target_name", "agent_x", "object_x", "field_x", "target_x", "lane_y", "agent_radius", "object_radius", "object_mass", "object_friction", "field_size", "target_size", "force", "mode", "strength", "support_thickness", "support_margin", "metadata"],
+      "note": "Use this for prompts where the agent must push a ball/object into a magnetic/wind/current/force zone and then into a target."
+    },
+    "create_strike_shot_lane": {
+      "args": ["name", "agent_name", "object_name", "target_name", "agent_x", "object_x", "target_x", "lane_y", "agent_radius", "object_radius", "object_mass", "object_friction", "object_elasticity", "target_size", "support_thickness", "support_margin", "support_friction", "goal_post_thickness", "metadata"],
+      "note": "Use this for soccer, hockey, pinball, kick, shoot, strike, slam, or score prompts where a light round object should travel through a goal/target sensor."
+    },
+    "create_ballistic_hoop_challenge": {
+      "args": ["name", "agent_name", "object_name", "target_name", "agent_pos", "object_pos", "target_center", "agent_radius", "object_radius", "object_mass", "object_friction", "object_elasticity", "target_size", "support_thickness", "support_margin", "support_friction", "metadata"],
+      "note": "Use this for straightforward throw/lob/hoop/arcing projectile tasks. It creates a stable floor, dynamic projectile, generous elevated non-blocking target sensor, and readable hoop visuals."
+    },
+    "create_ballistic_barrier_goal_challenge": {
+      "args": ["name", "agent_name", "object_name", "barrier_name", "target_name", "agent_pos", "object_pos", "barrier_center", "barrier_size", "target_center", "agent_radius", "object_radius", "object_mass", "object_friction", "object_elasticity", "target_size", "support_thickness", "support_margin", "support_friction", "metadata"],
+      "note": "Use this for kick/throw/lob/launch object over a wall/barrier/defender into a goal or target sensor. It creates stable support, a real solid barrier, a dynamic object, and non-blocking goal visuals."
+    },
+    "create_support_exit_freefall_challenge": {
+      "args": ["name", "agent_name", "object_name", "boundary_name", "drop_zone_name", "agent_x", "object_x", "edge_x", "lane_y", "agent_radius", "object_radius", "object_mass", "object_friction", "support_thickness", "support_margin", "drop_height", "metadata"],
+      "note": "Use this for straightforward push/roll object off cliff/edge/mountain/ledge tasks. It creates stable support, real edge boundary sensor, open drop zone, dynamic object, and agent staging."
+    },
+    "create_recurring_falling_hazards": {
+      "args": ["name", "count", "lane_xs", "spawn_y", "bottom_y", "radius", "mass", "speed_y", "phase_gap_steps", "role", "name_prefix", "elasticity", "friction", "sensor", "metadata"],
+      "note": "Use this for falling/raining/dropping hazards that should continue with staggered timing. It creates dynamic hazard bodies and BaseEnv-managed reset/release behavior. Default sensor=True keeps hazards from piling up on terrain while still exposing deterministic hazard state."
+    },
+    "create_recurring_lateral_hazards": {
+      "args": ["name", "count", "lane_y", "spawn_x", "exit_x", "size", "mass", "speed_x", "phase_gap_steps", "role", "name_prefix", "elasticity", "friction", "sensor", "metadata"],
+      "note": "Use this for side-view cars, trains, traffic, rolling logs, or vehicles that come endlessly/sequentially across a ground lane. Use sensor=True and latch failure with overlap/proximity state; this keeps hazards from being blocked by side walls while still making them real prompt threats. It creates dynamic lane-locked hazard bodies and BaseEnv-managed reset/release behavior so hazards move horizontally and do not fall off-screen."
+    },
+    "create_readable_chaser": {
+      "args": ["name", "pos", "target_name", "radius", "mass", "force_strength", "max_speed", "stop_radius", "axis", "role", "elasticity", "friction", "sensor", "metadata"],
+      "note": "Use this for chase/pursuit prompts such as bears, enemies, ghosts, or angry agents pursuing the player. It creates a dynamic chaser and BaseEnv-managed bounded pursuit toward target_name. Use axis='x' for side-view ground chasers and axis='xy' for top-down/zero-g pursuers."
+    },
+    "register_readable_chaser": {
+      "args": ["name", "chaser", "target", "force_strength", "max_speed", "stop_radius", "axis", "metadata"],
+      "note": "Use this only when you already created a dynamic chaser object and want BaseEnv-managed pursuit. Prefer create_readable_chaser for first-pass generations."
+    },
+    "register_pressure_plate_gate": {
+      "args": ["name", "trigger", "gate", "activator", "activation_distance", "open_mode", "metadata"],
+      "note": "Use this for pressure-plate or button mechanisms that make a gate, door, or barrier passable. Do NOT invent collision-handler callbacks."
+    }
+  },
+  "Global_Variables": ["self.width", "self.height", "self.space", "self.agent", "self.time", "self.step_count", "self.dt", "self.rng"],
+  "Read_Only_Global_Variables": ["self.time", "self.step_count", "self.dt", "self.rng"],
+  "Force_Zone_Model": {
+    "Purpose": "Sanctioned BaseEnv primitive for deterministic environmental forces without overriding step().",
+    "Helper": "register_force_zone",
+    "Allowed_Modes": ["constant", "attract", "repel"],
+    "Rules": [
+      "Use register_force_zone for prompts involving magnetic, wind, conveyor, current, gravity-well, attraction, or repulsion effects.",
+      "Force zones are non-blocking sensor regions and are exported in get_ground_truth()['force_zones'].",
+      "Set affected_names when only specific objects should be influenced, e.g. ['charged_ball'].",
+      "Use mode='constant' with a force vector for wind/current/conveyor-like effects.",
+      "Use mode='attract' or mode='repel' with strength for magnetic or gravity-well effects.",
+      "Never override step() or directly mutate object positions/velocities to simulate a field."
+    ]
+  },
+  "Mechanism_Model": {
+    "Purpose": "Sanctioned BaseEnv primitive for deterministic trigger/gate mechanics without generated collision callbacks.",
+    "Helpers": ["create_horizontal_push_lane", "create_pressure_plate", "register_pressure_plate_gate", "is_mechanism_activated", "is_object_on_trigger"],
+    "Rules": [
+      "Use create_pressure_plate_gate_corridor for push-box-onto-plate-to-open-gate-and-reach-goal tasks.",
+      "Use create_horizontal_push_lane for simpler ground-based push-contact subtasks before layering other mechanics around it.",
+      "Use create_pressure_plate for any pressure plate, button, switch, trigger pad, or floor sensor.",
+      "Use register_pressure_plate_gate when a plate/button/switch opens a gate, door, barrier, lock, or path blocker.",
+      "The activator must be a registered dynamic object name or list of names, such as 'blue_box'.",
+      "The gate must be registered before register_pressure_plate_gate is called.",
+      "check_objective should call is_mechanism_activated('mechanism_name') instead of mutating the gate state itself.",
+      "Do not use add_collision_handler, on_collision, or custom collision callback APIs for plate/gate tasks.",
+      "For compound plate/gate tasks, subgoals should be move_object_to_region -> activate_mechanism -> agent_reach_region."
+    ],
+    "Canonical_Subgoals": [
+      {"kind": "move_object_to_region", "object": "blue_box", "region": "pressure_plate", "interaction": "push_contact"},
+      {"kind": "activate_mechanism", "trigger": "pressure_plate", "effect": "gate_open", "mechanism": "gate_mechanism"},
+      {"kind": "agent_reach_region", "target": "goal"}
+    ]
+  },
+  "Field_Push_Lane_Model": {
+    "Purpose": "Sanctioned primitive for push-object-into-force-field tasks.",
+    "Helper": "create_field_push_lane",
+    "Rules": [
+      "Use create_field_push_lane for magnetic, wind, current, conveyor, attraction, or repulsion tasks where the agent first pushes an object into the field.",
+      "The helper creates stable support, the dynamic affected object, the force zone, the final target sensor, and the agent.",
+      "The field_name in objective_profile subgoals must match the helper's field_name.",
+      "The target_name in objective_profile subgoals must match the helper's target_name."
+    ]
+  },
+  "Strike_Shot_Model": {
+    "Purpose": "Sanctioned primitive for kick/strike/shoot/score tasks where the agent transfers impulse to a light round object.",
+    "Helper": "create_strike_shot_lane",
+    "Rules": [
+      "Use create_strike_shot_lane for flat/grounded soccer, hockey, pinball, billiards, kicking, shooting, striking, slamming, scoring, or ball-through-goal prompts.",
+      "Do NOT force create_strike_shot_lane for throw/lob/hoop/arcing projectile prompts. Use ballistic_object_to_region and a generous elevated sensor target instead.",
+      "Declare a strike_object_to_region subgoal with concrete object and region names.",
+      "The ball/object should be dynamic, round, low-friction, lighter than the agent, and passively stable on a floor/lane before contact.",
+      "The target should be a non-blocking sensor goal mouth/line, with visual posts outside the direct shot corridor.",
+      "Keep the shot lane short and aligned: agent -> ball -> goal. Avoid placing posts, walls, or decorative blockers between the ball center and goal sensor.",
+      "This is not a crate push. Prefer clear impulse transfer and follow-through over long slow pushing.",
+      "check_objective should use a generous sensor-aligned threshold, usually 65-80 px for a wide goal mouth, instead of pixel-perfect line crossing."
+    ],
+    "Canonical_Subgoals": [
+      {"kind": "agent_touch_object", "object": "soccer_ball"},
+      {"kind": "strike_object_to_region", "object": "soccer_ball", "region": "goal_line", "interaction": "kick_contact"}
+    ]
+  },
+  "Ballistic_Hoop_Model": {
+    "Purpose": "Sanctioned primitive for straightforward throw/lob/hoop/arcing projectile tasks.",
+    "Helper": "create_ballistic_hoop_challenge",
+    "Rules": [
+      "Use create_ballistic_hoop_challenge for simple basketball/hoop/lob/throw prompts unless the prompt explicitly requires unusual geometry.",
+      "Declare a ballistic_object_to_region subgoal with concrete object and region names matching the helper's object_name and target_name.",
+      "The target must be a generous non-blocking sensor; rim/backboard visuals must not block every feasible arc.",
+      "The projectile should begin within 340 px of the target and close enough to the agent for contact/impulse transfer.",
+      "check_objective must become true when the projectile enters the target sensor or reaches a generous proximity threshold such as distance_between(object, target) <= touch_threshold + 70.",
+      "Do not add hidden scoring requirements such as downward-only crossing, exact rim plane crossing, possession state, or separate score_zone unless the prompt explicitly asks for those details."
+    ],
+    "Canonical_Subgoals": [
+      {"kind": "agent_touch_object", "target": "basketball"},
+      {"kind": "ballistic_object_to_region", "object": "basketball", "region": "hoop", "interaction": "impulse_transfer"}
+    ]
+  },
+  "Ballistic_Barrier_Goal_Model": {
+    "Purpose": "Sanctioned primitive for kicking/throwing/lobbing an object over a wall/barrier into a goal sensor.",
+    "Helper": "create_ballistic_barrier_goal_challenge",
+    "Rules": [
+      "Use create_ballistic_barrier_goal_challenge for prompts like kick ball over wall into goal, lob object over barrier, or launch projectile over defender into target.",
+      "Declare a ballistic_object_to_region subgoal with concrete object and region names matching the helper's object_name and target_name.",
+      "The barrier is the only required solid blocker between object and target; avoid adding rails, ramps, ceiling traps, or extra posts that can pin the object.",
+      "Goal posts and nets should be sensor=True or visual-only; the target sensor is the code-level objective.",
+      "Keep object-to-region distance validator-friendly, usually <= 300 px for over-wall goals, and keep object mass/friction low enough for a visible impulse arc.",
+      "If check_objective requires ball_max_y, crossed_wall, or clearance state, semantic_requirements must include ballistic_arc_required with matching object/barrier/region names.",
+      "Validator-friendly first-pass values: barrier height <= 105 px, clearance_margin around 35 px, target_size at least 180x160, and all goal-frame visuals sensor=True."
+    ],
+    "Canonical_Subgoals": [
+      {"kind": "agent_touch_object", "target": "soccer_ball"},
+      {"kind": "ballistic_object_to_region", "object": "soccer_ball", "region": "goal_line", "interaction": "lob_kick_over_barrier"}
+    ]
+  },
+  "Support_Exit_Freefall_Model": {
+    "Purpose": "Sanctioned primitive for pushing/rolling an object across a support boundary so it visibly falls.",
+    "Helper": "create_support_exit_freefall_challenge",
+    "Rules": [
+      "Use create_support_exit_freefall_challenge for simple push/roll object off cliff/edge/mountain/ledge prompts unless the prompt explicitly requires unusual terrain.",
+      "Declare a support_exit_freefall subgoal with concrete object, boundary, and region names matching the helper.",
+      "The boundary must be a non-blocking sensor aligned with the real visible edge, not a placeholder at (0, 0).",
+      "The object must start passively stable on support and within 220 px of the boundary.",
+      "check_objective must require the object to cross the boundary and then fall downward or enter the open-air/drop-zone sensor.",
+      "Do not add extra landing/base/bottom success regions unless the prompt explicitly asks for a landing target; the support_exit_freefall relation is the objective.",
+      "When using the helper, do not add extra solid slope/mountain/outcrop/ledge/cliff geometry around the playable path. Extra themed scenery must be sensor=True or visual-only."
+    ],
+    "Canonical_Subgoals": [
+      {"kind": "support_exit_freefall", "object": "rock", "boundary": "cliff_edge_boundary", "region": "open_air_drop_zone", "min_downward_velocity": 40, "min_fall_distance": 90}
+    ]
+  },
+  "Projectile_Combat_Model": {
+    "Purpose": "Semantic guardrail for spaceship/laser/bullet/missile/turret shooting prompts.",
+    "Rules": [
+      "Projectile combat shots are hazards or weapon-fire dynamics, not soccer-style strike/shot tasks.",
+      "If the prompt says spaceships, lasers, bullets, missiles, turrets, cannons, or enemy shots, do NOT use create_strike_shot_lane and do NOT declare strike_object_to_region unless the prompt explicitly asks for kicking/throwing/striking a ball/object into a target.",
+      "Register enemy shots as dynamic role='hazard' objects with nonzero velocity, bounded after_step force, or force-zone motion.",
+      "At least one projectile hazard must be active immediately or within the first 30 simulation steps and travel at least 120 px during passive headless simulation.",
+      "If a projectile pool is used, inactive parked pool bodies must not match semantic_requirements by role/name; otherwise the semantic probe measures parked bodies instead of active shots.",
+      "Prefer simple reusable enemy_shot_* bodies that reset to enemy/spawn positions after leaving bounds.",
+      "For survival/dodge prompts, first-pass projectile arenas must be validator-friendly: prefer stationary perimeter turrets or very slow enemy ships, cap active projectiles at 4-6, use projectile radius <= 0.25 * agent_radius, use speed around 0.35-0.45 * agent_max_speed, include at least 2.5 seconds of warmup, and leave open dodge lanes.",
+      "Declare every projectile timer, counter, and initial-shot flag in the mandatory __init__ registry before add_objects or after_step uses it.",
+      "Separate shooters from shots: enemy spaceships/turrets should use role='enemy' or role='chaser'; projectile bodies should use role='hazard' and names/metadata containing shot, laser, projectile, or bolt.",
+      "Use survival/avoidance/navigation subgoals such as survive_duration and agent_reach_region, plus progress metrics like survival_steps, min_distance_to_projectile, and distance_to_exit.",
+      "In zero-g or space contexts, keep zero gravity and move projectiles with initial velocity or force zones rather than changing the whole world to normal gravity."
+    ]
+  },
+  "Recurring_Hazard_Model": {
+    "Purpose": "Sanctioned primitive for continuous/staggered falling hazards without custom generated timers.",
+    "Helper": "create_recurring_falling_hazards",
+    "Rules": [
+      "Use create_recurring_falling_hazards for falling fireballs, raining rocks, dropping hazards, meteor showers, and other repeated vertical hazards.",
+      "Do not drop all hazards once at the same time when the prompt implies a game-like hazard pattern.",
+      "Hazard bodies should have role='hazard' and semantic_requirements should declare dynamic_hazard_motion with motion='falling'.",
+      "Leave sensor=True for dodge/survival hazards unless the prompt explicitly requires solid falling objects.",
+      "Use lane_xs to place hazards over the play route while preserving fair dodge windows.",
+      "Use phase_gap_steps to stagger release timing.",
+      "Do not override step() for recurring hazards; BaseEnv manages release/reset behavior."
+    ]
+  },
+  "Recurring_Lateral_Hazard_Model": {
+    "Purpose": "Sanctioned primitive for continuous/staggered side-scroller hazards such as cars, trains, rolling logs, or traffic.",
+    "Helper": "create_recurring_lateral_hazards",
+    "Rules": [
+      "Use create_recurring_lateral_hazards for prompts where hazards come endlessly, sequentially, drive, roll, cross, or approach along the ground.",
+      "Use sensor=True for these hazards and implement contact failure by overlap/proximity logic in check_objective; do not make the stream depend on solid car-vs-wall collision.",
+      "Hazards must move horizontally through the agent lane and reset after exiting the world; do not spawn a single one-shot hazard unless the prompt explicitly says single obstacle.",
+      "Cars/trains/vehicles must be lane-locked with minimal vertical drift. They should not fall off-screen, drop through the floor, be blocked by side walls, or rely on fragile custom after_step code.",
+      "For jumping-over hazards, keep the ground/support continuous and set lane_y so the car bottom visually rides on the road/floor.",
+      "Semantic requirements should declare dynamic_hazard_motion with axis='x' or motion='moving', and anti_cheat_profile should require active_threat_engagement with motion='lateral'."
+    ]
+  },
+  "Object_Model": {
+    "self.agent": "ObjectRecord for the object registered with role='agent'. It is not a Pymunk Body.",
+    "ObjectRecord.position": "Invalid. ObjectRecord has no direct position property.",
+    "ObjectRecord.body.position": "Valid Pymunk Vec2d position access.",
+    "get_object(name)": "Returns an ObjectRecord. Use get_object(name).body.position for coordinates.",
+    "distance_between(first, second)": "Preferred helper for touch/proximity objectives between registered object names.",
+    "Name_Tracking_Rule": "Store registered object names in registry lists/sets such as self.rock_names, not ObjectRecord, Body, Shape, or raw position objects.",
+    "Forbidden_Access_Patterns": [
+      "self.objects",
+      "self.agent.position",
+      "self.get_object(name).position",
+      "record.position"
+    ],
+    "Preferred_Access_Patterns": [
+      "self.agent.body.position",
+      "self.get_object(name).body.position",
+      "self.distance_between('agent', name)",
+      "for rock_name in self.rock_names"
+    ]
+  },
+  "Mandatory_Definitions": {
+    "In_Init": [
+      "self.objective_type = 'navigation_goal'",
+      "self.objective_targets = []",
+      "self.objective_profile = {...}",
+      "self.capability_profile = {...}",
+      "self.physics_relations = {...}",
+      "self.layout_plan = {...}",
+      "self.semantic_requirements = []",
+      "self.anti_cheat_profile = []",
+      "self.layout = {...}",
+      "self.agent_radius = 15",
+      "self.agent_strength = 2500",
+      "self.touch_threshold = 20"
+    ]
+  },
+  "Layout_Registry": {
+    "Purpose": "A repairable numeric state registry used by deterministic auto-repair for small physics and geometry corrections.",
+    "Required": true,
+    "Rules": [
+      "Every generated environment should define self.layout in __init__ before add_objects or reset.",
+      "Store object positions, region centers, sizes, masses, friction values, thresholds, and durations in self.layout whenever practical.",
+      "add_objects should read from self.layout instead of scattering important numeric literals through the method.",
+      "The auto-repair layer may patch self.layout values for measured local failures such as unstable movable objects, overlong push distances, small sensors, or survival-duration horizon mismatches.",
+      "Do not store Pymunk Body, Shape, ObjectRecord, or Vec2d instances in self.layout. Use JSON-like primitives only."
+    ],
+    "Recommended_Keys": [
+      "agent_start",
+      "goal_center",
+      "goal_size",
+      "push_object_start",
+      "target_region_center",
+      "target_region_size",
+      "push_object_mass",
+      "push_object_friction",
+      "required_survival_steps",
+      "hazard_spawn_positions",
+      "safe_region_center",
+      "safe_region_size"
+    ]
+  },
+  "Layout_Plan": {
+    "Purpose": "Optional but recommended route-aware spatial skeleton produced before code generation. It gives the Architect start/goal/route/mechanism placement so initial worlds are possible before cosmetic complexity is added.",
+    "Required_When_Provided": true,
+    "Registry_Field": "self.layout_plan",
+    "Export_Path": "get_ground_truth()['objective']['layout_plan']",
+    "Common_Fields": [
+      "layout_type",
+      "route_model",
+      "start",
+      "goal",
+      "critical_path_points",
+      "critical_path_cells",
+      "protected_zones",
+      "construction_rules",
+      "validation_checks",
+      "repair_knobs"
+    ],
+    "Rules": [
+      "If a ROUTE-AWARE LAYOUT PLAN is included in the prompt, the generated environment must define self.layout_plan in __init__ and export it in get_ground_truth.",
+      "self.layout must copy the plan's concrete positions, route points/cells, sensor sizes, hazard lanes, mechanism lanes, support edges, and protected zones into repairable JSON-like values.",
+      "Build the guaranteed route or mechanism skeleton before adding obstacles, enemies, hazards, decorative props, or theme geometry.",
+      "No solid static geometry may overlap protected zones, goal sensors, trigger sensors, or the critical path corridor. Use sensor=True or visual-only/non-blocking objects for props inside protected zones.",
+      "For maze_escape_route, carve critical_path_cells and branch_cells first, then rasterize walls around the open cells.",
+      "For hazard_escape_route, create the safe corridor/support plan first, then add recurring or crossing hazards that threaten the route without permanently blocking it.",
+      "For push_gate_corridor, keep agent -> movable object -> trigger -> gate -> goal ordered and aligned unless the plan explicitly says otherwise.",
+      "For ballistic_arc_lane, keep the target sensor non-blocking and maintain clear arc space from object to target.",
+      "For support_exit_lane, make the support physically end at the boundary and leave the drop zone open."
+    ]
+  },
+  "Gameplay_Profile": {
+    "Purpose": "Optional run-level game-feel contract produced by the Gameplay Architect. It describes cadence, readable motion, fairness, and visual/interactive expectations without replacing objective_profile or check_objective.",
+    "Required_When_Provided": true,
+    "World_Context": {
+      "Purpose": "Prompt-level interpretation of the world perspective and movement assumptions before code generation.",
+      "Fields": {
+        "world_perspective": "side_view_platformer, top_down_or_flat_floor, zero_g_freeflight, or ground_lane_physics.",
+        "gravity_model": "normal, zero_g, low_g, high_g, or custom.",
+        "movement_model": "ground_force, thrust_2d, jump, or another declared capability.",
+        "support_assumption": "Whether the agent/objects require floor, ramp, stair, ledge, full-floor, or no support.",
+        "route_assumption": "How start, route, and goal should be staged.",
+        "rationale": "Why this context was inferred from the prompt."
+      },
+      "Rules": [
+        "Explicit user physics constraints override genre defaults. If the prompt says zero gravity, no gravity, low gravity, high gravity, normal gravity, or with gravity, the Architect must preserve that requested gravity model.",
+        "A normally grounded theme can still be zero_g_freeflight when the user explicitly requests zero/no gravity. A space-themed world can still use normal gravity when the user explicitly requests normal/earth gravity.",
+        "Lava/cave/platform/escape/top-right/falling-hazard prompts usually imply side_view_platformer with normal gravity and reachable ramps/stairs/ledges.",
+        "Zero-g/space/asteroid/orbit/floating/drifting prompts imply zero_g_freeflight with thrust_2d.",
+        "Maze/room/arena/Pacman prompts usually imply top_down_or_flat_floor unless explicit platformer or falling-hazard cues are present. In Pymunk this can be implemented as normal gravity plus full-floor support, or zero gravity only when the prompt implies free top-down motion.",
+        "If zero/low gravity is explicitly requested together with falling/raining/dropping hazards, keep the requested world gravity and create the hazard motion with downward velocity or a downward force zone instead of changing the whole world back to normal gravity.",
+        "The Architect must make EnvConfig.gravity, capability_profile, support geometry, and objective placement consistent with world_context."
+      ]
+    },
+    "Rules": [
+      "If a GAMEPLAY ARCHITECT PROFILE is provided in the prompt, define self.gameplay_profile in the mandatory __init__ registry.",
+      "Export self.gameplay_profile from get_ground_truth()['objective']['gameplay_profile'].",
+      "Do not use gameplay_profile to lower the objective tier or weaken check_objective.",
+      "Gameplay dynamics must be implemented as deterministic simulation behavior, not only visual decoration.",
+      "Use after_step(self) with no dt argument, registry timers, phase offsets, reset positions, and BaseEnv helpers where appropriate."
+    ],
+    "Common_Dynamics": {
+      "recurring_falling_hazard": [
+        "Create dynamic role='hazard' bodies above the play area.",
+        "Use staggered phase offsets so hazards do not all fall at the same time.",
+        "Reset hazards to the top after they exit below the world.",
+        "Keep hazards unsupported by shelves/platforms and ensure gravity or downward force makes them visibly fall.",
+        "Preserve readable dodge windows and at least one fair safe lane."
+      ],
+      "heavy_but_movable_push": [
+        "Tune object mass, friction, lane alignment, and self.agent_strength so the pushed object moves visibly under agent force.",
+        "Use stable support and guide rails without pinning the object.",
+        "Prefer sanctioned push-lane helpers for ground-based contact tasks."
+      ],
+      "readable_chaser": [
+        "Prefer create_readable_chaser after the agent is created so pursuit is BaseEnv-managed and validator-visible.",
+        "Use deterministic pursuit motion with bounded speed.",
+        "Leave escape corridors and avoid unavoidable starting contact.",
+        "For top-down/maze chases, use zero vertical gravity or stable support so the chaser moves toward the agent instead of falling away."
+      ]
+    }
+  },
+  "Objective_Profile": {
+    "Purpose": "A stable, machine-readable task contract generated for every environment. check_objective() remains the source of truth; the profile explains how to validate and repair it.",
+    "Required_Fields": {
+      "objective_type": "One of Objective_Types.Allowed. Use custom_physics for novel tasks that do not fit a known validator skill.",
+      "objective_description": "Plain-language description of the physical task.",
+      "success_predicate": "Plain-language or Python-like description of the state condition check_objective() enforces.",
+      "targets": "List of registered object names or named regions used by check_objective().",
+      "required_capabilities": "List of capabilities the agent must have to attempt the task.",
+      "progress_metrics": "List of measurable state signals that indicate partial progress.",
+      "subgoals": "Ordered list of generic objective predicates. The validator must use these before objective_type routing.",
+      "validator_skills": "List of validator skill names to try before generic probes.",
+      "failure_modes": "List of expected failure classes useful for targeted repair.",
+      "minimum_acceptance_tier": "Integer 3-5. Simple known tasks usually require 5; novel or mechanism tasks may start at 4."
+    },
+    "Required_Init_Template": {
+      "objective_type": "navigation_goal",
+      "objective_description": "Describe the task.",
+      "success_predicate": "Describe the state predicate checked by check_objective().",
+      "targets": [],
+      "required_capabilities": [],
+      "progress_metrics": [],
+      "subgoals": [],
+      "validator_skills": [],
+      "failure_modes": [],
+      "minimum_acceptance_tier": 5
+    },
+    "Subgoal_Model": {
+      "Purpose": "A general decomposition of the objective into ordered, reusable physical predicates. This is the validator's primary plan; objective_type is only a fallback.",
+      "Allowed_Kinds": {
+        "agent_reach_region": "Move the agent to a named object/region such as a goal, exit, checkpoint, or zone.",
+        "agent_touch_object": "Move the agent until it contacts or approaches a named object.",
+        "move_object_to_region": "Use physical contact to move a named dynamic object into a named region.",
+        "low_friction_slide_to_region": "Slide a dynamic object along a stable low-friction lane into a named region.",
+        "strike_object_to_region": "Strike, kick, shoot, or slam a light dynamic object through a named target/goal region.",
+        "ballistic_object_to_region": "Impart impulse to a dynamic object so it follows a gravity/field trajectory into a named region, e.g. throwing a ball into a hoop.",
+        "support_exit_freefall": "Move an object across a support boundary so it becomes unsupported and visibly falls/exits under gravity.",
+        "classify_objects_to_regions": "Move or influence multiple object classes into their matching named regions.",
+        "bounce_to_target": "Use elastic contact or ricochet behavior to hit a named target.",
+        "field_force_interaction": "Use deterministic bounded environmental forces such as magnetic, wind, conveyor, gravity-well, attraction, or repulsion effects.",
+        "lever_launch": "Use a pivoting plank/lever and a weight or impact object to produce rotation, lift, or launch progress.",
+        "activate_mechanism": "Change a named mechanism state through a physical trigger, such as a plate, lever, gate, or button.",
+        "survive_duration": "Maintain a valid/safe state for a duration.",
+        "maintain_balance": "Keep an angle, height, distance, or velocity condition inside a threshold."
+      },
+      "Examples": [
+        {
+          "kind": "move_object_to_region",
+          "object": "blue_box",
+          "region": "pressure_plate",
+          "interaction": "push_contact",
+          "success_metric": "distance(blue_box, pressure_plate)"
+        },
+        {
+          "kind": "activate_mechanism",
+          "trigger": "pressure_plate",
+          "effect": "gate_open"
+        },
+        {
+          "kind": "agent_reach_region",
+          "target": "goal"
+        }
+      ]
+    },
+    "Affordance_Rules": {
+      "Purpose": "Pre-rollout checks that determine whether a declared subgoal is physically reasonable for the generic validator before spending simulation steps.",
+      "move_object_to_region": [
+        "The moved object must be dynamic.",
+        "The target region should be non-blocking sensor geometry when it represents a plate, switch, zone, goal, checkpoint, or trigger.",
+        "Place agent -> object -> region roughly collinear; recommended alignment angle <= 35 degrees.",
+        "Keep object-to-region start distance <= 140 px unless a visible guide, rail, ramp, or mechanism assists the motion.",
+        "Keep agent-to-object start distance <= 220 px for the first push.",
+        "Avoid solid static blockers between the object and region."
+      ],
+      "strike_object_to_region": [
+        "The struck object must be dynamic, round, light, and low-friction.",
+        "The target region must be a non-blocking sensor goal/line/zone.",
+        "Place agent -> object -> region nearly collinear; recommended alignment angle <= 25 degrees.",
+        "Keep agent-to-object distance <= 170 px and object-to-region distance <= 260 px.",
+        "Keep visual posts or walls outside the direct center-line shot path."
+      ],
+      "agent_touch_object_or_reach_region": [
+        "Keep the first target reasonably staged or provide a clear corridor.",
+        "Targets and checkpoints that only measure state should use sensor=True.",
+        "For elevated exits under normal gravity, provide a continuous ramp, stair, or ledge route and place the exit sensor on the final reachable lane.",
+        "For lava/escape worlds with falling hazards, keep decorative columns, ledges, platforms, cliffs, and arches outside the start-to-exit route or make them sensor/visual-only."
+      ]
+    },
+    "Rules": [
+      "self.objective_type MUST equal self.objective_profile['objective_type'].",
+      "self.objective_targets MUST equal self.objective_profile['targets'].",
+      "Every target name in self.objective_profile['targets'] must correspond to a registered object or named region.",
+      "self.objective_profile['subgoals'] MUST decompose the success_predicate into ordered generic physical predicates.",
+      "For compound tasks, do not rely on objective_type alone. Encode each required step as a subgoal.",
+      "check_objective() must be a pure state predicate. It must not apply forces, impulses, mutate positions, mutate velocities, or trigger one-shot physics effects.",
+      "check_objective() must reference real physical state, tracked registry variables, or collision state. It must not return a constant.",
+      "Use objective_type as a routing hint, not as the full objective definition."
+    ]
+  },
+  "Physics_Relation_Graph": {
+    "Purpose": "Composable mechanic-level source of truth. It describes physical relations such as contact_push, impulse_transfer, support_boundary_exit, freefall_after_support_exit, ballistic_arc_to_region, field_force_transfer, hazard_motion, and agent_reaches_region. It is not a template catalog.",
+    "Required_When_Provided": true,
+    "Rules": [
+      "If provided by the harness, generated environments must define self.physics_relations in __init__ and export it in get_ground_truth()['objective']['physics_relations'].",
+      "objective_profile['subgoals'] should be the executable projection of physics_relations['relations'] or physics_relations['suggested_subgoals'].",
+      "physics_relations['physical_parameters'] is the physical-property contract. Generated worlds must align mass, friction, restitution, damping, gravity, slope, clearance, impulse, and field strength with it.",
+      "physics_relations['repair_knobs'] lists the numeric/layout parameters that deterministic repair may change. Store matching values in self.layout whenever practical.",
+      "Each relation may include parameter_constraints. Generated Pymunk bodies/shapes must satisfy those constraints directly, not only describe them in metadata.",
+      "If a relation lists repair_knobs, expose those knobs as JSON-like self.layout entries or derive them from named self.layout entries. Deterministic repair cannot tune hidden literals.",
+      "Helpers such as create_horizontal_push_lane or create_strike_shot_lane are optional constructors, not conceptual limits. If a helper conflicts with the relation graph, use lower-level BaseEnv primitives.",
+      "Every object, boundary, region, field, or target named by physics_relations.suggested_subgoals must be registered at the real physical event location; never leave relation targets as placeholder records at (0, 0).",
+      "For support_exit_freefall, the boundary must be a non-blocking sensor aligned with the visible cliff/ledge/support edge, and the object should start stable on support within 220 px of that boundary.",
+      "For ballistic_object_to_region, the region must be a generous non-blocking sensor at the real hoop/rim/goal opening, and the projectile should start within 340 px with clear arc space.",
+      "Repair feedback should target the failed relation and preserve already-passing relations."
+    ],
+    "Core_Relations": {
+      "contact_push": "Actor contacts an object and applies force/impulse that changes the object's motion.",
+      "impulse_transfer": "Actor/object collision imparts a velocity change to another object.",
+      "ballistic_arc_to_region": "A dynamic object follows an arcing trajectory under gravity/field into a region.",
+      "support_boundary_exit": "An object crosses the true end of support, such as a cliff lip or platform edge.",
+      "freefall_after_support_exit": "After support exit, an object has downward velocity/displacement in open space.",
+      "field_force_transfer": "A registered force zone changes an object's trajectory.",
+      "hazard_motion": "Hazards move through the world with deterministic visible motion.",
+      "agent_reaches_region": "Agent reaches a named region through allowed controls."
+    }
+  },
+  "Physical_Parameter_Layer": {
+    "Purpose": "Reusable low-level physics vocabulary that explains why a relation is possible, not just what task label it resembles.",
+    "Core_Parameters": {
+      "mass": "Dynamic object mass. Used to tune pushability, impulse transfer, and heavy/light object semantics.",
+      "friction": "Shape friction. Used to distinguish pushable crates, rolling balls, icy ramps, sticky surfaces, and grounded agent traction.",
+      "elasticity": "Restitution/bounciness. Used for balls, bumpers, ricochets, and lively but stable impacts.",
+      "damping": "Linear/angular damping. Used for stability, heavy feel, and preventing infinite jitter.",
+      "gravity": "World acceleration or force-zone equivalent. Used for falling, ballistic arcs, ramps, and support exits.",
+      "slope_angle": "Ramp or surface angle. Used for slide/roll/downhill affordances.",
+      "clearance_margin": "Vertical or lateral margin needed for barrier clearance and passable routes.",
+      "impulse_magnitude": "Measured or expected momentum transfer from contact/strike/throw.",
+      "contact_normal": "Direction of contact force; used to diagnose pushing sideways or into blockers.",
+      "field_strength": "Magnitude of registered force zones such as wind, magnetic, current, gravity-well, attraction, and repulsion."
+    },
+    "Rules": [
+      "Every generated environment should store important physical parameters in self.layout, not as scattered magic numbers.",
+      "Generated environments should expose relation-level repair knobs in self.layout: object_start, target_center, target_size, object_mass, object_friction, object_elasticity, support_friction, barrier_height, barrier_size, hazard_speed_y, phase_gap_steps, field_strength, gravity, clearance_margin, and agent_strength when relevant.",
+      "Do not store Pymunk Body, Shape, ObjectRecord, Vec2d, or callback objects in self.layout. Use plain numbers, strings, booleans, tuples, lists, and dicts only.",
+      "If the prompt implies a physical material such as ice, rubber, metal, sand, lava, water, magnet, or trampoline, translate it into mass/friction/elasticity/damping/field parameters.",
+      "If a relation requires motion, include the parameter that causes it: gravity for falling, low friction plus slope for sliding, impulse for kicking, field_strength for magnetic/wind/current effects.",
+      "If a validator probe fails, repair should prefer changing the smallest relevant knob: friction before redesigning the world, target_size before changing the objective, barrier_height before removing the barrier.",
+      "Do not lower the semantic difficulty by deleting required physics. Tune the parameters that make the requested physics possible."
+    ],
+    "Repair_Knob_Examples": {
+      "object_does_not_move": ["agent_strength", "object_mass", "object_friction", "agent_start"],
+      "object_drifts_before_contact": ["support_friction", "object_start", "surface_angle", "guide_sensor"],
+      "ball_fails_to_clear_barrier": ["barrier_height", "object_mass", "object_elasticity", "agent_strength", "target_center"],
+      "falling_hazard_does_not_fall": ["hazard_spawn_y", "hazard_speed_y", "vertical_clearance", "hazard_sensor", "gravity_or_force_zone"],
+      "field_has_no_effect": ["field_strength", "field_size", "affected_names", "object_mass"],
+      "route_blocked": ["target_center", "target_size", "blocker_sensor", "clearance_margin"]
+    }
+  },
+  "Capability_Profile": {
+    "Purpose": "Declares what the validation agent is allowed to do in this environment. The validator must not use controls or interventions outside this profile.",
+    "Required_Fields": {
+      "movement": "Primary movement model, e.g. ground_force, thrust_2d, jump, fixed_position, none.",
+      "interaction": "List of allowed physical interaction modes, e.g. touch_contact, push_contact, ride_platform, contact_trigger.",
+      "gravity": "normal, zero_g, low_g, high_g, or custom.",
+      "allowed_controls": "List of controls the validator may apply.",
+      "forbidden_controls": "List of controls or shortcuts the validator must never use.",
+      "notes": "Short implementation notes for tuning force, damping, or interaction assumptions."
+    },
+    "Required_Init_Template": {
+      "movement": "ground_force",
+      "interaction": ["touch_contact"],
+      "gravity": "normal",
+      "allowed_controls": ["apply_force_x", "apply_force_y", "brake"],
+      "forbidden_controls": ["teleport", "direct_object_move", "direct_object_rotation", "direct_goal_state_write"],
+      "notes": ""
+    },
+    "Rules": [
+      "The validator may only use controls listed in allowed_controls.",
+      "The validator must never directly mutate target positions, objective state, or object velocities to force success.",
+      "If the prompt implies zero gravity, set gravity to zero_g and use thrust_2d or an equivalent movement capability.",
+      "If the prompt requires moving another object, include push_contact or an explicit mechanism interaction capability."
+    ]
+  },
+  "Objective_Types": {
+    "Allowed": [
+      "navigation_goal",
+      "multi_target_touch",
+      "single_target_touch",
+      "push_object",
+      "seesaw_balance",
+      "mechanism_activation",
+      "survival",
+      "custom_physics"
+    ],
+    "Selection_Guide": {
+      "navigation_goal": "Agent must reach one goal region or endpoint.",
+      "multi_target_touch": "Agent must touch, collect, or visit multiple targets.",
+      "single_target_touch": "Agent must touch, collect, or visit one target.",
+      "push_object": "Agent must move an object to a target region.",
+      "seesaw_balance": "Agent must tilt, balance, or launch using a pivoting plank.",
+      "mechanism_activation": "Agent must trigger a button, gate, lever, or jointed mechanism.",
+      "survival": "Agent must maintain a safe state for a duration.",
+      "custom_physics": "Use only when no listed type fits; still define objective_targets."
+    }
+  },
+  "Verification_Tiers": {
+    "0": {
+      "name": "invalid",
+      "meaning": "Code, contract, profile, or runtime validation failed."
+    },
+    "1": {
+      "name": "structurally_valid",
+      "meaning": "Environment loads and implements the required BaseEnv contract and profile fields."
+    },
+    "2": {
+      "name": "physically_plausible",
+      "meaning": "Headless simulation runs without severe jitter, NaNs, illegal overlaps, or unstable constraints."
+    },
+    "3": {
+      "name": "agent_actionable",
+      "meaning": "The declared agent capabilities cause meaningful state changes in the world."
+    },
+    "4": {
+      "name": "progress_verified",
+      "meaning": "A capability-aware validator skill improves one or more declared progress metrics."
+    },
+    "5": {
+      "name": "solved_verified",
+      "meaning": "check_objective() returned True during validation using only declared capabilities."
+    },
+    "Default_Minimum_Acceptance": {
+      "navigation_goal": 5,
+      "single_target_touch": 5,
+      "multi_target_touch": 5,
+      "push_object": 5,
+      "seesaw_balance": 4,
+      "mechanism_activation": 4,
+      "survival": 5,
+      "custom_physics": 4
+    },
+    "Rules": [
+      "achieved_tier records the strongest evidence observed by the validator.",
+      "accepted is true only when achieved_tier >= objective_profile.minimum_acceptance_tier.",
+      "Tier 4 worlds must be labeled as progress_verified, not solved_verified.",
+      "If objective_profile.subgoals contains only executable generic subgoal kinds such as agent_reach_region, agent_touch_object, or move_object_to_region, the validator must require Tier 5 even if the generated profile requests Tier 4.",
+      "The minimum acceptance tier may become stricter when a reliable validator skill exists."
+    ]
+  },
+  "Policy_Critic": {
+    "Purpose": "Independent reviewer that chooses the required verification tier from the user prompt, objective_profile, capability_profile, and policy memory examples.",
+    "Output_Schema": {
+      "objective_tier": "Integer 0-5 describing the ideal proof standard the task deserves in principle.",
+      "operational_acceptance_tier": "Integer 0-5 used by the validator as the current enforceable acceptance tier.",
+      "required_tier": "Integer 0-5 backwards-compatible alias for operational_acceptance_tier.",
+      "task_family": "Conceptual task family such as finite_object_displacement, finite_touch_collection, open_ended_game, survival, or custom_physics.",
+      "reason": "Short explanation for the tier choice.",
+      "capability_gap": "Explanation when operational_acceptance_tier is below objective_tier.",
+      "risk_flags": "List of validation or semantic risks.",
+      "suggested_validator_focus": "List of subgoals or validator probes to prioritize.",
+      "memory_matches": "Conceptual memory examples considered relevant.",
+      "confidence": "Float 0-1."
+    },
+    "Rules": [
+      "Compare prompts conceptually by physical intent, object roles, and success predicate rather than exact word overlap.",
+      "The Architect may propose a minimum tier, but the Policy Critic is the independent reviewer.",
+      "Finite executable tasks such as reach, touch, collect finite targets, and move_object_to_region require operational Tier 5.",
+      "Open-ended games, adversarial strategy, and long-horizon control may accept operational Tier 4 progress until stronger validators exist, but usually still have objective_tier 5.",
+      "The validator must enforce operational_acceptance_tier when present, falling back to required_tier for older policies."
+    ]
+  },
+  "Affordance_Construction_Kit": {
+    "Purpose": "A compositional physical design grammar. Blocks are reusable affordance principles, not fixed templates or allowed-task limits.",
+    "Block_Schema": {
+      "block_id": "Stable identifier.",
+      "summary": "Short description of the physical affordance.",
+      "trigger_keywords": "Words/concepts used for retrieval.",
+      "abstract_relation": "Physical relation the block supports, such as move_object_to_region.",
+      "creates": "Objects or geometry the block usually creates.",
+      "constraints": "Physical constraints required for validator-friendly execution.",
+      "composes_with": "Other blocks that naturally combine with this block.",
+      "validator_checks": "Relevant deterministic checks/failure codes.",
+      "repair_guidance": "How to repair failures involving this block."
+    },
+    "Rules": [
+      "Use blocks as composable physical principles, not fixed world templates.",
+      "Known blocks are a starting vocabulary, not the boundary of possible environments.",
+      "For unknown prompts, use custom_physics with concrete subgoals, progress metrics, and check_objective.",
+      "If a novel generated environment validates successfully, save it as a learned affordance block for future conceptual reuse.",
+      "Compare blocks by physical intent and object roles, not exact words."
+    ]
+  },
+  "Physics_Probe_Library": {
+    "Purpose": "Reusable deterministic instruments for inspecting physical possibility from Pymunk ground truth and rollout telemetry.",
+    "Probe_Result_Schema": {
+      "name": "Probe identifier such as passive_stability or object_moves_toward_region.",
+      "passed": "Boolean result for this physical predicate.",
+      "tier_evidence": "Verification tier evidence contributed by the probe.",
+      "objects": "Registered object names inspected by the probe.",
+      "metrics": "Numeric telemetry such as distances, velocities, displacement, thresholds, and blockers.",
+      "diagnosis": "Machine-readable diagnosis.",
+      "repair": "Concrete repair instruction grounded in the metrics.",
+      "severity": "info, warning, or error."
+    },
+    "Core_Probes": [
+      "passive_stability",
+      "concrete_target",
+      "object_region_affordance",
+      "path_reachability",
+      "agent_object_collision_allowed",
+      "agent_force_applied",
+      "agent_moves_under_force",
+      "agent_object_contact",
+      "contact_impulse_observed",
+      "strike_object_to_region",
+      "box_moved_at_all",
+      "box_free_to_move",
+      "object_moves_toward_region",
+      "object_inside_region",
+      "pivot_mechanism",
+      "plank_rotates",
+      "launch_progress",
+      "agent_moves_toward_target",
+      "contact_or_proximity",
+      "activation_state",
+      "class_membership",
+      "trajectory_change",
+      "field_effect",
+      "progress_metric_change",
+      "physical_parameter_bounds",
+      "momentum_transfer",
+      "barrier_clearance",
+      "apex_height",
+      "target_sensor_contract",
+      "gravity_model_contract",
+      "field_strength_bounds"
+    ],
+    "Rules": [
+      "Validator diagnostics should explain failures through probe results whenever possible.",
+      "New task relations should be mapped to reusable probes before adding task-specific validators.",
+      "Probe repairs must include concrete numeric evidence when available."
+    ]
+  },
+  "Ground_Truth_Objective_Metadata": {
+    "Required_Keys": [
+      "objective_active",
+      "objective_type",
+      "objective_targets",
+      "objective_satisfied",
+      "objective_profile",
+      "capability_profile",
+      "layout_plan",
+      "semantic_requirements",
+      "anti_cheat_profile"
+    ],
+    "Rule": "get_ground_truth must expose objective and capability metadata. Calling super().get_ground_truth() provides the default objective block; generated environments may add task-specific fields without removing these keys."
+  },
+  "Semantic_Requirements": {
+    "Purpose": "Optional machine-readable prompt-fidelity contract for physical behaviors implied by text, separate from objective success.",
+    "Required_When": [
+      "Use when the prompt includes behavioral dynamics such as falling, raining, dropping, drifting, floating, sliding, spinning, rotating, bouncing, patrolling, chasing, orbiting, pulsing, flowing, or moving hazards."
+    ],
+    "Schema": {
+      "kind": "One of dynamic_hazard_motion, object_motion, moving_platform, gate_motion, field_motion, rotating_body, bouncing_body.",
+      "description": "Plain-language behavior that must be visible in the physics state.",
+      "object_names": "Optional list of registered object names that must exhibit the behavior.",
+      "role": "Optional registered role to inspect, e.g. hazard, obstacle, goal, platform.",
+      "name_contains": "Optional string or list of strings for object-name matching, e.g. fire, fireball, rock.",
+      "motion": "falling, drifting, sliding, rotating, bouncing, orbiting, patrolling, chasing, or moving.",
+      "axis": "x, y, any, or angle.",
+      "direction": "down, up, left, right, any, clockwise, counterclockwise.",
+      "min_displacement": "Minimum absolute displacement in pixels over the semantic probe.",
+      "min_displacement_y": "Minimum signed/absolute y displacement for falling/upward motion.",
+      "min_displacement_x": "Minimum signed/absolute x displacement for sliding/patrol motion.",
+      "min_angle_delta": "Minimum angular change in radians for rotating objects.",
+      "min_objects": "Minimum number of matching objects that must satisfy the requirement.",
+      "steps": "Optional number of headless steps for this semantic probe."
+    },
+    "Examples": [
+      {
+        "kind": "dynamic_hazard_motion",
+        "description": "Fireballs fall downward through the route.",
+        "role": "hazard",
+        "name_contains": ["fire", "fireball"],
+        "motion": "falling",
+        "axis": "y",
+        "direction": "down",
+        "min_displacement_y": 160,
+        "min_objects": 1
+      },
+      {
+        "kind": "object_motion",
+        "description": "Crystals drift in zero gravity.",
+        "name_contains": ["crystal"],
+        "motion": "drifting",
+        "axis": "any",
+        "min_displacement": 20,
+        "min_objects": 1
+      },
+      {
+        "kind": "dynamic_hazard_motion",
+        "description": "Enemy squares chase the agent.",
+        "role": "hazard",
+        "name_contains": ["square", "enemy", "chaser"],
+        "motion": "chasing",
+        "axis": "any",
+        "direction": "toward_agent",
+        "min_distance_reduction": 30,
+        "min_objects": 1
+      }
+    ],
+    "Rules": [
+      "Semantic requirements validate that prompt nouns also perform the requested physical verbs.",
+      "Do not use semantic_requirements as a substitute for check_objective; both are required when relevant.",
+      "If the prompt says falling/raining/dropping hazards, create dynamic hazard bodies above the play route with gravity or downward velocity/force so the semantic probe observes clear downward motion of at least 160 px.",
+      "In flying or low-gravity worlds, falling hazards need explicit downward velocity or a downward force zone; spawn them below solid top boundaries or leave ceiling gaps so top walls cannot catch them.",
+      "Falling hazards must have open vertical clearance below them; do not place platforms, central blocks, or shelves directly under their first 160 px of travel.",
+      "If the prompt says drifting/floating, use dynamic objects in zero/low gravity with visible velocity or force-zone motion.",
+      "If the prompt says sliding/rotating/bouncing, ensure the relevant object actually changes x/angle/velocity during a passive headless probe.",
+      "If the prompt says chasing/pursuing, prefer create_readable_chaser(...) after creating the agent. If hand-written pursuit is necessary, implement deterministic after_step(self) with no dt argument, call super().after_step(), and apply bounded force from the hazard/enemy toward the agent; do not leave enemies motionless."
+    ]
+  },
+  "Anti_Cheat_Profile": {
+    "Purpose": "Optional machine-readable prompt-fidelity guardrail for degenerate solutions where the code-level objective passes while the main challenge is harmless.",
+    "Required_When": [
+      "Use when the prompt includes threats, hazards, timed survival, incoming objects, pursuit, projectiles, jumping over obstacles, or manipulation tasks that could be made trivial by static/blocked/off-route objects."
+    ],
+    "Schema": {
+      "kind": "One of active_threat_engagement or nontrivial_agent_interaction.",
+      "description": "Plain-language degenerate solution to reject.",
+      "role": "Optional registered role to inspect, usually hazard.",
+      "name_contains": "Optional string/list for object-name or metadata matching.",
+      "motion": "lateral, falling, pursuit, projectile, or any.",
+      "min_displacement": "Minimum visible displacement in pixels.",
+      "min_distance_reduction": "Minimum distance reduction for pursuit threats.",
+      "must_enter_agent_lane": "True when the threat should cross the player's path/lane.",
+      "must_threaten_agent_column": "True for cars/projectiles that should actually pass through the player's x-band.",
+      "steps": "Optional number of passive headless probe steps."
+    },
+    "Examples": [
+      {
+        "kind": "active_threat_engagement",
+        "description": "Incoming cars must cross the agent lane instead of being blocked by the side wall.",
+        "role": "hazard",
+        "name_contains": ["car", "vehicle"],
+        "motion": "lateral",
+        "min_displacement": 120,
+        "must_enter_agent_lane": true,
+        "must_threaten_agent_column": true
+      },
+      {
+        "kind": "active_threat_engagement",
+        "description": "Enemy projectiles must travel across the arena and become meaningful dodge hazards.",
+        "role": "hazard",
+        "name_contains": ["shot", "laser", "projectile"],
+        "motion": "projectile",
+        "min_displacement": 140,
+        "must_enter_agent_lane": true
+      }
+    ],
+    "Rules": [
+      "Anti-cheat checks do not replace check_objective or semantic_requirements; they reject fake wins that neutralize the prompt's intended challenge.",
+      "If the prompt says cars/trains/rolling hazards come at the player, leave an open ingress/egress lane and ensure at least one threat crosses the agent lane during passive validation.",
+      "For endless/sequential car/train/traffic hazards, prefer create_recurring_lateral_hazards so the validator observes repeated grounded lateral crossings rather than a one-shot object that falls away.",
+      "If the prompt says enemies chase the player, they must have an open route and visibly reduce distance; do not seal them behind decorative walls.",
+      "If the prompt says shots/projectiles, at least one active projectile must travel through the playable arena rather than sitting parked in a pool.",
+      "If the prompt describes manipulation, do not start the objective already solved; require visible contact-driven motion."
+    ]
+  },
+  "Visual_Tags": {
+    "Purpose": "Optional renderer-only style hints. These never affect physics, validation, rewards, or objectives.",
+    "Allowed_Fields": {
+      "mood": ["research_lab", "cosmic_research", "deep_space", "orbital_station", "asteroid_belt", "organic_maze", "cornfield_maze", "overgrown_garden", "alien_biome", "hazard_arena", "volcanic_foundry", "industrial_noir", "mechanical_factory", "clockwork_chamber", "magnetic_lab", "electric_substation", "crystal_cavern", "ice_facility", "desert_ruins", "toxic_swamp", "retro_arcade", "cyber_grid", "underwater_lab", "training_sim", "minimalist_sandbox"],
+      "background": ["neon_grid", "parallax_starfield", "dense_starfield", "orbital_dust", "scanline_lab", "circuit_board", "oscilloscope", "hazard_warning", "ember_drift", "smoke_haze", "organic_noise", "leaf_shadow", "corn_rows", "crystal_speckle", "ice_frost", "desert_grain", "toxic_bubbles", "underwater_caustics", "retro_vignette", "void_gradient", "blueprint_grid", "radar_sweep"],
+      "accent": ["cyan_green", "cyan_purple", "blue_white", "electric_blue", "emerald_gold", "amber_green", "red_warning", "magenta_orange", "violet_lime", "toxic_lime", "ice_blue", "solar_orange", "desert_teal", "mint_coral", "pink_cyan", "gold_crimson", "acid_purple", "white_red", "teal_yellow", "green_gold", "deep_space_neon", "monochrome_cyan"],
+      "materials": ["dark_metal", "brushed_steel", "gate_metal", "rubber", "glass", "energy_field", "sensor_plate", "warning_plate", "stone", "basalt", "hazard_rock", "asteroid", "crystal", "ice", "sandstone", "wood", "corn_wall", "vine_wall", "leaf_mass", "toxic_slime", "water_glass", "circuit_tile", "arcade_plastic"],
+      "lighting": ["neon_bloom", "soft_glow", "hard_shadow", "rim_light", "warning_pulse", "strobe_warning", "low_key", "high_contrast", "holographic", "bioluminescent", "warm_lantern", "cold_facility", "volumetric_haze", "crt_glow"],
+      "motion_fx": ["agent_trail", "object_trail", "particle_sparks", "field_pulse", "magnetic_rings", "goal_breathe", "hazard_flash", "gate_unlock_flash", "zero_g_drift", "dust_motes", "falling_embers", "bubble_rise", "leaf_flutter", "scan_sweep", "radar_ping", "electric_arcs", "crystal_shimmer", "impact_ripples"],
+      "surface_fx": ["scanlines", "crt_vignette", "film_grain", "procedural_noise", "organic_stripes", "corn_stripes", "metal_panel_lines", "circuit_traces", "ice_cracks", "stone_facets", "crystal_facets", "hazard_chevrons", "warning_stripes", "grid_crosshairs"],
+      "shape_language": ["technical_rectilinear", "organic_irregular", "jagged_asteroid", "crystalline", "heavy_industrial"],
+      "presentation": ["clean_demo_mode", "cinematic_showcase", "research_overlay"]
+    },
+    "Rules": [
+      "Visual tags are optional. If absent or invalid, the renderer infers a visual grammar from prompt metadata and object names.",
+      "Generated environments must not use visual tags inside check_objective or any physics logic.",
+      "Choose tags by semantic mood, not exact keyword matching."
+    ]
+  },
+  "Strict_Rules": [
+    "You MUST define self.agent_radius in __init__. Do not assume it exists in the base class.",
+    "The Healer must ignore 'path widening' advice if the error is an AttributeError."
+  ]
+}

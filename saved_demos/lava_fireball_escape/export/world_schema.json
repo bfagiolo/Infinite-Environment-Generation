@@ -1,0 +1,1670 @@
+{
+  "constraints": [],
+  "exported_at": "2026-05-09T18:55:27.898051+00:00",
+  "force_zones": [],
+  "mechanisms": [],
+  "objective": {
+    "capability_profile": {
+      "allowed_controls": [
+        "apply_force_x",
+        "apply_force_y",
+        "brake"
+      ],
+      "forbidden_controls": [
+        "teleport",
+        "direct_object_move",
+        "direct_object_rotation",
+        "direct_goal_state_write"
+      ],
+      "gravity": "normal",
+      "interaction": [
+        "touch_contact"
+      ],
+      "movement": "ground_force",
+      "notes": "Saved demo uses deterministic BaseEnv controls."
+    },
+    "gameplay_profile": {
+      "gameplay_loop": "navigation_goal",
+      "source": "curated_demo_library",
+      "source_prompt": "A lava world where the agent reaches the obsidian exit while staggered fireballs rain from above.",
+      "world_context": {
+        "gravity_model": "side_view_gravity",
+        "movement_model": "ground_force",
+        "route_assumption": "stage objectives on reachable routes"
+      }
+    },
+    "layout_plan": {
+      "layout_type": "saved_showcase_demo",
+      "route_first": true,
+      "source": "curated_demo_library"
+    },
+    "objective_active": true,
+    "objective_profile": {
+      "failure_modes": [
+        "blocked_path",
+        "insufficient_progress"
+      ],
+      "minimum_acceptance_tier": 5,
+      "objective_description": "Reach the exit while fireballs fall in staggered lanes.",
+      "objective_type": "navigation_goal",
+      "progress_metrics": [
+        "distance_to_target"
+      ],
+      "required_capabilities": [
+        "ground_force",
+        "touch_contact"
+      ],
+      "subgoals": [
+        {
+          "kind": "agent_reach_region",
+          "target": "obsidian_exit",
+          "threshold": 80
+        }
+      ],
+      "success_predicate": "code-level deterministic state satisfies the saved demo objective",
+      "targets": [
+        "obsidian_exit"
+      ],
+      "validator_skills": [
+        "saved_demo_oracle"
+      ]
+    },
+    "objective_satisfied": false,
+    "objective_targets": [
+      "obsidian_exit"
+    ],
+    "objective_type": "navigation_goal",
+    "physics_relations": {
+      "relations": [
+        {
+          "kind": "agent_reach_region",
+          "target": "obsidian_exit",
+          "threshold": 80
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "layout",
+          "scope": "demo"
+        }
+      ],
+      "source": "curated_demo_library"
+    },
+    "semantic_requirements": [
+      {
+        "kind": "falling_hazards",
+        "min_visible_drop": 90,
+        "role": "hazard"
+      }
+    ],
+    "targets_remaining": [
+      "obsidian_exit"
+    ],
+    "targets_touched": []
+  },
+  "objects": [
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          480.0,
+          45.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "lava": true,
+        "material": "basalt"
+      },
+      "name": "basalt_floor",
+      "role": "terrain",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 17.0,
+            "left": 30.0,
+            "right": 930.0,
+            "top": 73.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.88,
+          "local_vertices": [
+            [
+              -450.0,
+              -28.0
+            ],
+            [
+              450.0,
+              -28.0
+            ],
+            [
+              450.0,
+              28.0
+            ],
+            [
+              -450.0,
+              28.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              30.0,
+              17.0
+            ],
+            [
+              930.0,
+              17.0
+            ],
+            [
+              930.0,
+              73.0
+            ],
+            [
+              30.0,
+              73.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          470.0,
+          70.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "glow": "orange",
+        "lava": true,
+        "material": "lava_wave"
+      },
+      "name": "molten_lava_river",
+      "role": "hazard",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 49.0,
+            "left": 285.0,
+            "right": 655.0,
+            "top": 91.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -185.0,
+              -21.0
+            ],
+            [
+              185.0,
+              -21.0
+            ],
+            [
+              185.0,
+              21.0
+            ],
+            [
+              -185.0,
+              21.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              285.0,
+              49.0
+            ],
+            [
+              655.0,
+              49.0
+            ],
+            [
+              655.0,
+              91.0
+            ],
+            [
+              285.0,
+              91.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          470.0,
+          116.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "material": "obsidian_bridge"
+      },
+      "name": "safe_obsidian_bridge",
+      "role": "terrain",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 107.0,
+            "left": 395.0,
+            "right": 545.0,
+            "top": 125.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.8,
+          "local_vertices": [
+            [
+              -75.0,
+              -9.0
+            ],
+            [
+              75.0,
+              -9.0
+            ],
+            [
+              75.0,
+              9.0
+            ],
+            [
+              -75.0,
+              9.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              395.0,
+              107.0
+            ],
+            [
+              545.0,
+              107.0
+            ],
+            [
+              545.0,
+              125.0
+            ],
+            [
+              395.0,
+              125.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          520.0,
+          586.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "lava": true,
+        "material": "ember_vent",
+        "visual_only": true
+      },
+      "name": "ceiling_fire_vents",
+      "role": "region",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 574.0,
+            "left": 195.0,
+            "right": 845.0,
+            "top": 598.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -325.0,
+              -12.0
+            ],
+            [
+              325.0,
+              -12.0
+            ],
+            [
+              325.0,
+              12.0
+            ],
+            [
+              -325.0,
+              12.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              195.0,
+              574.0
+            ],
+            [
+              845.0,
+              574.0
+            ],
+            [
+              845.0,
+              598.0
+            ],
+            [
+              195.0,
+              598.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          62.0,
+          226.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "lava": true,
+        "material": "basalt_spire",
+        "visual_only": true
+      },
+      "name": "left_volcanic_spire",
+      "role": "region",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 93.5,
+            "left": 43.0,
+            "right": 81.0,
+            "top": 358.5
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -19.0,
+              -132.5
+            ],
+            [
+              19.0,
+              -132.5
+            ],
+            [
+              19.0,
+              132.5
+            ],
+            [
+              -19.0,
+              132.5
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              43.0,
+              93.5
+            ],
+            [
+              81.0,
+              93.5
+            ],
+            [
+              81.0,
+              358.5
+            ],
+            [
+              43.0,
+              358.5
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          908.0,
+          226.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "lava": true,
+        "material": "basalt_spire",
+        "visual_only": true
+      },
+      "name": "right_volcanic_spire",
+      "role": "region",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 93.5,
+            "left": 887.0,
+            "right": 929.0,
+            "top": 358.5
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -21.0,
+              -132.5
+            ],
+            [
+              21.0,
+              -132.5
+            ],
+            [
+              21.0,
+              132.5
+            ],
+            [
+              -21.0,
+              132.5
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              887.0,
+              93.5
+            ],
+            [
+              929.0,
+              93.5
+            ],
+            [
+              929.0,
+              358.5
+            ],
+            [
+              887.0,
+              358.5
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 1.0,
+        "moment": 72.0,
+        "position": [
+          95.0,
+          110.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "dynamic_circle",
+      "metadata": {
+        "avatar_hint": "runner",
+        "visual_scale": 0.78
+      },
+      "name": "agent",
+      "role": "agent",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 98.0,
+            "left": 83.0,
+            "right": 107.0,
+            "top": 122.0
+          },
+          "center": [
+            95.0,
+            110.0
+          ],
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.7,
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "radius": 12.0,
+          "sensor": false,
+          "source_type": "Circle",
+          "type": "circle"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          850.0,
+          132.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "exit": true,
+        "glow": "red",
+        "material": "obsidian_exit_gate"
+      },
+      "name": "obsidian_exit",
+      "role": "goal",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 84.5,
+            "left": 807.0,
+            "right": 893.0,
+            "top": 179.5
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -43.0,
+              -47.5
+            ],
+            [
+              43.0,
+              -47.5
+            ],
+            [
+              43.0,
+              47.5
+            ],
+            [
+              -43.0,
+              47.5
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              807.0,
+              84.5
+            ],
+            [
+              893.0,
+              84.5
+            ],
+            [
+              893.0,
+              179.5
+            ],
+            [
+              807.0,
+              179.5
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 0.8,
+        "moment": 48.400000000000006,
+        "position": [
+          260.0,
+          585.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          0.0,
+          -245.0
+        ]
+      },
+      "kind": "dynamic_circle",
+      "metadata": {
+        "bottom_y": 158.0,
+        "falling": true,
+        "fireball": true,
+        "kind": "recurring_falling_hazard",
+        "lava": true,
+        "material": "falling_fireball",
+        "phase_gap_steps": 28,
+        "phase_index": 0,
+        "projectile": true,
+        "recurring_hazard": "fire_rain",
+        "spawn_lane": [
+          260.0,
+          585.0
+        ],
+        "speed_y": -245.0
+      },
+      "name": "fireball_1",
+      "role": "hazard",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 574.0,
+            "left": 249.0,
+            "right": 271.0,
+            "top": 596.0
+          },
+          "center": [
+            260.0,
+            585.0
+          ],
+          "collision_type": 0,
+          "elasticity": 0.08,
+          "friction": 0.05,
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "radius": 11.0,
+          "sensor": true,
+          "source_type": "Circle",
+          "type": "circle"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 0.8,
+        "moment": 48.400000000000006,
+        "position": [
+          390.0,
+          585.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "dynamic_circle",
+      "metadata": {
+        "bottom_y": 158.0,
+        "falling": true,
+        "fireball": true,
+        "kind": "recurring_falling_hazard",
+        "lava": true,
+        "material": "falling_fireball",
+        "phase_gap_steps": 28,
+        "phase_index": 1,
+        "projectile": true,
+        "recurring_hazard": "fire_rain",
+        "spawn_lane": [
+          390.0,
+          585.0
+        ],
+        "speed_y": -245.0
+      },
+      "name": "fireball_2",
+      "role": "hazard",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 574.0,
+            "left": 379.0,
+            "right": 401.0,
+            "top": 596.0
+          },
+          "center": [
+            390.0,
+            585.0
+          ],
+          "collision_type": 0,
+          "elasticity": 0.08,
+          "friction": 0.05,
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "radius": 11.0,
+          "sensor": true,
+          "source_type": "Circle",
+          "type": "circle"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 0.8,
+        "moment": 48.400000000000006,
+        "position": [
+          520.0,
+          585.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "dynamic_circle",
+      "metadata": {
+        "bottom_y": 158.0,
+        "falling": true,
+        "fireball": true,
+        "kind": "recurring_falling_hazard",
+        "lava": true,
+        "material": "falling_fireball",
+        "phase_gap_steps": 28,
+        "phase_index": 2,
+        "projectile": true,
+        "recurring_hazard": "fire_rain",
+        "spawn_lane": [
+          520.0,
+          585.0
+        ],
+        "speed_y": -245.0
+      },
+      "name": "fireball_3",
+      "role": "hazard",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 574.0,
+            "left": 509.0,
+            "right": 531.0,
+            "top": 596.0
+          },
+          "center": [
+            520.0,
+            585.0
+          ],
+          "collision_type": 0,
+          "elasticity": 0.08,
+          "friction": 0.05,
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "radius": 11.0,
+          "sensor": true,
+          "source_type": "Circle",
+          "type": "circle"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 0.8,
+        "moment": 48.400000000000006,
+        "position": [
+          650.0,
+          585.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "dynamic_circle",
+      "metadata": {
+        "bottom_y": 158.0,
+        "falling": true,
+        "fireball": true,
+        "kind": "recurring_falling_hazard",
+        "lava": true,
+        "material": "falling_fireball",
+        "phase_gap_steps": 28,
+        "phase_index": 3,
+        "projectile": true,
+        "recurring_hazard": "fire_rain",
+        "spawn_lane": [
+          650.0,
+          585.0
+        ],
+        "speed_y": -245.0
+      },
+      "name": "fireball_4",
+      "role": "hazard",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 574.0,
+            "left": 639.0,
+            "right": 661.0,
+            "top": 596.0
+          },
+          "center": [
+            650.0,
+            585.0
+          ],
+          "collision_type": 0,
+          "elasticity": 0.08,
+          "friction": 0.05,
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "radius": 11.0,
+          "sensor": true,
+          "source_type": "Circle",
+          "type": "circle"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 0.8,
+        "moment": 48.400000000000006,
+        "position": [
+          780.0,
+          585.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "dynamic_circle",
+      "metadata": {
+        "bottom_y": 158.0,
+        "falling": true,
+        "fireball": true,
+        "kind": "recurring_falling_hazard",
+        "lava": true,
+        "material": "falling_fireball",
+        "phase_gap_steps": 28,
+        "phase_index": 4,
+        "projectile": true,
+        "recurring_hazard": "fire_rain",
+        "spawn_lane": [
+          780.0,
+          585.0
+        ],
+        "speed_y": -245.0
+      },
+      "name": "fireball_5",
+      "role": "hazard",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 574.0,
+            "left": 769.0,
+            "right": 791.0,
+            "top": 596.0
+          },
+          "center": [
+            780.0,
+            585.0
+          ],
+          "collision_type": 0,
+          "elasticity": 0.08,
+          "friction": 0.05,
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "radius": 11.0,
+          "sensor": true,
+          "source_type": "Circle",
+          "type": "circle"
+        }
+      ]
+    }
+  ],
+  "schema_version": "harness-alpha-world-v1",
+  "semantic_context": {
+    "keywords": [
+      "ball",
+      "falling",
+      "fire",
+      "gate",
+      "goal",
+      "lava"
+    ],
+    "object_names": [
+      "basalt_floor",
+      "molten_lava_river",
+      "safe_obsidian_bridge",
+      "ceiling_fire_vents",
+      "left_volcanic_spire",
+      "right_volcanic_spire",
+      "agent",
+      "obsidian_exit",
+      "fireball_1",
+      "fireball_2",
+      "fireball_3",
+      "fireball_4",
+      "fireball_5"
+    ],
+    "objective_type": "navigation_goal",
+    "prompt": "A lava world where the agent reaches the obsidian exit while staggered fireballs rain from above.",
+    "roles": [
+      "agent",
+      "goal",
+      "hazard",
+      "region",
+      "terrain"
+    ]
+  },
+  "solvability_check": {
+    "agent_radius": 12,
+    "goal": [
+      850.0,
+      132.0
+    ],
+    "grid_size": 24.0,
+    "metadata": {},
+    "notes": "",
+    "start": [
+      95.0,
+      110.0
+    ]
+  },
+  "source": {
+    "env_class": "DemoLavaFallingFireEnv",
+    "env_path": "saved_demos\\lava_fireball_escape\\env.py",
+    "prompt": "A lava world where the agent reaches the obsidian exit while staggered fireballs rain from above.",
+    "seed": 0
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "visual_brief": {
+    "accent": "red_warning",
+    "agent_avatar": "human",
+    "background": "hazard_warning",
+    "lighting": [
+      "warning_pulse",
+      "high_contrast",
+      "volumetric_haze"
+    ],
+    "materials": [
+      "basalt",
+      "hazard_rock",
+      "warning_plate",
+      "dark_metal"
+    ],
+    "mood": "hazard_arena",
+    "motion_fx": [
+      "agent_trail",
+      "goal_breathe",
+      "hazard_flash",
+      "falling_embers"
+    ],
+    "palette": {
+      "background_color": [
+        24,
+        12,
+        13
+      ],
+      "hot": [
+        255,
+        90,
+        118
+      ],
+      "primary": [
+        56,
+        216,
+        255
+      ],
+      "secondary": [
+        255,
+        180,
+        62
+      ]
+    },
+    "presentation": "clean_demo_mode",
+    "prompt": "A lava world where the agent reaches the obsidian exit while staggered fireballs rain from above.",
+    "recipe": {
+      "agent_avatar": "human",
+      "object_skins": {
+        "*bridge*": {
+          "fill": [
+            34,
+            22,
+            28
+          ],
+          "fx": [
+            "edge_bloom"
+          ],
+          "glow": [
+            255,
+            80,
+            22
+          ],
+          "material": "obsidian_bridge",
+          "outline": [
+            255,
+            135,
+            52
+          ]
+        },
+        "*exit*": {
+          "fill": [
+            34,
+            20,
+            31
+          ],
+          "fx": [
+            "goal_breathe",
+            "gate_unlock_flash"
+          ],
+          "glow": [
+            255,
+            72,
+            38
+          ],
+          "material": "obsidian_exit_gate",
+          "outline": [
+            255,
+            218,
+            100
+          ]
+        },
+        "*fireball*": {
+          "fill": [
+            255,
+            64,
+            16
+          ],
+          "fx": [
+            "flame_orb",
+            "motion_trail",
+            "hazard_flash"
+          ],
+          "glow": [
+            255,
+            102,
+            28
+          ],
+          "material": "falling_fireball",
+          "outline": [
+            255,
+            238,
+            114
+          ],
+          "visual_radius_scale": 0.72
+        },
+        "*floor*": {
+          "fill": [
+            31,
+            22,
+            26
+          ],
+          "fx": [
+            "crack_glow"
+          ],
+          "glow": [
+            255,
+            75,
+            20
+          ],
+          "material": "basalt",
+          "outline": [
+            120,
+            70,
+            58
+          ]
+        },
+        "*lava*": {
+          "fill": [
+            255,
+            54,
+            14
+          ],
+          "fx": [
+            "lava_wave",
+            "crack_glow"
+          ],
+          "glow": [
+            255,
+            84,
+            22
+          ],
+          "material": "lava_wave",
+          "outline": [
+            255,
+            184,
+            52
+          ]
+        },
+        "*spire*": {
+          "fill": [
+            28,
+            20,
+            28
+          ],
+          "fx": [
+            "edge_bloom"
+          ],
+          "glow": [
+            255,
+            78,
+            24
+          ],
+          "material": "basalt_spire",
+          "outline": [
+            164,
+            74,
+            46
+          ]
+        },
+        "*vent*": {
+          "fill": [
+            58,
+            27,
+            28
+          ],
+          "fx": [
+            "falling_embers",
+            "edge_bloom"
+          ],
+          "glow": [
+            255,
+            92,
+            18
+          ],
+          "material": "ember_vent",
+          "outline": [
+            255,
+            168,
+            50
+          ]
+        },
+        "agent": {
+          "fill": [
+            255,
+            226,
+            176
+          ],
+          "fx": [
+            "agent_trail"
+          ],
+          "glow": [
+            255,
+            154,
+            52
+          ],
+          "material": "runner",
+          "outline": [
+            255,
+            250,
+            230
+          ],
+          "scale": 0.78
+        }
+      },
+      "palette": {
+        "background_color": [
+          24,
+          8,
+          5
+        ],
+        "hot": [
+          255,
+          50,
+          18
+        ],
+        "primary": [
+          255,
+          154,
+          52
+        ],
+        "secondary": [
+          255,
+          221,
+          92
+        ]
+      },
+      "style_tags": [
+        "volcanic_escape",
+        "raining_fire",
+        "obsidian_platforms",
+        "high_heat"
+      ],
+      "visual_program": {
+        "background_layers": [
+          {
+            "color": [
+              255,
+              78,
+              18
+            ],
+            "primitive": "heat_shimmer"
+          },
+          {
+            "color": [
+              255,
+              128,
+              34
+            ],
+            "count": 130,
+            "motion": "updraft",
+            "primitive": "particle_field",
+            "speed": 0.42
+          },
+          {
+            "color": [
+              255,
+              72,
+              20
+            ],
+            "count": 7,
+            "primitive": "ribbon_flow",
+            "speed": 0.18
+          },
+          {
+            "color": [
+              255,
+              90,
+              22
+            ],
+            "count": 4,
+            "primitive": "radial_glow"
+          }
+        ],
+        "object_effects": [
+          {
+            "color": [
+              255,
+              72,
+              18
+            ],
+            "primitive": "motion_trail",
+            "selector": "fireball|falling_fireball"
+          },
+          {
+            "color": [
+              255,
+              196,
+              70
+            ],
+            "primitive": "flame_orb",
+            "selector": "fireball|falling_fireball"
+          },
+          {
+            "color": [
+              255,
+              60,
+              18
+            ],
+            "primitive": "danger_pulse",
+            "selector": "lava|molten"
+          },
+          {
+            "color": [
+              255,
+              206,
+              82
+            ],
+            "primitive": "portal_ring",
+            "selector": "exit|goal"
+          }
+        ]
+      },
+      "world_identity": "volcanic_foundry"
+    },
+    "schema_version": "harness-alpha-visual-brief-v1",
+    "scores": {
+      "alien_biome": 0,
+      "asteroid_belt": 0,
+      "clockwork_chamber": 0,
+      "cornfield_maze": 0,
+      "cosmic_research": 0,
+      "crystal_cavern": 0,
+      "cyber_grid": 0,
+      "deep_space": 0,
+      "desert_ruins": 0,
+      "electric_substation": 0,
+      "hazard_arena": 1,
+      "ice_facility": 0,
+      "industrial_noir": 0,
+      "magnetic_lab": 0,
+      "mechanical_factory": 0,
+      "minimalist_sandbox": 0,
+      "orbital_station": 0,
+      "organic_maze": 0,
+      "overgrown_garden": 0,
+      "research_lab": 0,
+      "retro_arcade": 0,
+      "toxic_swamp": 0,
+      "training_sim": 0,
+      "underwater_lab": 0,
+      "volcanic_foundry": 1
+    },
+    "semantic_assets": [
+      {
+        "asset_tags": [
+          "fire",
+          "lava",
+          "particle",
+          "particle-pack"
+        ],
+        "name": "fire_02.png",
+        "pack": "particle-pack",
+        "path": "assets/library/kenney/particle-pack/PNG (Transparent)/fire_02.png",
+        "placement": "hazard",
+        "renderer_only": true,
+        "requested_tags": [
+          "fire"
+        ],
+        "role": "effect_prop",
+        "semantic": "fire"
+      },
+      {
+        "asset_tags": [
+          "particle",
+          "particle-pack",
+          "spark"
+        ],
+        "name": "spark_01.png",
+        "pack": "particle-pack",
+        "path": "assets/library/kenney/particle-pack/PNG (Transparent)/spark_01.png",
+        "placement": "hazard",
+        "renderer_only": true,
+        "requested_tags": [
+          "spark"
+        ],
+        "role": "effect_prop",
+        "semantic": "spark"
+      },
+      {
+        "asset_tags": [
+          "particle",
+          "particle-pack",
+          "smoke"
+        ],
+        "name": "smoke_06.png",
+        "pack": "particle-pack",
+        "path": "assets/library/kenney/particle-pack/PNG (Transparent)/smoke_06.png",
+        "placement": "hazard",
+        "renderer_only": true,
+        "requested_tags": [
+          "smoke"
+        ],
+        "role": "effect_prop",
+        "semantic": "smoke"
+      },
+      {
+        "asset_tags": [
+          "fire",
+          "lava",
+          "particle",
+          "particle-pack"
+        ],
+        "name": "flame_01.png",
+        "pack": "particle-pack",
+        "path": "assets/library/kenney/particle-pack/PNG (Transparent)/flame_01.png",
+        "placement": "hazard",
+        "renderer_only": true,
+        "requested_tags": [
+          "lava"
+        ],
+        "role": "effect_prop",
+        "semantic": "lava"
+      },
+      {
+        "asset_tags": [
+          "fire",
+          "lava",
+          "particle",
+          "particle-pack"
+        ],
+        "name": "fire_01.png",
+        "pack": "particle-pack",
+        "path": "assets/library/kenney/particle-pack/PNG (Transparent)/fire_01.png",
+        "placement": "object",
+        "renderer_only": true,
+        "requested_tags": [
+          "fire"
+        ],
+        "role": "object_accent",
+        "semantic": "fire"
+      },
+      {
+        "asset_tags": [
+          "ball",
+          "equipment",
+          "sports",
+          "sports-pack"
+        ],
+        "name": "ball_bowling2.png",
+        "pack": "sports-pack",
+        "path": "assets/library/kenney/sports-pack/PNG/Equipment/ball_bowling2.png",
+        "placement": "object",
+        "renderer_only": true,
+        "requested_tags": [
+          "ball"
+        ],
+        "role": "object_accent",
+        "semantic": "ball"
+      }
+    ],
+    "semantic_context": {
+      "keywords": [
+        "ball",
+        "falling",
+        "fire",
+        "gate",
+        "goal",
+        "lava"
+      ],
+      "object_names": [
+        "basalt_floor",
+        "molten_lava_river",
+        "safe_obsidian_bridge",
+        "ceiling_fire_vents",
+        "left_volcanic_spire",
+        "right_volcanic_spire",
+        "agent",
+        "obsidian_exit",
+        "fireball_1",
+        "fireball_2",
+        "fireball_3",
+        "fireball_4",
+        "fireball_5"
+      ],
+      "objective_type": "navigation_goal",
+      "prompt": "A lava world where the agent reaches the obsidian exit while staggered fireballs rain from above.",
+      "roles": [
+        "agent",
+        "goal",
+        "hazard",
+        "region",
+        "terrain"
+      ]
+    },
+    "semantic_props": [],
+    "shape_language": "technical_rectilinear",
+    "source": "inferred",
+    "surface_fx": [
+      "warning_stripes",
+      "hazard_chevrons"
+    ],
+    "visual_program": {
+      "background_layers": [
+        {
+          "color": [
+            255,
+            78,
+            18
+          ],
+          "primitive": "heat_shimmer"
+        },
+        {
+          "color": [
+            255,
+            128,
+            34
+          ],
+          "count": 130,
+          "motion": "updraft",
+          "primitive": "particle_field",
+          "speed": 0.42
+        },
+        {
+          "color": [
+            255,
+            72,
+            20
+          ],
+          "count": 7,
+          "primitive": "ribbon_flow",
+          "speed": 0.18
+        },
+        {
+          "color": [
+            255,
+            90,
+            22
+          ],
+          "count": 4,
+          "primitive": "radial_glow"
+        }
+      ],
+      "object_effects": [
+        {
+          "color": [
+            255,
+            72,
+            18
+          ],
+          "primitive": "motion_trail",
+          "selector": "fireball|falling_fireball"
+        },
+        {
+          "color": [
+            255,
+            196,
+            70
+          ],
+          "primitive": "flame_orb",
+          "selector": "fireball|falling_fireball"
+        },
+        {
+          "color": [
+            255,
+            60,
+            18
+          ],
+          "primitive": "danger_pulse",
+          "selector": "lava|molten"
+        },
+        {
+          "color": [
+            255,
+            206,
+            82
+          ],
+          "primitive": "portal_ring",
+          "selector": "exit|goal"
+        }
+      ]
+    }
+  },
+  "world": {
+    "agent_strength": 1962.0,
+    "damping": 0.992,
+    "gravity": [
+      0.0,
+      -620.0
+    ],
+    "height": 640,
+    "iterations": 30,
+    "time_step": 0.016666666666666666,
+    "width": 960
+  }
+}

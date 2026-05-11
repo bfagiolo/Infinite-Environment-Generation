@@ -1,0 +1,297 @@
+{
+  "accent": "pink_cyan",
+  "agent_avatar": "human",
+  "background": "radar_sweep",
+  "fast_variant": {
+    "enabled": true,
+    "physics_source_locked": true,
+    "variant_index": 2,
+    "variant_label": "CINEMATIC"
+  },
+  "lighting": [
+    "neon_bloom",
+    "soft_glow"
+  ],
+  "materials": [
+    "glass",
+    "dark_metal",
+    "sensor_plate"
+  ],
+  "mood": "cyber_grid",
+  "motion_fx": [
+    "agent_trail",
+    "particle_sparks",
+    "impact_ripples"
+  ],
+  "palette": {
+    "background_color": [
+      13,
+      10,
+      22
+    ],
+    "hot": [
+      255,
+      200,
+      80
+    ],
+    "primary": [
+      255,
+      116,
+      215
+    ],
+    "secondary": [
+      87,
+      232,
+      255
+    ]
+  },
+  "presentation": "visual_director_recipe",
+  "prompt": "A neon basketball court where the agent throws a basketball into a glowing hoop.",
+  "recipe": {
+    "accent": "solar_orange",
+    "agent_avatar": "human",
+    "animation_cues": {
+      "agent": [
+        "throw_pose",
+        "run_up"
+      ],
+      "basketball": [
+        "arc_trail",
+        "spin_lines"
+      ],
+      "hoop": [
+        "goal_pulse",
+        "rim_spark"
+      ]
+    },
+    "background": "retro_vignette",
+    "background_layers": [
+      {
+        "alpha": 0.9,
+        "color": [
+          36,
+          20,
+          29
+        ],
+        "kind": "court_floor"
+      },
+      {
+        "alpha": 0.18,
+        "color": [
+          255,
+          140,
+          46
+        ],
+        "kind": "arena_glow"
+      },
+      {
+        "alpha": 0.12,
+        "color": [
+          86,
+          214,
+          255
+        ],
+        "kind": "scoreboard_haze"
+      }
+    ],
+    "camera_fx": [
+      "subtle_screen_shake_on_score"
+    ],
+    "fast_variant": true,
+    "lighting": [
+      "neon_bloom",
+      "rim_light",
+      "crt_glow"
+    ],
+    "mood": "retro_arcade",
+    "motion_fx": [
+      "agent_trail",
+      "object_trail",
+      "particle_sparks",
+      "goal_breathe",
+      "impact_ripples"
+    ],
+    "object_skins": {
+      "backboard": {
+        "alpha": 0.58,
+        "fill": [
+          160,
+          232,
+          255
+        ],
+        "material": "glass_backboard",
+        "outline": [
+          235,
+          252,
+          255
+        ]
+      },
+      "basketball": {
+        "fill": [
+          238,
+          118,
+          42
+        ],
+        "glow": [
+          255,
+          132,
+          58
+        ],
+        "material": "basketball_orange",
+        "outline": [
+          255,
+          221,
+          143
+        ],
+        "stripe_color": [
+          36,
+          19,
+          12
+        ]
+      },
+      "court": {
+        "alpha": 0.55,
+        "fill": [
+          255,
+          190,
+          82
+        ],
+        "material": "painted_court_line",
+        "outline": [
+          255,
+          240,
+          200
+        ]
+      },
+      "hoop": {
+        "fill": [
+          255,
+          88,
+          36
+        ],
+        "glow": [
+          255,
+          120,
+          54
+        ],
+        "material": "glowing_rim",
+        "outline": [
+          255,
+          244,
+          216
+        ]
+      }
+    },
+    "palette": {
+      "background": "#120c14",
+      "hazard": "#ff5c2a",
+      "primary": "#ffb240",
+      "secondary": "#56d6ff"
+    },
+    "seed": 42024,
+    "surface_fx": [
+      "crt_vignette",
+      "hazard_chevrons",
+      "grid_crosshairs"
+    ],
+    "variant_index": 2,
+    "variant_label": "CINEMATIC",
+    "variant_note": "same solved world with higher-energy demo styling",
+    "world_identity": "neon_arcade_maze"
+  },
+  "schema_version": "harness-alpha-visual-brief-v1",
+  "scores": {
+    "neon_arcade_maze": 999
+  },
+  "semantic_assets": [
+    {
+      "asset_tags": [
+        "ball",
+        "equipment",
+        "sports",
+        "sports-pack"
+      ],
+      "name": "ball_puck.png",
+      "pack": "sports-pack",
+      "path": "assets/library/kenney/sports-pack/PNG/Equipment/ball_puck.png",
+      "placement": "objective",
+      "renderer_only": true,
+      "requested_tags": [
+        "ball"
+      ],
+      "role": "foreground_prop",
+      "semantic": "ball"
+    },
+    {
+      "asset_tags": [
+        "flag",
+        "new-platformer-pack",
+        "sports"
+      ],
+      "name": "flag_blue_a.png",
+      "pack": "new-platformer-pack",
+      "path": "assets/library/kenney/new-platformer-pack/Sprites/Tiles/Default/flag_blue_a.png",
+      "placement": "objective",
+      "renderer_only": true,
+      "requested_tags": [
+        "flag"
+      ],
+      "role": "foreground_prop",
+      "semantic": "flag"
+    },
+    {
+      "asset_tags": [
+        "ball",
+        "equipment",
+        "sports",
+        "sports-pack"
+      ],
+      "name": "ball_basket3.png",
+      "pack": "sports-pack",
+      "path": "assets/library/kenney/sports-pack/PNG/Equipment/ball_basket3.png",
+      "placement": "object",
+      "renderer_only": true,
+      "requested_tags": [
+        "ball"
+      ],
+      "role": "object_accent",
+      "semantic": "ball"
+    }
+  ],
+  "semantic_context": {
+    "keywords": [
+      "ball",
+      "goal",
+      "throw"
+    ],
+    "object_names": [
+      "neon_court_paint",
+      "free_throw_lane_visual",
+      "scoreboard_visual",
+      "basketball_demo_support",
+      "hoop",
+      "basketball_demo_backboard",
+      "basketball_demo_rim_visual",
+      "basketball",
+      "agent"
+    ],
+    "objective_type": "custom_physics",
+    "prompt": "A neon basketball court where the agent throws a basketball into a glowing hoop.",
+    "roles": [
+      "agent",
+      "goal",
+      "object",
+      "region",
+      "support",
+      "terrain"
+    ]
+  },
+  "semantic_props": [],
+  "shape_language": "technical_rectilinear",
+  "source": "visual_recipe",
+  "surface_fx": [
+    "crt_vignette",
+    "procedural_noise"
+  ],
+  "visual_program": null
+}

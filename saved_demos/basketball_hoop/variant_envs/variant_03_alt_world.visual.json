@@ -1,0 +1,165 @@
+{
+  "accent": "violet_lime",
+  "agent_avatar": "human",
+  "animation_cues": {
+    "agent": [
+      "throw_pose",
+      "run_up"
+    ],
+    "basketball": [
+      "arc_trail",
+      "spin_lines"
+    ],
+    "hoop": [
+      "goal_pulse",
+      "rim_spark"
+    ]
+  },
+  "background": "crystal_speckle",
+  "background_layers": [
+    {
+      "alpha": 0.9,
+      "color": [
+        36,
+        20,
+        29
+      ],
+      "kind": "court_floor"
+    },
+    {
+      "alpha": 0.18,
+      "color": [
+        255,
+        140,
+        46
+      ],
+      "kind": "arena_glow"
+    },
+    {
+      "alpha": 0.12,
+      "color": [
+        86,
+        214,
+        255
+      ],
+      "kind": "scoreboard_haze"
+    }
+  ],
+  "camera_fx": [
+    "subtle_screen_shake_on_score"
+  ],
+  "fast_variant": true,
+  "lighting": [
+    "neon_bloom",
+    "rim_light",
+    "crt_glow"
+  ],
+  "mood": "crystal_cavern",
+  "motion_fx": [
+    "agent_trail",
+    "crystal_shimmer",
+    "goal_breathe"
+  ],
+  "object_skins": {
+    "backboard": {
+      "alpha": 0.58,
+      "fill": [
+        160,
+        232,
+        255
+      ],
+      "material": "glass_backboard",
+      "outline": [
+        235,
+        252,
+        255
+      ]
+    },
+    "basketball": {
+      "fill": [
+        238,
+        118,
+        42
+      ],
+      "glow": [
+        255,
+        132,
+        58
+      ],
+      "material": "basketball_orange",
+      "outline": [
+        255,
+        221,
+        143
+      ],
+      "stripe_color": [
+        36,
+        19,
+        12
+      ]
+    },
+    "court": {
+      "alpha": 0.55,
+      "fill": [
+        255,
+        190,
+        82
+      ],
+      "material": "painted_court_line",
+      "outline": [
+        255,
+        240,
+        200
+      ]
+    },
+    "hoop": {
+      "fill": [
+        255,
+        88,
+        36
+      ],
+      "glow": [
+        255,
+        120,
+        54
+      ],
+      "material": "glowing_rim",
+      "outline": [
+        255,
+        244,
+        216
+      ]
+    }
+  },
+  "palette": {
+    "background_color": [
+      14,
+      13,
+      24
+    ],
+    "hot": [
+      255,
+      86,
+      142
+    ],
+    "primary": [
+      170,
+      115,
+      255
+    ],
+    "secondary": [
+      178,
+      255,
+      86
+    ]
+  },
+  "seed": 42327,
+  "surface_fx": [
+    "crystal_facets",
+    "film_grain"
+  ],
+  "variant_index": 3,
+  "variant_label": "ALT WORLD",
+  "variant_note": "same solved world with alternate palette/material language",
+  "world_identity": "neon_arcade_maze"
+}

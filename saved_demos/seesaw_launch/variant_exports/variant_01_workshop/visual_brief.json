@@ -1,0 +1,795 @@
+{
+  "accent": "teal_yellow",
+  "agent_avatar": "human",
+  "background": "circuit_board",
+  "fast_variant": {
+    "enabled": true,
+    "physics_source_locked": true,
+    "variant_index": 1,
+    "variant_label": "WORKSHOP"
+  },
+  "lighting": [
+    "neon_bloom",
+    "soft_glow"
+  ],
+  "materials": [
+    "wood",
+    "brushed_steel",
+    "gate_metal",
+    "rubber"
+  ],
+  "mood": "mechanical_factory",
+  "motion_fx": [
+    "agent_trail",
+    "impact_ripples",
+    "goal_breathe"
+  ],
+  "palette": {
+    "background_color": [
+      13,
+      18,
+      19
+    ],
+    "hot": [
+      255,
+      96,
+      142
+    ],
+    "primary": [
+      52,
+      220,
+      206
+    ],
+    "secondary": [
+      255,
+      225,
+      86
+    ]
+  },
+  "presentation": "visual_director_recipe",
+  "prompt": "A weighted seesaw puzzle where a heavy ball must launch the agent to a high goal.",
+  "recipe": {
+    "accent": "amber_emerald",
+    "agent_avatar": "human",
+    "animation_cues": {
+      "agent": [
+        "brace_pose",
+        "launch_pose"
+      ],
+      "heavy_ball": [
+        "drop_weight",
+        "impact_ripple"
+      ],
+      "high_goal": [
+        "goal_pulse"
+      ],
+      "seesaw_plank": [
+        "lever_rotation_arc"
+      ]
+    },
+    "background": "warm_mechanism_stage",
+    "background_layers": [
+      {
+        "strength": 0.45999999999999996,
+        "type": "atmospheric_vignette"
+      },
+      {
+        "cell": 30,
+        "type": "simulation_grid"
+      },
+      {
+        "count": 110,
+        "type": "dust_motes"
+      },
+      {
+        "cell": 24,
+        "type": "simulation_grid"
+      },
+      {
+        "count": 55,
+        "type": "dust_motes"
+      },
+      {
+        "count": 5,
+        "theme": "structured",
+        "type": "set_dressing_props"
+      }
+    ],
+    "camera_fx": [
+      "subtle_impact_shake"
+    ],
+    "fast_variant": true,
+    "lighting": [
+      "warm_spotlight",
+      "rim_light",
+      "lever_glow"
+    ],
+    "mood": "mechanical_factory",
+    "motion_fx": [
+      "agent_trail",
+      "object_trail",
+      "goal_breathe",
+      "impact_ripples",
+      "lever_arc"
+    ],
+    "object_skins": {
+      "*ball*": {
+        "fill": [
+          255,
+          225,
+          86
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          225,
+          86
+        ],
+        "outline": [
+          245,
+          250,
+          255
+        ]
+      },
+      "*beacon*": {
+        "fill": [
+          107,
+          94,
+          36
+        ],
+        "fx": [
+          "goal_breathe",
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          225,
+          86
+        ],
+        "outline": [
+          255,
+          225,
+          86
+        ]
+      },
+      "*crystal*": {
+        "fill": [
+          255,
+          225,
+          86
+        ],
+        "fx": [
+          "twinkle",
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          225,
+          86
+        ],
+        "outline": [
+          245,
+          250,
+          255
+        ]
+      },
+      "*enemy*": {
+        "fill": [
+          158,
+          59,
+          88
+        ],
+        "fx": [
+          "danger_pulse",
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          96,
+          142
+        ],
+        "outline": [
+          255,
+          96,
+          142
+        ]
+      },
+      "*exit*": {
+        "fill": [
+          107,
+          94,
+          36
+        ],
+        "fx": [
+          "goal_breathe",
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          225,
+          86
+        ],
+        "outline": [
+          255,
+          225,
+          86
+        ]
+      },
+      "*fire*": {
+        "fill": [
+          255,
+          96,
+          142
+        ],
+        "fx": [
+          "hazard_flash",
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          96,
+          142
+        ],
+        "outline": [
+          255,
+          235,
+          140
+        ]
+      },
+      "*floor*": {
+        "fill": [
+          19,
+          83,
+          78
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "glow": [
+          52,
+          220,
+          206
+        ],
+        "outline": [
+          52,
+          220,
+          206
+        ]
+      },
+      "*goal*": {
+        "fill": [
+          107,
+          94,
+          36
+        ],
+        "fx": [
+          "goal_breathe",
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          225,
+          86
+        ],
+        "outline": [
+          255,
+          225,
+          86
+        ]
+      },
+      "*hazard*": {
+        "fill": [
+          158,
+          59,
+          88
+        ],
+        "fx": [
+          "hazard_flash",
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          96,
+          142
+        ],
+        "outline": [
+          255,
+          96,
+          142
+        ]
+      },
+      "*pivot*": {
+        "fill": [
+          107,
+          94,
+          36
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          225,
+          86
+        ],
+        "outline": [
+          255,
+          225,
+          86
+        ]
+      },
+      "*plank*": {
+        "fill": [
+          14,
+          61,
+          57
+        ],
+        "fx": [
+          "edge_bloom",
+          "material_stripes"
+        ],
+        "glow": [
+          52,
+          220,
+          206
+        ],
+        "outline": [
+          52,
+          220,
+          206
+        ]
+      },
+      "*platform*": {
+        "fill": [
+          19,
+          83,
+          78
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "glow": [
+          52,
+          220,
+          206
+        ],
+        "outline": [
+          52,
+          220,
+          206
+        ]
+      },
+      "*rock*": {
+        "fill": [
+          19,
+          83,
+          78
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "glow": [
+          52,
+          220,
+          206
+        ],
+        "outline": [
+          52,
+          220,
+          206
+        ]
+      },
+      "*tree*": {
+        "fill": [
+          107,
+          94,
+          36
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "outline": [
+          255,
+          225,
+          86
+        ],
+        "trunk": [
+          19,
+          83,
+          78
+        ]
+      },
+      "*wall*": {
+        "fill": [
+          19,
+          83,
+          78
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "glow": [
+          52,
+          220,
+          206
+        ],
+        "outline": [
+          52,
+          220,
+          206
+        ]
+      },
+      "*water*": {
+        "fill": [
+          19,
+          83,
+          78
+        ],
+        "foam": [
+          255,
+          225,
+          86
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "outline": [
+          52,
+          220,
+          206
+        ]
+      },
+      "*weight*": {
+        "fill": [
+          96,
+          104,
+          112
+        ],
+        "fx": [
+          "edge_bloom",
+          "impact_ripples"
+        ],
+        "glow": [
+          255,
+          96,
+          142
+        ],
+        "outline": [
+          236,
+          244,
+          248
+        ]
+      },
+      "heavy_ball": {
+        "fill": [
+          96,
+          104,
+          112
+        ],
+        "fx": [
+          "edge_bloom",
+          "impact_ripples"
+        ],
+        "glow": [
+          255,
+          96,
+          142
+        ],
+        "material": "heavy_iron_ball",
+        "outline": [
+          236,
+          244,
+          248
+        ]
+      },
+      "high_goal": {
+        "fill": [
+          91,
+          81,
+          30
+        ],
+        "fx": [
+          "goal_breathe",
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          225,
+          86
+        ],
+        "material": "floating_target_ring",
+        "outline": [
+          255,
+          225,
+          86
+        ]
+      },
+      "launch_pad": {
+        "alpha": 0.42,
+        "fill": [
+          86,
+          32,
+          48
+        ],
+        "fx": [
+          "field_pulse",
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          96,
+          142
+        ],
+        "material": "impact_pad",
+        "outline": [
+          255,
+          96,
+          142
+        ]
+      },
+      "left_load_label": {
+        "alpha": 0.36,
+        "fill": [
+          255,
+          122,
+          69
+        ],
+        "material": "load_zone_marker",
+        "outline": [
+          255,
+          215,
+          140
+        ]
+      },
+      "pivot": {
+        "fill": [
+          107,
+          94,
+          36
+        ],
+        "fx": [
+          "edge_bloom"
+        ],
+        "glow": [
+          255,
+          225,
+          86
+        ],
+        "material": "seesaw_pivot",
+        "outline": [
+          255,
+          225,
+          86
+        ]
+      },
+      "right_launch_label": {
+        "alpha": 0.34,
+        "fill": [
+          48,
+          231,
+          155
+        ],
+        "material": "launch_zone_marker",
+        "outline": [
+          219,
+          255,
+          234
+        ]
+      },
+      "seesaw_plank": {
+        "fill": [
+          14,
+          61,
+          57
+        ],
+        "fx": [
+          "edge_bloom",
+          "material_stripes"
+        ],
+        "glow": [
+          52,
+          220,
+          206
+        ],
+        "material": "seesaw_plank",
+        "outline": [
+          52,
+          220,
+          206
+        ],
+        "stripe": [
+          92,
+          50,
+          25
+        ]
+      }
+    },
+    "palette": {
+      "background": "#100d0b",
+      "hazard": "#ff7a45",
+      "primary": "#ffd45c",
+      "secondary": "#30e79b"
+    },
+    "seed": 31577,
+    "surface_fx": [
+      "stage_vignette",
+      "brass_grid",
+      "mechanism_crosshairs"
+    ],
+    "variant_index": 1,
+    "variant_label": "WORKSHOP",
+    "variant_note": "same solved mechanism with readable workshop staging",
+    "world_identity": "clockwork_mechanism_room"
+  },
+  "schema_version": "harness-alpha-visual-brief-v1",
+  "scores": {
+    "clockwork_mechanism_room": 999
+  },
+  "semantic_assets": [
+    {
+      "asset_tags": [
+        "ball",
+        "equipment",
+        "sports",
+        "sports-pack"
+      ],
+      "name": "ball_soccer2.png",
+      "pack": "sports-pack",
+      "path": "assets/library/kenney/sports-pack/PNG/Equipment/ball_soccer2.png",
+      "placement": "object",
+      "renderer_only": true,
+      "requested_tags": [
+        "ball"
+      ],
+      "role": "object_accent",
+      "semantic": "ball"
+    },
+    {
+      "asset_tags": [
+        "flag",
+        "goal",
+        "new-platformer-pack",
+        "sports"
+      ],
+      "name": "flag_green_b.png",
+      "pack": "new-platformer-pack",
+      "path": "assets/library/kenney/new-platformer-pack/Sprites/Tiles/Double/flag_green_b.png",
+      "placement": "object",
+      "renderer_only": true,
+      "requested_tags": [
+        "goal"
+      ],
+      "role": "object_accent",
+      "semantic": "goal"
+    }
+  ],
+  "semantic_context": {
+    "keywords": [
+      "ball",
+      "goal"
+    ],
+    "object_names": [
+      "ground",
+      "left_load_label",
+      "right_launch_label",
+      "seesaw_plank",
+      "pivot",
+      "launch_pad",
+      "heavy_ball",
+      "agent",
+      "high_goal"
+    ],
+    "objective_type": "navigation_goal",
+    "prompt": "A weighted seesaw puzzle where a heavy ball must launch the agent to a high goal.",
+    "roles": [
+      "agent",
+      "goal",
+      "mechanism",
+      "object",
+      "region",
+      "support",
+      "terrain",
+      "trigger"
+    ]
+  },
+  "semantic_props": [],
+  "shape_language": "heavy_industrial",
+  "source": "visual_recipe",
+  "surface_fx": [
+    "metal_panel_lines",
+    "grid_crosshairs"
+  ],
+  "visual_program": {
+    "background_layers": [
+      {
+        "color": [
+          52,
+          220,
+          206
+        ],
+        "count": 116,
+        "motion": "drift",
+        "primitive": "particle_field",
+        "speed": 0.21000000000000002
+      },
+      {
+        "color": [
+          255,
+          225,
+          86
+        ],
+        "count": 3,
+        "primitive": "radial_glow"
+      },
+      {
+        "cell": 30,
+        "color": [
+          52,
+          220,
+          206
+        ],
+        "primitive": "grid_overlay"
+      },
+      {
+        "color": [
+          255,
+          225,
+          86
+        ],
+        "count": 8,
+        "primitive": "contour_lines"
+      }
+    ],
+    "object_effects": [
+      {
+        "color": [
+          52,
+          220,
+          206
+        ],
+        "primitive": "motion_trail",
+        "selector": "agent"
+      },
+      {
+        "color": [
+          255,
+          225,
+          86
+        ],
+        "primitive": "portal_ring",
+        "selector": "goal|exit|target|beacon"
+      },
+      {
+        "color": [
+          255,
+          96,
+          142
+        ],
+        "primitive": "danger_pulse",
+        "selector": "hazard|enemy|fire|lava|bear"
+      },
+      {
+        "color": [
+          52,
+          220,
+          206
+        ],
+        "primitive": "rim_glow",
+        "selector": "wall|floor|platform|gate"
+      },
+      {
+        "color": [
+          255,
+          225,
+          86
+        ],
+        "primitive": "field_ring",
+        "rings": 2,
+        "selector": "goal|exit|target|beacon"
+      }
+    ],
+    "seed": 137
+  }
+}

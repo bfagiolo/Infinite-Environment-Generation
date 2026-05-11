@@ -1,0 +1,110 @@
+{
+  "assets": [
+    {
+      "asset_tags": [
+        "fire",
+        "lava",
+        "particle",
+        "particle-pack"
+      ],
+      "name": "fire_02.png",
+      "pack": "particle-pack",
+      "path": "assets/library/kenney/particle-pack/PNG (Transparent)/fire_02.png",
+      "placement": "hazard",
+      "renderer_only": true,
+      "requested_tags": [
+        "fire"
+      ],
+      "role": "effect_prop",
+      "semantic": "fire"
+    },
+    {
+      "asset_tags": [
+        "particle",
+        "particle-pack",
+        "spark"
+      ],
+      "name": "spark_01.png",
+      "pack": "particle-pack",
+      "path": "assets/library/kenney/particle-pack/PNG (Transparent)/spark_01.png",
+      "placement": "hazard",
+      "renderer_only": true,
+      "requested_tags": [
+        "spark"
+      ],
+      "role": "effect_prop",
+      "semantic": "spark"
+    },
+    {
+      "asset_tags": [
+        "particle",
+        "particle-pack",
+        "smoke"
+      ],
+      "name": "smoke_06.png",
+      "pack": "particle-pack",
+      "path": "assets/library/kenney/particle-pack/PNG (Transparent)/smoke_06.png",
+      "placement": "hazard",
+      "renderer_only": true,
+      "requested_tags": [
+        "smoke"
+      ],
+      "role": "effect_prop",
+      "semantic": "smoke"
+    },
+    {
+      "asset_tags": [
+        "fire",
+        "lava",
+        "particle",
+        "particle-pack"
+      ],
+      "name": "flame_01.png",
+      "pack": "particle-pack",
+      "path": "assets/library/kenney/particle-pack/PNG (Transparent)/flame_01.png",
+      "placement": "hazard",
+      "renderer_only": true,
+      "requested_tags": [
+        "lava"
+      ],
+      "role": "effect_prop",
+      "semantic": "lava"
+    },
+    {
+      "asset_tags": [
+        "fire",
+        "lava",
+        "particle",
+        "particle-pack"
+      ],
+      "name": "fire_01.png",
+      "pack": "particle-pack",
+      "path": "assets/library/kenney/particle-pack/PNG (Transparent)/fire_01.png",
+      "placement": "object",
+      "renderer_only": true,
+      "requested_tags": [
+        "fire"
+      ],
+      "role": "object_accent",
+      "semantic": "fire"
+    },
+    {
+      "asset_tags": [
+        "ball",
+        "equipment",
+        "sports",
+        "sports-pack"
+      ],
+      "name": "ball_bowling2.png",
+      "pack": "sports-pack",
+      "path": "assets/library/kenney/sports-pack/PNG/Equipment/ball_bowling2.png",
+      "placement": "object",
+      "renderer_only": true,
+      "requested_tags": [
+        "ball"
+      ],
+      "role": "object_accent",
+      "semantic": "ball"
+    }
+  ]
+}

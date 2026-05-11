@@ -1,0 +1,169 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "zero_g",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "thrust_2d",
+    "notes": "Zero-g thrust motion with mild global damping to prevent infinite drift; no hidden force fields."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: num_targets_touched, min_distance_to_untouched_target."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "agent_underpowered",
+      "targets_unreachable",
+      "touch_not_counted"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "In zero gravity, touch three floating target rocks (asteroids).",
+    "objective_type": "multi_target_touch",
+    "progress_metrics": [
+      "num_targets_touched",
+      "min_distance_to_untouched_target"
+    ],
+    "required_capabilities": [
+      "thrust_2d",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_touch_object",
+        "target": "rock_1"
+      },
+      {
+        "kind": "agent_touch_object",
+        "target": "rock_2"
+      },
+      {
+        "kind": "agent_touch_object",
+        "target": "rock_3"
+      }
+    ],
+    "success_predicate": "agent makes physics-contact-style overlap with each of rock_1, rock_2, rock_3 at least once",
+    "targets": [
+      "rock_1",
+      "rock_2",
+      "rock_3"
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "agent_touch_object"
+    ]
+  },
+  "objective_type": "multi_target_touch",
+  "skill_id": "learned_multi_target_touch_solved_verified_a_zero_gravity_asteroid_field_where_the_agent",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\a_zero_gravity_asteroid_field_seed1_repair2_env.py",
+  "source_prompt": "A zero-gravity asteroid field where the agent must touch three floating rocks.",
+  "summary": "In zero gravity, touch three floating target rocks (asteroids). Validated as solved_verified with movement=thrust_2d, gravity=zero_g.",
+  "trigger_keywords": [
+    "2d",
+    "a",
+    "agent",
+    "asteroid",
+    "contact",
+    "distance",
+    "field",
+    "floating",
+    "g",
+    "gravity",
+    "min",
+    "multi",
+    "must",
+    "num",
+    "object",
+    "plan",
+    "rocks",
+    "subgoal",
+    "target",
+    "targets",
+    "the",
+    "three",
+    "thrust",
+    "to",
+    "touch",
+    "touched",
+    "untouched",
+    "where",
+    "zero"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "zero_g",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "thrust_2d",
+    "objective_type": "multi_target_touch",
+    "oracle": "subgoal_plan",
+    "progress_metrics": [
+      "num_targets_touched",
+      "min_distance_to_untouched_target"
+    ],
+    "required_capabilities": [
+      "thrust_2d",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_touch_object",
+        "target": "rock_1"
+      },
+      {
+        "kind": "agent_touch_object",
+        "target": "rock_2"
+      },
+      {
+        "kind": "agent_touch_object",
+        "target": "rock_3"
+      }
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "agent_touch_object"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

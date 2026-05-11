@@ -1,0 +1,260 @@
+{
+  "accent": "cyan_green",
+  "agent_avatar": "ship",
+  "background": "blueprint_grid",
+  "fast_variant": true,
+  "mood": "training_sim",
+  "motion_fx": [
+    "agent_trail",
+    "goal_breathe",
+    "scan_sweep"
+  ],
+  "object_skins": {
+    "*capital_ship*": {
+      "fill": [
+        20,
+        22,
+        42
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        78,
+        156,
+        255
+      ],
+      "material": "capital_ship_shadow",
+      "outline": [
+        88,
+        115,
+        172
+      ]
+    },
+    "*enemy_ship*": {
+      "fill": [
+        32,
+        20,
+        42
+      ],
+      "fx": [
+        "danger_pulse",
+        "edge_bloom"
+      ],
+      "glow": [
+        255,
+        60,
+        120
+      ],
+      "material": "enemy_fighter",
+      "outline": [
+        255,
+        82,
+        142
+      ]
+    },
+    "*enemy_shot*": {
+      "fill": [
+        255,
+        62,
+        118
+      ],
+      "fx": [
+        "motion_trail",
+        "danger_pulse"
+      ],
+      "glow": [
+        255,
+        42,
+        108
+      ],
+      "material": "laser_bolt",
+      "outline": [
+        255,
+        228,
+        244
+      ]
+    },
+    "*wall*": {
+      "fill": [
+        22,
+        36,
+        58
+      ],
+      "fx": [
+        "edge_bloom"
+      ],
+      "glow": [
+        54,
+        184,
+        255
+      ],
+      "material": "space_boundary",
+      "outline": [
+        80,
+        196,
+        255
+      ]
+    },
+    "agent": {
+      "fill": [
+        55,
+        224,
+        255
+      ],
+      "fx": [
+        "engine_flare",
+        "object_trail",
+        "edge_bloom"
+      ],
+      "glow": [
+        72,
+        216,
+        255
+      ],
+      "material": "hero_interceptor",
+      "outline": [
+        236,
+        250,
+        255
+      ]
+    }
+  },
+  "palette": {
+    "background_color": [
+      10,
+      19,
+      22
+    ],
+    "hot": [
+      255,
+      206,
+      86
+    ],
+    "primary": [
+      72,
+      221,
+      236
+    ],
+    "secondary": [
+      52,
+      232,
+      154
+    ]
+  },
+  "seed": 3697634466,
+  "style_tags": [
+    "cinematic_space_opera",
+    "deep_starfield",
+    "laser_dogfight",
+    "high_contrast"
+  ],
+  "surface_fx": [
+    "grid_crosshairs",
+    "scanlines"
+  ],
+  "variant_index": 1,
+  "variant_label": "READABLE",
+  "variant_note": "same solved world with cleaner training-sim readability",
+  "visual_program": {
+    "background_layers": [
+      {
+        "color": [
+          125,
+          212,
+          255
+        ],
+        "count": 220,
+        "motion": "drift",
+        "primitive": "particle_field",
+        "speed": 0.18
+      },
+      {
+        "color": [
+          210,
+          112,
+          255
+        ],
+        "count": 54,
+        "motion": "orbit",
+        "primitive": "particle_field",
+        "speed": 0.35
+      },
+      {
+        "color": [
+          88,
+          128,
+          255
+        ],
+        "count": 5,
+        "primitive": "radial_glow"
+      },
+      {
+        "color": [
+          255,
+          78,
+          160
+        ],
+        "count": 5,
+        "primitive": "ribbon_flow",
+        "speed": 0.1
+      },
+      {
+        "color": [
+          98,
+          220,
+          255
+        ],
+        "primitive": "scanline_roll"
+      }
+    ],
+    "object_effects": [
+      {
+        "color": [
+          78,
+          224,
+          255
+        ],
+        "primitive": "motion_trail",
+        "selector": "agent|hero_interceptor"
+      },
+      {
+        "color": [
+          255,
+          62,
+          118
+        ],
+        "primitive": "danger_pulse",
+        "selector": "enemy_ship|enemy_fighter"
+      },
+      {
+        "color": [
+          255,
+          62,
+          118
+        ],
+        "primitive": "motion_trail",
+        "selector": "enemy_shot|laser|projectile"
+      },
+      {
+        "color": [
+          255,
+          210,
+          236
+        ],
+        "primitive": "spark_burst",
+        "selector": "enemy_shot|laser|projectile"
+      },
+      {
+        "color": [
+          76,
+          156,
+          255
+        ],
+        "primitive": "rim_glow",
+        "selector": "capital_ship"
+      }
+    ]
+  },
+  "world_identity": "deep_space_salvage"
+}

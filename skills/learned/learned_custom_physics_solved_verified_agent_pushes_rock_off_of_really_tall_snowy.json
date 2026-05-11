@@ -1,0 +1,267 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "push_contact",
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "notes": "Side-view, normal gravity. Agent can only move by forces and push the rock via contact."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: agent_rock_distance, rock_distance_to_edge_x, rock_speed, rock_downward_velocity, rock_has_crossed_edge, rock_fall_distance_since_edge_cross, time_remaining."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "agent_underpowered",
+      "rock_never_crosses_edge",
+      "rock_insufficient_freefall",
+      "timeout"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Push the rock over the cliff edge so it leaves support and free-falls into open air.",
+    "objective_type": "custom_physics",
+    "progress_metrics": [
+      "agent_rock_distance",
+      "rock_distance_to_edge_x",
+      "rock_speed",
+      "rock_downward_velocity",
+      "rock_has_crossed_edge",
+      "rock_fall_distance_since_edge_cross",
+      "time_remaining"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "push_contact"
+    ],
+    "subgoals": [
+      {
+        "boundary": "cliff_edge_boundary",
+        "kind": "support_exit_freefall",
+        "min_downward_velocity": 40,
+        "min_fall_distance": 90,
+        "object": "rock",
+        "region": "open_air_drop_zone"
+      }
+    ],
+    "success_predicate": "rock crosses cliff_edge_boundary (support exit) and then falls at least min_fall_distance with downward velocity below -min_downward_velocity",
+    "targets": [
+      "rock",
+      "cliff_edge_boundary",
+      "open_air_drop_zone"
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "support_exit_freefall"
+    ]
+  },
+  "objective_type": "custom_physics",
+  "skill_id": "learned_custom_physics_solved_verified_agent_pushes_rock_off_of_really_tall_snowy",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\agent_pushes_rock_off_of_seed1_repair2_env.py",
+  "source_prompt": "Agent pushes rock off of really tall snowy mountain",
+  "summary": "Push the rock over the cliff edge so it leaves support and free-falls into open air. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "agent",
+    "contact",
+    "cross",
+    "crossed",
+    "custom",
+    "distance",
+    "downward",
+    "edge",
+    "exit",
+    "fall",
+    "force",
+    "freefall",
+    "ground",
+    "has",
+    "mountain",
+    "normal",
+    "of",
+    "off",
+    "physics",
+    "plan",
+    "push",
+    "pushes",
+    "really",
+    "remaining",
+    "rock",
+    "since",
+    "snowy",
+    "speed",
+    "subgoal",
+    "support",
+    "tall",
+    "time",
+    "to",
+    "velocity",
+    "x"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "push_contact",
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "objective_type": "custom_physics",
+    "oracle": "subgoal_plan",
+    "physics_relations": {
+      "intent_summary": "A controllable agent must physically push a rock so it slides/rolls down from a very tall snowy mountain and leaves the summit area.",
+      "relations": [
+        {
+          "actors": [
+            "agent"
+          ],
+          "objects": [
+            "rock"
+          ],
+          "probes": [
+            "agent_object_contact",
+            "contact_impulse_observed",
+            "object_moves_toward_region"
+          ],
+          "repair": "Place the agent behind the object relative to the exit boundary and tune mass/friction so contact starts motion.",
+          "type": "contact_push"
+        },
+        {
+          "objects": [
+            "rock"
+          ],
+          "probes": [
+            "object_crosses_boundary",
+            "support_exit"
+          ],
+          "regions": [
+            "cliff_edge_boundary"
+          ],
+          "repair": "The boundary must align with the true end of support; support terrain should not be treated as a blocker before the edge.",
+          "type": "support_boundary_exit"
+        },
+        {
+          "fields": [
+            "gravity"
+          ],
+          "objects": [
+            "rock"
+          ],
+          "probes": [
+            "downward_velocity",
+            "unsupported_motion",
+            "object_inside_region"
+          ],
+          "regions": [
+            "open_air_drop_zone"
+          ],
+          "repair": "Keep open air below the edge clear and let gravity produce visible downward displacement after crossing.",
+          "type": "freefall_after_support_exit"
+        }
+      ],
+      "source": "deterministic_relation_inference",
+      "suggested_subgoals": [
+        {
+          "boundary": "cliff_edge_boundary",
+          "kind": "support_exit_freefall",
+          "min_downward_velocity": 40,
+          "min_fall_distance": 90,
+          "object": "rock",
+          "region": "open_air_drop_zone"
+        }
+      ],
+      "validator_strategy": {
+        "primary": "validate physics_relations, then objective_profile.subgoals",
+        "repair_unit": "failed relation, not failed task template",
+        "template_policy": "helpers are optional constructors; relations are the conceptual source of truth"
+      },
+      "version": "physics_relation_graph.v1",
+      "world_context": {
+        "gravity": "normal",
+        "movement_model": "agent uses ground locomotion with traction that is reduced on ice/snow; can push dynamic bodies via contact forces",
+        "perspective": "side_view_platformer",
+        "rationale": "The prompt centers on pushing and gravity-driven descent; steep snowy terrain plus low friction ensures the rock can be pushed then carried downhill visibly.",
+        "support_model": "static terrain made of connected segments/polylines forming a tall mountain with a summit shelf and a long steep descent; world boundaries prevent leaving screen except for designated fall/off-mountain region",
+        "theme": "snowy mountain peak with steep downhill slope and icy patches"
+      }
+    },
+    "progress_metrics": [
+      "agent_rock_distance",
+      "rock_distance_to_edge_x",
+      "rock_speed",
+      "rock_downward_velocity",
+      "rock_has_crossed_edge",
+      "rock_fall_distance_since_edge_cross",
+      "time_remaining"
+    ],
+    "relation_subgoals": [
+      {
+        "boundary": "cliff_edge_boundary",
+        "kind": "support_exit_freefall",
+        "min_downward_velocity": 40,
+        "min_fall_distance": 90,
+        "object": "rock",
+        "region": "open_air_drop_zone"
+      }
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "push_contact"
+    ],
+    "subgoals": [
+      {
+        "boundary": "cliff_edge_boundary",
+        "kind": "support_exit_freefall",
+        "min_downward_velocity": 40,
+        "min_fall_distance": 90,
+        "object": "rock",
+        "region": "open_air_drop_zone"
+      }
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "support_exit_freefall"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during post-subgoal grace validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

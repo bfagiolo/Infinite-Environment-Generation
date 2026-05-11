@@ -1,0 +1,86 @@
+{
+  "world_identity": "underwater_lab",
+  "mood": "underwater_lab",
+  "background": "underwater_caustics",
+  "accent": "mint_coral",
+  "agent_avatar": "human",
+  "palette": {
+    "background": "#041824",
+    "primary": "#fff6d2",
+    "secondary": "#39e8ff",
+    "hazard": "#ff9b63"
+  },
+  "lighting": ["caustic_light", "soft_rim_light", "beacon_glow"],
+  "motion_fx": ["agent_trail", "water_ripples", "bubble_trail", "goal_breathe", "splash_burst"],
+  "surface_fx": ["underwater_caustics", "shoreline_noise", "soft_vignette"],
+  "background_layers": [
+    {"primitive": "contour_lines", "color": "#39e8ff", "count": 12, "alpha": 0.08},
+    {"primitive": "particle_field", "color": "#b8fff4", "count": 42, "speed": 0.06, "motion": "updraft"},
+    {"primitive": "radial_glow", "color": "#39e8ff", "count": 2, "alpha": 0.06}
+  ],
+  "object_skins": {
+    "agent": {
+      "material": "swimmer_stick_figure",
+      "fill": [255, 246, 210],
+      "outline": [255, 255, 242],
+      "glow": [57, 232, 255],
+      "fx": ["swim_stroke", "bubble_trail"]
+    },
+    "water_pool": {
+      "material": "tropical_water",
+      "fill": [27, 144, 196],
+      "outline": [105, 247, 255],
+      "foam": [221, 255, 248],
+      "alpha": 0.56,
+      "fx": ["surface_wave", "caustics", "bubbles"]
+    },
+    "buoyancy_current": {
+      "material": "water_current",
+      "fill": [60, 196, 220],
+      "outline": [185, 255, 244],
+      "alpha": 0.22,
+      "fx": ["current_arrows", "bubbles"]
+    },
+    "left_bank": {
+      "material": "sand_bank",
+      "fill": [214, 183, 114],
+      "outline": [255, 230, 155],
+      "fx": ["shore_grain"]
+    },
+    "right_bank": {
+      "material": "sand_bank",
+      "fill": [214, 183, 114],
+      "outline": [255, 230, 155],
+      "fx": ["shore_grain"]
+    },
+    "left_jump_lip": {
+      "material": "stone_lip",
+      "fill": [95, 118, 116],
+      "outline": [188, 230, 218]
+    },
+    "right_climb_lip": {
+      "material": "stone_lip",
+      "fill": [95, 118, 116],
+      "outline": [188, 230, 218]
+    },
+    "beacon": {
+      "material": "tropical_beacon",
+      "fill": [57, 232, 255],
+      "outline": [241, 255, 248],
+      "glow": [57, 232, 255],
+      "fx": ["goal_breathe", "beacon_ray"]
+    }
+  },
+  "semantic_props": [
+    {"semantic": "water surface waves", "placement": "platforms", "count": 1},
+    {"semantic": "tropical leaves", "placement": "edges", "count": 5},
+    {"semantic": "glowing island beacon", "placement": "objective", "count": 1}
+  ],
+  "animation_cues": {
+    "agent": ["jump_in_pose", "swim_stroke", "climb_out_pose"],
+    "water_pool": ["surface_wave", "splash_on_entry", "bubble_trail"],
+    "beacon": ["aqua_goal_pulse"]
+  },
+  "camera_fx": ["soft_splash_shake"],
+  "seed": 62041
+}

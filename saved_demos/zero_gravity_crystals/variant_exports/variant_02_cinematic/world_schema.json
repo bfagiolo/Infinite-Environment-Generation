@@ -1,0 +1,803 @@
+{
+  "constraints": [],
+  "exported_at": "2026-05-08T18:02:12.099935+00:00",
+  "fast_variant": {
+    "enabled": true,
+    "note": "same solved world with higher-energy demo styling",
+    "physics_source_locked": true,
+    "variant_index": 2,
+    "variant_label": "CINEMATIC"
+  },
+  "force_zones": [],
+  "mechanisms": [],
+  "objective": {
+    "capability_profile": {
+      "allowed_controls": [
+        "apply_force_x",
+        "apply_force_y",
+        "brake"
+      ],
+      "forbidden_controls": [
+        "teleport",
+        "direct_object_move",
+        "direct_object_rotation",
+        "direct_goal_state_write"
+      ],
+      "gravity": "zero_g",
+      "interaction": [
+        "touch_contact"
+      ],
+      "movement": "thrust_2d",
+      "notes": "Saved demo uses deterministic BaseEnv controls."
+    },
+    "gameplay_profile": {
+      "gameplay_loop": "multi_target_touch",
+      "source": "curated_demo_library",
+      "source_prompt": "A zero-gravity salvage field where the agent must touch four drifting crystals.",
+      "world_context": {
+        "gravity_model": "zero_g",
+        "movement_model": "thrust_2d",
+        "route_assumption": "stage objectives on reachable routes"
+      }
+    },
+    "layout_plan": {
+      "layout_type": "saved_showcase_demo",
+      "route_first": true,
+      "source": "curated_demo_library"
+    },
+    "objective_active": true,
+    "objective_profile": {
+      "failure_modes": [
+        "blocked_path",
+        "insufficient_progress"
+      ],
+      "minimum_acceptance_tier": 5,
+      "objective_description": "Touch four crystals in a zero-gravity salvage field.",
+      "objective_type": "multi_target_touch",
+      "progress_metrics": [
+        "distance_to_target"
+      ],
+      "required_capabilities": [
+        "ground_force",
+        "touch_contact"
+      ],
+      "subgoals": [
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_1",
+          "threshold": 62
+        },
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_2",
+          "threshold": 62
+        },
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_3",
+          "threshold": 62
+        },
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_4",
+          "threshold": 62
+        }
+      ],
+      "success_predicate": "code-level deterministic state satisfies the saved demo objective",
+      "targets": [
+        "crystal_1",
+        "crystal_2",
+        "crystal_3",
+        "crystal_4"
+      ],
+      "validator_skills": [
+        "saved_demo_oracle"
+      ]
+    },
+    "objective_satisfied": false,
+    "objective_targets": [
+      "crystal_1",
+      "crystal_2",
+      "crystal_3",
+      "crystal_4"
+    ],
+    "objective_type": "multi_target_touch",
+    "physics_relations": {
+      "relations": [
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_1",
+          "threshold": 62
+        },
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_2",
+          "threshold": 62
+        },
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_3",
+          "threshold": 62
+        },
+        {
+          "kind": "agent_touch_object",
+          "object": "crystal_4",
+          "threshold": 62
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "layout",
+          "scope": "demo"
+        }
+      ],
+      "source": "curated_demo_library"
+    },
+    "semantic_requirements": [],
+    "targets_remaining": [
+      "crystal_1",
+      "crystal_2",
+      "crystal_3",
+      "crystal_4"
+    ],
+    "targets_touched": []
+  },
+  "objects": [
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          0.0,
+          0.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_segment",
+      "metadata": {
+        "material": "boundary"
+      },
+      "name": "floor",
+      "role": "terrain",
+      "shapes": [
+        {
+          "a": [
+            40.0,
+            40.0
+          ],
+          "b": [
+            920.0,
+            40.0
+          ],
+          "bb": {
+            "bottom": 35.0,
+            "left": 35.0,
+            "right": 925.0,
+            "top": 45.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_a": [
+            40.0,
+            40.0
+          ],
+          "local_b": [
+            920.0,
+            40.0
+          ],
+          "radius": 5.0,
+          "sensor": false,
+          "source_type": "Segment",
+          "type": "segment"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          0.0,
+          0.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_segment",
+      "metadata": {
+        "material": "boundary"
+      },
+      "name": "ceiling",
+      "role": "terrain",
+      "shapes": [
+        {
+          "a": [
+            40.0,
+            600.0
+          ],
+          "b": [
+            920.0,
+            600.0
+          ],
+          "bb": {
+            "bottom": 595.0,
+            "left": 35.0,
+            "right": 925.0,
+            "top": 605.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_a": [
+            40.0,
+            600.0
+          ],
+          "local_b": [
+            920.0,
+            600.0
+          ],
+          "radius": 5.0,
+          "sensor": false,
+          "source_type": "Segment",
+          "type": "segment"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          0.0,
+          0.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_segment",
+      "metadata": {
+        "material": "boundary"
+      },
+      "name": "left_wall",
+      "role": "terrain",
+      "shapes": [
+        {
+          "a": [
+            40.0,
+            40.0
+          ],
+          "b": [
+            40.0,
+            600.0
+          ],
+          "bb": {
+            "bottom": 35.0,
+            "left": 35.0,
+            "right": 45.0,
+            "top": 605.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_a": [
+            40.0,
+            40.0
+          ],
+          "local_b": [
+            40.0,
+            600.0
+          ],
+          "radius": 5.0,
+          "sensor": false,
+          "source_type": "Segment",
+          "type": "segment"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          0.0,
+          0.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_segment",
+      "metadata": {
+        "material": "boundary"
+      },
+      "name": "right_wall",
+      "role": "terrain",
+      "shapes": [
+        {
+          "a": [
+            920.0,
+            40.0
+          ],
+          "b": [
+            920.0,
+            600.0
+          ],
+          "bb": {
+            "bottom": 35.0,
+            "left": 915.0,
+            "right": 925.0,
+            "top": 605.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_a": [
+            920.0,
+            40.0
+          ],
+          "local_b": [
+            920.0,
+            600.0
+          ],
+          "radius": 5.0,
+          "sensor": false,
+          "source_type": "Segment",
+          "type": "segment"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 1.0,
+        "moment": 128.0,
+        "position": [
+          140.0,
+          320.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "dynamic_circle",
+      "metadata": {
+        "avatar_hint": "spacesuit"
+      },
+      "name": "agent",
+      "role": "agent",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 304.0,
+            "left": 124.0,
+            "right": 156.0,
+            "top": 336.0
+          },
+          "center": [
+            140.0,
+            320.0
+          ],
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.03,
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "radius": 16.0,
+          "sensor": false,
+          "source_type": "Circle",
+          "type": "circle"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 0.25,
+        "moment": 72.0,
+        "position": [
+          300.0,
+          470.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          8.0,
+          -5.0
+        ]
+      },
+      "kind": "dynamic_circle",
+      "metadata": {
+        "glow": "cyan",
+        "material": "crystal"
+      },
+      "name": "crystal_1",
+      "role": "goal",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 446.0,
+            "left": 276.0,
+            "right": 324.0,
+            "top": 494.0
+          },
+          "center": [
+            300.0,
+            470.0
+          ],
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.0,
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "radius": 24.0,
+          "sensor": true,
+          "source_type": "Circle",
+          "type": "circle"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 0.25,
+        "moment": 72.0,
+        "position": [
+          520.0,
+          215.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          -7.0,
+          4.0
+        ]
+      },
+      "kind": "dynamic_circle",
+      "metadata": {
+        "glow": "cyan",
+        "material": "crystal"
+      },
+      "name": "crystal_2",
+      "role": "goal",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 191.0,
+            "left": 496.0,
+            "right": 544.0,
+            "top": 239.0
+          },
+          "center": [
+            520.0,
+            215.0
+          ],
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.0,
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "radius": 24.0,
+          "sensor": true,
+          "source_type": "Circle",
+          "type": "circle"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 0.25,
+        "moment": 72.0,
+        "position": [
+          695.0,
+          460.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          -5.0,
+          -4.0
+        ]
+      },
+      "kind": "dynamic_circle",
+      "metadata": {
+        "glow": "cyan",
+        "material": "crystal"
+      },
+      "name": "crystal_3",
+      "role": "goal",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 436.0,
+            "left": 671.0,
+            "right": 719.0,
+            "top": 484.0
+          },
+          "center": [
+            695.0,
+            460.0
+          ],
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.0,
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "radius": 24.0,
+          "sensor": true,
+          "source_type": "Circle",
+          "type": "circle"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 0.25,
+        "moment": 72.0,
+        "position": [
+          815.0,
+          260.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          4.0,
+          5.0
+        ]
+      },
+      "kind": "dynamic_circle",
+      "metadata": {
+        "glow": "cyan",
+        "material": "crystal"
+      },
+      "name": "crystal_4",
+      "role": "goal",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 236.0,
+            "left": 791.0,
+            "right": 839.0,
+            "top": 284.0
+          },
+          "center": [
+            815.0,
+            260.0
+          ],
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.0,
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "radius": 24.0,
+          "sensor": true,
+          "source_type": "Circle",
+          "type": "circle"
+        }
+      ]
+    }
+  ],
+  "schema_version": "harness-alpha-world-v1",
+  "semantic_context": {
+    "keywords": [
+      "field",
+      "goal",
+      "space"
+    ],
+    "object_names": [
+      "floor",
+      "ceiling",
+      "left_wall",
+      "right_wall",
+      "agent",
+      "crystal_1",
+      "crystal_2",
+      "crystal_3",
+      "crystal_4"
+    ],
+    "objective_type": "multi_target_touch",
+    "prompt": "A zero-gravity salvage field where the agent must touch four drifting crystals.",
+    "roles": [
+      "agent",
+      "goal",
+      "terrain"
+    ]
+  },
+  "solvability_check": {
+    "agent_radius": 16,
+    "goal": [
+      815.0,
+      260.0
+    ],
+    "grid_size": 24.0,
+    "metadata": {},
+    "notes": "",
+    "start": [
+      140.0,
+      320.0
+    ]
+  },
+  "source": {
+    "env_class": "DemoZeroGravityCrystalsEnv",
+    "env_path": "saved_demos\\zero_gravity_crystals\\env.py",
+    "prompt": "A zero-gravity salvage field where the agent must touch four drifting crystals.",
+    "seed": 0,
+    "variant_label": "CINEMATIC",
+    "variant_of": "saved_demos\\zero_gravity_crystals\\env.py"
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "visual_brief": {
+    "accent": "pink_cyan",
+    "agent_avatar": "ship",
+    "background": "radar_sweep",
+    "fast_variant": {
+      "enabled": true,
+      "physics_source_locked": true,
+      "variant_index": 2,
+      "variant_label": "CINEMATIC"
+    },
+    "lighting": [
+      "neon_bloom",
+      "holographic",
+      "low_key"
+    ],
+    "materials": [
+      "crystal",
+      "asteroid",
+      "energy_field",
+      "dark_metal"
+    ],
+    "mood": "cyber_grid",
+    "motion_fx": [
+      "agent_trail",
+      "particle_sparks",
+      "impact_ripples"
+    ],
+    "palette": {
+      "background_color": [
+        13,
+        10,
+        22
+      ],
+      "hot": [
+        255,
+        200,
+        80
+      ],
+      "primary": [
+        255,
+        116,
+        215
+      ],
+      "secondary": [
+        87,
+        232,
+        255
+      ]
+    },
+    "presentation": "clean_demo_mode",
+    "prompt": "A zero-gravity salvage field where the agent must touch four drifting crystals.",
+    "recipe": {
+      "fast_variant": true,
+      "variant_index": 2,
+      "variant_label": "CINEMATIC",
+      "variant_note": "same solved world with higher-energy demo styling"
+    },
+    "schema_version": "harness-alpha-visual-brief-v1",
+    "scores": {
+      "alien_biome": 0,
+      "asteroid_belt": 2,
+      "clockwork_chamber": 0,
+      "cornfield_maze": 0,
+      "cosmic_research": 2,
+      "crystal_cavern": 1,
+      "cyber_grid": 0,
+      "deep_space": 6,
+      "desert_ruins": 0,
+      "electric_substation": 0,
+      "hazard_arena": 0,
+      "ice_facility": 0,
+      "industrial_noir": 0,
+      "magnetic_lab": 0,
+      "mechanical_factory": 0,
+      "minimalist_sandbox": 0,
+      "orbital_station": 0,
+      "organic_maze": 0,
+      "overgrown_garden": 0,
+      "research_lab": 0,
+      "retro_arcade": 0,
+      "toxic_swamp": 0,
+      "training_sim": 0,
+      "underwater_lab": 0,
+      "volcanic_foundry": 0
+    },
+    "semantic_assets": [],
+    "semantic_context": {
+      "keywords": [
+        "field",
+        "goal",
+        "space"
+      ],
+      "object_names": [
+        "floor",
+        "ceiling",
+        "left_wall",
+        "right_wall",
+        "agent",
+        "crystal_1",
+        "crystal_2",
+        "crystal_3",
+        "crystal_4"
+      ],
+      "objective_type": "multi_target_touch",
+      "prompt": "A zero-gravity salvage field where the agent must touch four drifting crystals.",
+      "roles": [
+        "agent",
+        "goal",
+        "terrain"
+      ]
+    },
+    "semantic_props": [],
+    "shape_language": "technical_rectilinear",
+    "source": "inferred",
+    "surface_fx": [
+      "crt_vignette",
+      "procedural_noise"
+    ],
+    "visual_program": null
+  },
+  "world": {
+    "agent_strength": 1962.0,
+    "damping": 0.97,
+    "gravity": [
+      0.0,
+      0.0
+    ],
+    "height": 640,
+    "iterations": 30,
+    "time_step": 0.016666666666666666,
+    "width": 960
+  }
+}

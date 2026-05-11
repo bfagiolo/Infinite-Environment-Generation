@@ -1,0 +1,52 @@
+{
+  "abstract_relation": "projectile_hazard_avoidance",
+  "block_id": "projectile_hazard_avoidance",
+  "summary": "Enemy shots, lasers, missiles, or bullets are moving hazards that the agent must dodge while navigating or surviving.",
+  "trigger_keywords": [
+    "spaceship",
+    "space ship",
+    "enemy ship",
+    "laser",
+    "bullet",
+    "projectile",
+    "missile",
+    "turret",
+    "cannon",
+    "shots",
+    "shooting",
+    "firing",
+    "dodge",
+    "avoid"
+  ],
+  "creates": [
+    "dynamic role='hazard' projectile bodies with visible velocity",
+    "safe lanes or timing windows",
+    "survival or reach-region objective progress metrics"
+  ],
+  "constraints": [
+    "Do not use create_strike_shot_lane for projectile combat.",
+    "Do not declare strike_object_to_region unless the prompt is about kicking/throwing/striking a ball or object into a target.",
+    "Shooter bodies should be role='enemy' or role='chaser'; shot/laser/bolt bodies should be role='hazard'.",
+    "Projectiles must move through the play area and start outside immediate overlap with the agent.",
+    "At least one projectile should be active immediately or within the first 30 simulation steps and travel 120+ px in passive validation.",
+    "Inactive projectile pool bodies should not be named/registered so they match semantic requirements; probes must see active shots, not parked placeholders.",
+    "In zero-g or space contexts, keep zero gravity and move projectiles with initial velocity, after_step force, or force zones."
+  ],
+  "composes_with": [
+    "agent_reach_region",
+    "survive_duration",
+    "readable_chaser",
+    "sensor_region"
+  ],
+  "validator_checks": [
+    "projectile hazards exist and are registered with role='hazard'",
+    "projectiles have nonzero motion during passive simulation",
+    "agent has a reachable route or survival window"
+  ],
+  "repair_guidance": [
+    "If shots are misclassified as soccer-style shots, replace strike_object_to_region with survival/avoidance/navigation subgoals.",
+    "If projectiles are static, give them initial velocity or apply bounded force in after_step(self).",
+    "If probes measure parked projectiles, remove the inactive pool pattern or rename parked bodies so only active shots match semantic_requirements.",
+    "If projectiles are unavoidable, reduce speed, stagger cadence, increase spacing, or add safe lanes."
+  ]
+}

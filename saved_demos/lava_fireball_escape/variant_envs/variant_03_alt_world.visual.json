@@ -1,0 +1,42 @@
+{
+  "accent": "violet_lime",
+  "agent_avatar": "human",
+  "background": "crystal_speckle",
+  "fast_variant": true,
+  "mood": "crystal_cavern",
+  "motion_fx": [
+    "agent_trail",
+    "crystal_shimmer",
+    "goal_breathe"
+  ],
+  "palette": {
+    "background_color": [
+      14,
+      13,
+      24
+    ],
+    "hot": [
+      255,
+      86,
+      142
+    ],
+    "primary": [
+      170,
+      115,
+      255
+    ],
+    "secondary": [
+      178,
+      255,
+      86
+    ]
+  },
+  "seed": 2634963971,
+  "surface_fx": [
+    "crystal_facets",
+    "film_grain"
+  ],
+  "variant_index": 3,
+  "variant_label": "ALT WORLD",
+  "variant_note": "same solved world with alternate palette/material language"
+}

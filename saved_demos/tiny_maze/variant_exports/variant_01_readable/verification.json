@@ -1,0 +1,329 @@
+{
+  "accepted": true,
+  "achieved_tier": 5,
+  "blocking_object": null,
+  "contract_valid": true,
+  "details": {
+    "capability_profile": {
+      "allowed_controls": [
+        "apply_force_x",
+        "apply_force_y",
+        "brake"
+      ],
+      "forbidden_controls": [
+        "teleport",
+        "direct_object_move",
+        "direct_object_rotation",
+        "direct_goal_state_write"
+      ],
+      "gravity": "zero_g",
+      "interaction": [
+        "touch_contact"
+      ],
+      "movement": "ground_force",
+      "notes": "Saved demo uses deterministic BaseEnv controls."
+    },
+    "completed_subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "maze_waypoint_1",
+        "threshold": 64
+      },
+      {
+        "kind": "agent_reach_region",
+        "target": "maze_waypoint_2",
+        "threshold": 64
+      },
+      {
+        "kind": "agent_reach_region",
+        "target": "exit_zone",
+        "threshold": 68
+      }
+    ],
+    "gameplay_profile": {
+      "gameplay_loop": "navigation_goal",
+      "source": "curated_demo_library",
+      "source_prompt": "A tiny neon maze where the agent must reach a glowing exit.",
+      "world_context": {
+        "gravity_model": "top_down_flat",
+        "movement_model": "ground_force",
+        "route_assumption": "stage objectives on reachable routes"
+      }
+    },
+    "has_agent": true,
+    "layout_plan": {
+      "layout_type": "saved_showcase_demo",
+      "route_first": true,
+      "source": "curated_demo_library"
+    },
+    "mechanism_diagnostics": [],
+    "minimum_acceptance_tier": 5,
+    "object_count": 12,
+    "objective": "check_objective",
+    "objective_profile": {
+      "failure_modes": [
+        "blocked_path",
+        "insufficient_progress"
+      ],
+      "minimum_acceptance_tier": 5,
+      "objective_description": "Navigate a tiny maze to the glowing exit.",
+      "objective_type": "navigation_goal",
+      "progress_metrics": [
+        "distance_to_target"
+      ],
+      "required_capabilities": [
+        "ground_force",
+        "touch_contact"
+      ],
+      "subgoals": [
+        {
+          "kind": "agent_reach_region",
+          "target": "maze_waypoint_1",
+          "threshold": 64
+        },
+        {
+          "kind": "agent_reach_region",
+          "target": "maze_waypoint_2",
+          "threshold": 64
+        },
+        {
+          "kind": "agent_reach_region",
+          "target": "exit_zone",
+          "threshold": 68
+        }
+      ],
+      "success_predicate": "code-level deterministic state satisfies the saved demo objective",
+      "targets": [
+        "exit_zone"
+      ],
+      "validator_skills": [
+        "saved_demo_oracle"
+      ]
+    },
+    "objective_step": 160,
+    "objective_targets": [
+      "exit_zone"
+    ],
+    "objective_type": "navigation_goal",
+    "oracle": "subgoal_plan",
+    "physics_parameter_probes": [],
+    "physics_relations": {
+      "relations": [
+        {
+          "kind": "agent_reach_region",
+          "target": "maze_waypoint_1",
+          "threshold": 64
+        },
+        {
+          "kind": "agent_reach_region",
+          "target": "maze_waypoint_2",
+          "threshold": 64
+        },
+        {
+          "kind": "agent_reach_region",
+          "target": "exit_zone",
+          "threshold": 68
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "layout",
+          "scope": "demo"
+        }
+      ],
+      "source": "curated_demo_library"
+    },
+    "pre_rollout_probes": [
+      {
+        "diagnosis": "target_registered",
+        "metrics": {
+          "registered": true,
+          "target_name": "maze_waypoint_1"
+        },
+        "name": "concrete_target",
+        "objects": [
+          "maze_waypoint_1"
+        ],
+        "passed": true,
+        "repair": "Target is registered.",
+        "severity": "info",
+        "tier_evidence": 1
+      },
+      {
+        "diagnosis": "target_registered",
+        "metrics": {
+          "registered": true,
+          "target_name": "maze_waypoint_2"
+        },
+        "name": "concrete_target",
+        "objects": [
+          "maze_waypoint_2"
+        ],
+        "passed": true,
+        "repair": "Target is registered.",
+        "severity": "info",
+        "tier_evidence": 1
+      },
+      {
+        "diagnosis": "target_registered",
+        "metrics": {
+          "registered": true,
+          "target_name": "exit_zone"
+        },
+        "name": "concrete_target",
+        "objects": [
+          "exit_zone"
+        ],
+        "passed": true,
+        "repair": "Target is registered.",
+        "severity": "info",
+        "tier_evidence": 1
+      }
+    ],
+    "probe_plan": [
+      {
+        "probes": [
+          "concrete_target",
+          "path_reachability",
+          "agent_moves_toward_target",
+          "target_containment"
+        ],
+        "subgoal_kind": "agent_reach_region"
+      },
+      {
+        "probes": [
+          "concrete_target",
+          "path_reachability",
+          "agent_moves_toward_target",
+          "target_containment"
+        ],
+        "subgoal_kind": "agent_reach_region"
+      },
+      {
+        "probes": [
+          "concrete_target",
+          "path_reachability",
+          "agent_moves_toward_target",
+          "target_containment"
+        ],
+        "subgoal_kind": "agent_reach_region"
+      }
+    ],
+    "semantic_requirements": [],
+    "subgoal_progress": [
+      {
+        "current_distance": 559.2712131076937,
+        "distance_reduced": -293.789,
+        "index": 1,
+        "kind": "agent_reach_region",
+        "start_distance": 265.48257946614876
+      },
+      {
+        "current_distance": 168.44700932245837,
+        "distance_reduced": 436.821,
+        "index": 2,
+        "kind": "agent_reach_region",
+        "start_distance": 605.267709365038
+      },
+      {
+        "current_distance": 66.79346696783803,
+        "distance_reduced": 767.058,
+        "index": 3,
+        "kind": "agent_reach_region",
+        "start_distance": 833.8519053165256
+      }
+    ],
+    "validator_route": {
+      "allowed_controls": [
+        "apply_force_x",
+        "apply_force_y",
+        "brake"
+      ],
+      "forbidden_controls": [
+        "teleport",
+        "direct_object_move",
+        "direct_object_rotation",
+        "direct_goal_state_write"
+      ],
+      "gravity": "zero_g",
+      "interaction": [
+        "touch_contact"
+      ],
+      "movement": "ground_force",
+      "objective_type": "navigation_goal",
+      "oracle": "subgoal_plan",
+      "physics_relations": {
+        "relations": [
+          {
+            "kind": "agent_reach_region",
+            "target": "maze_waypoint_1",
+            "threshold": 64
+          },
+          {
+            "kind": "agent_reach_region",
+            "target": "maze_waypoint_2",
+            "threshold": 64
+          },
+          {
+            "kind": "agent_reach_region",
+            "target": "exit_zone",
+            "threshold": 68
+          }
+        ],
+        "repair_knobs": [
+          {
+            "knob": "layout",
+            "scope": "demo"
+          }
+        ],
+        "source": "curated_demo_library"
+      },
+      "progress_metrics": [
+        "distance_to_target"
+      ],
+      "relation_subgoals": [],
+      "required_capabilities": [
+        "ground_force",
+        "touch_contact"
+      ],
+      "subgoals": [
+        {
+          "kind": "agent_reach_region",
+          "target": "maze_waypoint_1",
+          "threshold": 64
+        },
+        {
+          "kind": "agent_reach_region",
+          "target": "maze_waypoint_2",
+          "threshold": 64
+        },
+        {
+          "kind": "agent_reach_region",
+          "target": "exit_zone",
+          "threshold": 68
+        }
+      ],
+      "validator_skills": [
+        "saved_demo_oracle"
+      ]
+    }
+  },
+  "env_class": "DemoTinyMazeEnv",
+  "env_path": "saved_demos\\tiny_maze\\env.py",
+  "exported_at": "2026-05-08T18:02:11.903401+00:00",
+  "kinetic_progress": true,
+  "kinetic_solved": true,
+  "minimum_acceptance_tier": 5,
+  "objective_tier": 5,
+  "objective_valid": true,
+  "operational_acceptance_tier": 5,
+  "path": [],
+  "prompt": "A tiny neon maze where the agent must reach a glowing exit.",
+  "reason": "Code-level objective satisfied during subgoal validation.",
+  "schema_version": "harness-alpha-verification-v1",
+  "solvable": true,
+  "structurally_valid": true,
+  "tier_name": "solved_verified",
+  "verification_gap": 0,
+  "visited_cells": 0
+}

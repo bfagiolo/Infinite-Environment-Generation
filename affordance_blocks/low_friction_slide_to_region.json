@@ -1,0 +1,28 @@
+{
+  "block_id": "low_friction_slide_to_region",
+  "version": "construction-kit-1.0",
+  "summary": "A stable low-friction lane for sliding a puck/stone/object into a scoring or target region.",
+  "trigger_keywords": ["curling", "ice", "rink", "slide", "sliding", "puck", "stone", "disc", "scoring", "circle", "target", "lane"],
+  "abstract_relation": "move_object_to_region with low-friction sliding dynamics",
+  "creates": ["dynamic sliding object", "stable low-friction lane", "scoring sensor region", "agent staging point behind object"],
+  "constraints": [
+    "The sliding object must be passively stable before contact; low friction does not mean unsupported or falling.",
+    "Use a stable floor/ice lane under the object and keep passive drift <= 8 px before agent contact.",
+    "Place agent -> object -> scoring region roughly collinear.",
+    "Keep the first slide short enough for validation, preferably object-to-region <= 180 px unless the lane is strongly guided.",
+    "Use a larger non-blocking sensor region for scoring circles so check_objective matches the visible target.",
+    "Avoid static floor geometry being treated as a blocker between object and region by keeping the sliding lane below the object and not crossing the target sensor volume."
+  ],
+  "composes_with": ["stable_floor_support", "sensor_region", "push_lane"],
+  "validator_checks": [
+    "object_not_passively_stable",
+    "object_too_far_from_region",
+    "poor_push_alignment",
+    "target_threshold_or_sensor_too_tight"
+  ],
+  "repair_guidance": [
+    "If the stone drifts before contact, add a stable ice lane/floor under it rather than removing friction entirely.",
+    "If the slide overshoots or misses, enlarge the scoring sensor or add subtle guide rails.",
+    "If generic push validation is too strict, keep the object closer or make the objective progress tier honest for long-range sliding."
+  ]
+}

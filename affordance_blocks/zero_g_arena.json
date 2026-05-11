@@ -1,0 +1,20 @@
+{
+  "block_id": "zero_g_arena",
+  "version": "construction-kit-1.0",
+  "summary": "A bounded zero-gravity field for thrust-based navigation and target contact.",
+  "trigger_keywords": ["zero", "gravity", "asteroid", "space", "floating", "thrust", "drift", "rocks", "orbs"],
+  "abstract_relation": "agent_touch_object in zero gravity",
+  "creates": ["zero gravity config", "bounded arena walls", "floating targets", "thrust capability profile"],
+  "constraints": [
+    "Set capability_profile.gravity to zero_g and allowed_controls to thrust/apply_force axes.",
+    "Keep finite touch targets inside a bounded arena.",
+    "Make targets reachable by thrust without requiring pixel labels.",
+    "Use check_objective to track touched/visited target names deterministically."
+  ],
+  "composes_with": ["target_cluster", "sensor_region"],
+  "validator_checks": ["multi_target_touch", "agent_touch_object"],
+  "repair_guidance": [
+    "If targets are not touched, cluster them closer or increase thrust/agent_strength.",
+    "Avoid dynamic targets drifting out of the arena before interaction."
+  ]
+}

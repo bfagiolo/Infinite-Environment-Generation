@@ -1,0 +1,203 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact",
+      "push_contact",
+      "ride_platform"
+    ],
+    "movement": "ground_force",
+    "notes": "Agent moves by physical force only. Ball is pushed into a short aligned lane; seesaw provides mechanical lift/launch."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: distance_to_goal, max_agent_height, plank_abs_angle_delta, ball_hit_impact_zone."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "insufficient_launch_energy",
+      "agent_falls_off_plank",
+      "goal_not_reachable"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Use a weighted seesaw: push a heavy ball into an impact zone so it drops onto one end and launches the agent up to a high goal region.",
+    "objective_type": "seesaw_balance",
+    "progress_metrics": [
+      "distance_to_goal",
+      "max_agent_height",
+      "plank_abs_angle_delta",
+      "ball_hit_impact_zone"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "push_contact",
+      "ride_platform",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "heavy_ball",
+        "region": "impact_zone"
+      },
+      {
+        "agent": "agent",
+        "kind": "lever_launch",
+        "min_agent_lift": 45.0,
+        "min_angle_delta": 0.12,
+        "plank": "seesaw_plank",
+        "target": "goal",
+        "weight": "heavy_ball"
+      },
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "success_predicate": "heavy_ball hits impact_zone, seesaw launch lifts agent and rotates plank, and agent enters the goal region",
+    "targets": [
+      "goal",
+      "impact_zone",
+      "seesaw_plank",
+      "heavy_ball"
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "lever_launch"
+    ]
+  },
+  "objective_type": "seesaw_balance",
+  "skill_id": "learned_seesaw_balance_solved_verified_a_weighted_seesaw_puzzle_where_a_heavy_ball",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\a_weighted_seesaw_puzzle_where_seed1_repair2_env.py",
+  "source_prompt": "A weighted seesaw puzzle where a heavy ball must launch the agent to a high goal.",
+  "summary": "Use a weighted seesaw: push a heavy ball into an impact zone so it drops onto one end and launches the agent up to a high goal region. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "a",
+    "abs",
+    "agent",
+    "angle",
+    "balance",
+    "ball",
+    "contact",
+    "delta",
+    "distance",
+    "force",
+    "goal",
+    "ground",
+    "heavy",
+    "height",
+    "high",
+    "hit",
+    "impact",
+    "launch",
+    "lever",
+    "max",
+    "must",
+    "normal",
+    "plan",
+    "plank",
+    "platform",
+    "push",
+    "puzzle",
+    "ride",
+    "seesaw",
+    "subgoal",
+    "the",
+    "to",
+    "touch",
+    "weighted",
+    "where",
+    "zone"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact",
+      "push_contact",
+      "ride_platform"
+    ],
+    "movement": "ground_force",
+    "objective_type": "seesaw_balance",
+    "oracle": "subgoal_plan",
+    "progress_metrics": [
+      "distance_to_goal",
+      "max_agent_height",
+      "plank_abs_angle_delta",
+      "ball_hit_impact_zone"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "push_contact",
+      "ride_platform",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "heavy_ball",
+        "region": "impact_zone"
+      },
+      {
+        "agent": "agent",
+        "kind": "lever_launch",
+        "min_agent_lift": 45.0,
+        "min_angle_delta": 0.12,
+        "plank": "seesaw_plank",
+        "target": "goal",
+        "weight": "heavy_ball"
+      },
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "lever_launch"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

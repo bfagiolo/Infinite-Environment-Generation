@@ -1,0 +1,22 @@
+{
+  "block_id": "gated_path",
+  "version": "construction-kit-1.0",
+  "summary": "A mechanism where a trigger makes a gate/door/path transition from blocked to passable.",
+  "trigger_keywords": ["gate", "door", "lock", "unlock", "open", "path", "pressure", "plate", "switch", "button", "mechanism"],
+  "abstract_relation": "activate_mechanism then agent_reach_region",
+  "creates": ["trigger region", "gate or barrier", "post-activation route", "final goal region"],
+  "constraints": [
+    "Mechanism subgoals should be ordered: move/touch trigger, activate_mechanism, then reach final region.",
+    "For pressure-plate gates, keep the push lane independent from the gate lane: agent -> box -> plate must be unobstructed before the gate opens.",
+    "The closed gate should block only the later agent path to the goal, not the box-to-plate path.",
+    "After activation, the gate must become non-blocking, move away, or be sensorized.",
+    "The final goal must be reachable from the agent's post-mechanism position.",
+    "Preserve deterministic state such as self.gate_open and expose it in get_ground_truth."
+  ],
+  "composes_with": ["push_lane", "sensor_region", "stable_floor_support"],
+  "validator_checks": ["post_mechanism_path_blocked", "target_offset_from_reachable_lane", "activate_mechanism"],
+  "repair_guidance": [
+    "If post_mechanism_path_blocked appears, remove/move/sensorize the gate after activation.",
+    "If the agent reaches the opened passage but not the goal, move or enlarge the final goal region on the lane."
+  ]
+}

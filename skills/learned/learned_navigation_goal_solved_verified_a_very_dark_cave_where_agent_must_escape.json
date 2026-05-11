@@ -1,0 +1,318 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake",
+      "left",
+      "right",
+      "up",
+      "down"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "notes": "Side-view cave with continuous floor/ramp. Jump not required for success."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: distance_to_exit_center, min_distance_to_nearest_wolf, was_touched."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "wolf_contact",
+      "blocked_path",
+      "agent_underpowered",
+      "goal_not_sensor"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Reach the white exit without being touched by any wolves.",
+    "objective_type": "navigation_goal",
+    "progress_metrics": [
+      "distance_to_exit_center",
+      "min_distance_to_nearest_wolf",
+      "was_touched"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "exit"
+      }
+    ],
+    "success_predicate": "agent overlaps the exit sensor AND has never contacted a wolf",
+    "targets": [
+      "exit"
+    ],
+    "validator_skills": [
+      "navigation_probe"
+    ]
+  },
+  "objective_type": "navigation_goal",
+  "skill_id": "learned_navigation_goal_solved_verified_a_very_dark_cave_where_agent_must_escape",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\a_very_dark_cave_where_seed1_repair3_env.py",
+  "source_prompt": "A very dark cave where agent must escape from wolves. The agent must get to a white exit without getting touched by any of the wolves",
+  "summary": "Reach the white exit without being touched by any wolves. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "a",
+    "agent",
+    "any",
+    "by",
+    "cave",
+    "center",
+    "contact",
+    "dark",
+    "distance",
+    "escape",
+    "exit",
+    "force",
+    "from",
+    "get",
+    "getting",
+    "goal",
+    "ground",
+    "min",
+    "must",
+    "navigation",
+    "nearest",
+    "normal",
+    "of",
+    "probe",
+    "the",
+    "to",
+    "touch",
+    "touched",
+    "very",
+    "was",
+    "where",
+    "white",
+    "without",
+    "wolf",
+    "wolves"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake",
+      "left",
+      "right",
+      "up",
+      "down"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "objective_type": "navigation_goal",
+    "oracle": "subgoal_plan",
+    "physics_relations": {
+      "intent_summary": "A controllable agent must navigate through a very dark cave to reach a white exit region while avoiding any physical contact with roaming wolves.",
+      "physical_parameters": {
+        "agent": {
+          "friction_policy": "high enough for contact tasks; unrestricted thrust only in zero_g",
+          "repair_knobs": [
+            "agent_strength",
+            "agent_radius",
+            "agent_start"
+          ],
+          "strength_policy": "scale with max scene mass and gravity"
+        },
+        "clearance": {},
+        "fields": {},
+        "gravity": {
+          "explicit": false,
+          "model": "normal",
+          "repair_knob": "EnvConfig.gravity"
+        },
+        "objects": {
+          "hazard": {
+            "constraints": {},
+            "relations": [
+              "avoid_contact_until_goal"
+            ],
+            "repair_knobs": []
+          }
+        },
+        "surfaces": {}
+      },
+      "relations": [
+        {
+          "actors": [
+            "agent"
+          ],
+          "probes": [
+            "path_reachability",
+            "agent_moves_toward_target",
+            "check_objective"
+          ],
+          "regions": [
+            "exit"
+          ],
+          "repair": "Provide a clear reachable route and place the exit/goal sensor on the route.",
+          "type": "agent_reaches_region"
+        },
+        {
+          "actors": [
+            "agent"
+          ],
+          "objects": [
+            "hazard"
+          ],
+          "parameter_constraints": {
+            "critical_path_occupancy": {
+              "allowed": "brief_crossing_only",
+              "why": "avoidance is pressure, not a permanent path blocker"
+            },
+            "enemy_max_speed_relative_to_agent": {
+              "max": 0.7,
+              "why": "simple route-following oracle can still prove reachability"
+            },
+            "enemy_spawn_distance_from_goal": {
+              "min": 220,
+              "why": "avoid turning the goal sensor into a guarded blocker"
+            },
+            "enemy_spawn_distance_from_start": {
+              "min": 240,
+              "why": "avoid immediate unfair contact"
+            }
+          },
+          "parameters": {
+            "paired_with_goal": "exit",
+            "terminal_condition": "failure_on_contact"
+          },
+          "probes": [
+            "spawn_separation",
+            "collision_clearance",
+            "route_reachability"
+          ],
+          "repair": "Treat avoidance as a safety constraint paired with the reach-goal objective. Do not convert this into a standalone survival timer unless the prompt gives a duration.",
+          "repair_knobs": [
+            "enemy_spawns",
+            "start_clearance",
+            "corridor_width",
+            "goal_center",
+            "agent_strength"
+          ],
+          "type": "avoid_contact_until_goal"
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "enemy_spawns",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "avoid_contact_until_goal",
+          "scope": "geometry"
+        },
+        {
+          "knob": "start_clearance",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "avoid_contact_until_goal",
+          "scope": "geometry"
+        },
+        {
+          "knob": "corridor_width",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "avoid_contact_until_goal",
+          "scope": "geometry"
+        },
+        {
+          "knob": "goal_center",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "avoid_contact_until_goal",
+          "scope": "geometry"
+        },
+        {
+          "knob": "agent_strength",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "avoid_contact_until_goal",
+          "scope": "physical_parameter"
+        }
+      ],
+      "source": "deterministic_relation_inference",
+      "suggested_subgoals": [
+        {
+          "kind": "agent_reach_region",
+          "target": "exit"
+        }
+      ],
+      "validator_strategy": {
+        "parameter_policy": "validate physical properties such as mass, friction, restitution, gravity, slope, clearance, and impulse before broad regeneration",
+        "primary": "validate physics_relations, then objective_profile.subgoals",
+        "repair_unit": "failed relation, not failed task template",
+        "template_policy": "helpers are optional constructors; relations are the conceptual source of truth"
+      },
+      "version": "physics_relation_graph.v2",
+      "world_context": {
+        "gravity": "normal",
+        "movement_model": "force-driven character movement with ground friction; no precision platforming required",
+        "perspective": "side_view_platformer",
+        "rationale": "Escape-and-avoid task should be validator-friendly: clear pathing, reachable exit, hazards that threaten by contact rather than requiring tight timing.",
+        "support_model": "continuous ground and cave walls/ceilings forming corridors; ramps instead of jump-only gaps",
+        "theme": "very dark cave interior with limited visibility cues and high contrast exit"
+      }
+    },
+    "progress_metrics": [
+      "distance_to_exit_center",
+      "min_distance_to_nearest_wolf",
+      "was_touched"
+    ],
+    "relation_subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "exit"
+      }
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "exit"
+      }
+    ],
+    "validator_skills": [
+      "navigation_probe"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

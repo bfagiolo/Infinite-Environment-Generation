@@ -1,0 +1,199 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "push_contact",
+      "contact_trigger"
+    ],
+    "movement": "ground_force",
+    "notes": "Ground-force movement; solution requires sustained pushing of a heavy-but-movable block onto a sensor plate."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: box_distance_to_plate_center, plate_activated, gate_open, agent_distance_to_goal_center."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "blocked_path",
+      "object_unpushable",
+      "plate_not_sensor_or_unreachable",
+      "gate_does_not_open_or_stays_blocking",
+      "goal_threshold_too_tight"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Push the stone block onto the pressure plate to open the gate, then reach the exit zone.",
+    "objective_type": "mechanism_activation",
+    "progress_metrics": [
+      "box_distance_to_plate_center",
+      "plate_activated",
+      "gate_open",
+      "agent_distance_to_goal_center"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "push_contact",
+      "contact_trigger"
+    ],
+    "subgoals": [
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "stone_block",
+        "region": "pressure_plate"
+      },
+      {
+        "effect": "gate_open",
+        "kind": "activate_mechanism",
+        "trigger": "pressure_plate"
+      },
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "success_predicate": "gate_mechanism is activated AND agent is within goal_reach_threshold of goal",
+    "targets": [
+      "stone_block",
+      "pressure_plate",
+      "sliding_gate",
+      "goal",
+      "gate_mechanism"
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "activation_state",
+      "object_region_affordance",
+      "path_reachability"
+    ]
+  },
+  "objective_type": "mechanism_activation",
+  "skill_id": "learned_mechanism_activation_solved_verified_a_forest_temple_room_where_the_agent_must",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\a_forest_temple_room_where_seed1_repair1_env.py",
+  "source_prompt": "A forest temple room where the agent must push a stone block onto a pressure plate to open a gate.",
+  "summary": "Push the stone block onto the pressure plate to open the gate, then reach the exit zone. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "a",
+    "activated",
+    "activation",
+    "affordance",
+    "agent",
+    "block",
+    "box",
+    "center",
+    "contact",
+    "distance",
+    "force",
+    "forest",
+    "gate",
+    "goal",
+    "ground",
+    "mechanism",
+    "must",
+    "normal",
+    "object",
+    "onto",
+    "open",
+    "path",
+    "plan",
+    "plate",
+    "pressure",
+    "push",
+    "reachability",
+    "region",
+    "room",
+    "state",
+    "stone",
+    "subgoal",
+    "temple",
+    "the",
+    "to",
+    "trigger",
+    "where"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "push_contact",
+      "contact_trigger"
+    ],
+    "movement": "ground_force",
+    "objective_type": "mechanism_activation",
+    "oracle": "subgoal_plan",
+    "progress_metrics": [
+      "box_distance_to_plate_center",
+      "plate_activated",
+      "gate_open",
+      "agent_distance_to_goal_center"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "push_contact",
+      "contact_trigger"
+    ],
+    "subgoals": [
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "stone_block",
+        "region": "pressure_plate"
+      },
+      {
+        "effect": "gate_open",
+        "kind": "activate_mechanism",
+        "trigger": "pressure_plate"
+      },
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "activation_state",
+      "object_region_affordance",
+      "path_reachability"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

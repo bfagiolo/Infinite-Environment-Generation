@@ -1,0 +1,242 @@
+{
+  "accepted": true,
+  "achieved_tier": 5,
+  "blocking_object": null,
+  "contract_valid": true,
+  "details": {
+    "capability_profile": {
+      "allowed_controls": [
+        "apply_force_x",
+        "apply_force_y",
+        "brake"
+      ],
+      "forbidden_controls": [
+        "teleport",
+        "direct_object_move",
+        "direct_object_rotation",
+        "direct_goal_state_write"
+      ],
+      "gravity": "zero_g",
+      "interaction": [
+        "touch_contact"
+      ],
+      "movement": "ground_force",
+      "notes": "Saved demo uses deterministic BaseEnv controls."
+    },
+    "completed_subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "cabin_exit",
+        "threshold": 68
+      }
+    ],
+    "gameplay_profile": {
+      "gameplay_loop": "navigation_goal",
+      "source": "curated_demo_library",
+      "source_prompt": "A forest clearing where the agent must escape to a cabin while a bear chases from the trees.",
+      "world_context": {
+        "gravity_model": "top_down_flat",
+        "movement_model": "ground_force",
+        "route_assumption": "stage objectives on reachable routes"
+      }
+    },
+    "has_agent": true,
+    "layout_plan": {
+      "layout_type": "saved_showcase_demo",
+      "route_first": true,
+      "source": "curated_demo_library"
+    },
+    "mechanism_diagnostics": [],
+    "minimum_acceptance_tier": 5,
+    "object_count": 16,
+    "objective": "check_objective",
+    "objective_profile": {
+      "failure_modes": [
+        "blocked_path",
+        "insufficient_progress"
+      ],
+      "minimum_acceptance_tier": 5,
+      "objective_description": "Reach the cabin exit while a bear pursues from the forest.",
+      "objective_type": "navigation_goal",
+      "progress_metrics": [
+        "distance_to_target"
+      ],
+      "required_capabilities": [
+        "ground_force",
+        "touch_contact"
+      ],
+      "subgoals": [
+        {
+          "kind": "agent_reach_region",
+          "target": "cabin_exit",
+          "threshold": 68
+        }
+      ],
+      "success_predicate": "code-level deterministic state satisfies the saved demo objective",
+      "targets": [
+        "cabin_exit"
+      ],
+      "validator_skills": [
+        "saved_demo_oracle"
+      ]
+    },
+    "objective_step": 161,
+    "objective_targets": [
+      "cabin_exit"
+    ],
+    "objective_type": "navigation_goal",
+    "oracle": "subgoal_plan",
+    "physics_parameter_probes": [],
+    "physics_relations": {
+      "relations": [
+        {
+          "kind": "agent_reach_region",
+          "target": "cabin_exit",
+          "threshold": 68
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "layout",
+          "scope": "demo"
+        }
+      ],
+      "source": "curated_demo_library"
+    },
+    "pre_rollout_probes": [
+      {
+        "diagnosis": "target_registered",
+        "metrics": {
+          "registered": true,
+          "target_name": "cabin_exit"
+        },
+        "name": "concrete_target",
+        "objects": [
+          "cabin_exit"
+        ],
+        "passed": true,
+        "repair": "Target is registered.",
+        "severity": "info",
+        "tier_evidence": 1
+      }
+    ],
+    "probe_plan": [
+      {
+        "probes": [
+          "concrete_target",
+          "path_reachability",
+          "agent_moves_toward_target",
+          "target_containment"
+        ],
+        "subgoal_kind": "agent_reach_region"
+      }
+    ],
+    "semantic_probes": [
+      {
+        "diagnosis": "semantic_requirement_not_passively_probeable",
+        "metrics": {
+          "requirement": {
+            "actor": "bear_chaser",
+            "kind": "chasing",
+            "target": "agent"
+          },
+          "supported": false
+        },
+        "name": "semantic_dynamics",
+        "objects": [],
+        "passed": true,
+        "repair": "Requirement is recorded for telemetry but is not a passive semantic probe.",
+        "severity": "info",
+        "tier_evidence": 1
+      }
+    ],
+    "semantic_requirements": [
+      {
+        "actor": "bear_chaser",
+        "kind": "chasing",
+        "target": "agent"
+      }
+    ],
+    "subgoal_progress": [
+      {
+        "current_distance": 74.96072079280269,
+        "distance_reduced": 769.107,
+        "index": 1,
+        "kind": "agent_reach_region",
+        "start_distance": 844.0675328431961
+      }
+    ],
+    "validator_route": {
+      "allowed_controls": [
+        "apply_force_x",
+        "apply_force_y",
+        "brake"
+      ],
+      "forbidden_controls": [
+        "teleport",
+        "direct_object_move",
+        "direct_object_rotation",
+        "direct_goal_state_write"
+      ],
+      "gravity": "zero_g",
+      "interaction": [
+        "touch_contact"
+      ],
+      "movement": "ground_force",
+      "objective_type": "navigation_goal",
+      "oracle": "subgoal_plan",
+      "physics_relations": {
+        "relations": [
+          {
+            "kind": "agent_reach_region",
+            "target": "cabin_exit",
+            "threshold": 68
+          }
+        ],
+        "repair_knobs": [
+          {
+            "knob": "layout",
+            "scope": "demo"
+          }
+        ],
+        "source": "curated_demo_library"
+      },
+      "progress_metrics": [
+        "distance_to_target"
+      ],
+      "relation_subgoals": [],
+      "required_capabilities": [
+        "ground_force",
+        "touch_contact"
+      ],
+      "subgoals": [
+        {
+          "kind": "agent_reach_region",
+          "target": "cabin_exit",
+          "threshold": 68
+        }
+      ],
+      "validator_skills": [
+        "saved_demo_oracle"
+      ]
+    }
+  },
+  "env_class": "ForestBearEscapeSavedEnv",
+  "env_path": "saved_demos\\forest_bear_escape\\env.py",
+  "exported_at": "2026-05-09T15:48:11.095793+00:00",
+  "kinetic_progress": true,
+  "kinetic_solved": true,
+  "minimum_acceptance_tier": 5,
+  "objective_tier": 5,
+  "objective_valid": true,
+  "operational_acceptance_tier": 5,
+  "path": [],
+  "prompt": "A forest clearing where the agent must escape to a cabin while a bear chases from the trees.",
+  "reason": "Code-level objective satisfied during subgoal validation.",
+  "schema_version": "harness-alpha-verification-v1",
+  "solvable": true,
+  "structurally_valid": true,
+  "tier_name": "solved_verified",
+  "verification_gap": 0,
+  "visited_cells": 0
+}

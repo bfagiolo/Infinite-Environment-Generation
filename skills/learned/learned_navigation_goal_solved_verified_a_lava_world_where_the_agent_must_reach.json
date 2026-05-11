@@ -1,0 +1,166 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "notes": "Agent moves by physical force only; corridor is wide enough for lane changes."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: distance_to_goal_center, was_hit_by_fireball, touched_lava, nearest_fireball_distance, fireballs_spawned_total, active_fireballs."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "agent_hit_hazard",
+      "agent_fell_in_lava",
+      "blocked_path",
+      "agent_underpowered"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Reach the exit goal region while avoiding lava and falling fireballs.",
+    "objective_type": "navigation_goal",
+    "progress_metrics": [
+      "distance_to_goal_center",
+      "was_hit_by_fireball",
+      "touched_lava",
+      "nearest_fireball_distance",
+      "fireballs_spawned_total",
+      "active_fireballs"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "success_predicate": "agent enters goal region AND has not contacted any fireball or lava",
+    "targets": [
+      "goal"
+    ],
+    "validator_skills": [
+      "navigation_probe"
+    ]
+  },
+  "objective_type": "navigation_goal",
+  "skill_id": "learned_navigation_goal_solved_verified_a_lava_world_where_the_agent_must_reach",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\a_lava_world_where_the_seed1_repair3_env.py",
+  "source_prompt": "A lava world where the agent must reach the exit while avoiding staggered falling balls of fire.",
+  "summary": "Reach the exit goal region while avoiding lava and falling fireballs. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "a",
+    "active",
+    "agent",
+    "avoiding",
+    "balls",
+    "by",
+    "center",
+    "contact",
+    "distance",
+    "exit",
+    "falling",
+    "fire",
+    "fireball",
+    "fireballs",
+    "force",
+    "goal",
+    "ground",
+    "hit",
+    "lava",
+    "must",
+    "navigation",
+    "nearest",
+    "normal",
+    "of",
+    "probe",
+    "reach",
+    "spawned",
+    "staggered",
+    "the",
+    "to",
+    "total",
+    "touch",
+    "touched",
+    "was",
+    "where",
+    "while",
+    "world"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "objective_type": "navigation_goal",
+    "oracle": "subgoal_plan",
+    "progress_metrics": [
+      "distance_to_goal_center",
+      "was_hit_by_fireball",
+      "touched_lava",
+      "nearest_fireball_distance",
+      "fireballs_spawned_total",
+      "active_fireballs"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "validator_skills": [
+      "navigation_probe"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

@@ -1,0 +1,206 @@
+{
+  "accent": "violet_lime",
+  "agent_avatar": "human",
+  "animation_cues": {
+    "agent": [
+      "run_pose",
+      "escape_sprint"
+    ],
+    "bear_chaser": [
+      "chase_pose",
+      "paw_stride",
+      "pursuit_pulse"
+    ],
+    "cabin_exit": [
+      "warm_goal_pulse"
+    ]
+  },
+  "background": "crystal_speckle",
+  "background_layers": [
+    {
+      "alpha": 0.1,
+      "color": "#1b5f35",
+      "count": 120,
+      "primitive": "texture_noise"
+    },
+    {
+      "color": "#baf48d",
+      "count": 36,
+      "motion": "drift",
+      "primitive": "particle_field",
+      "speed": 0.08
+    },
+    {
+      "alpha": 0.08,
+      "color": "#ffe0a3",
+      "count": 3,
+      "primitive": "radial_glow"
+    }
+  ],
+  "camera_fx": [
+    "subtle_chase_shake"
+  ],
+  "fast_variant": true,
+  "lighting": [
+    "dappled_sun",
+    "soft_rim_light",
+    "canopy_shadow"
+  ],
+  "mood": "crystal_cavern",
+  "motion_fx": [
+    "agent_trail",
+    "crystal_shimmer",
+    "goal_breathe"
+  ],
+  "object_skins": {
+    "agent": {
+      "fill": [
+        247,
+        244,
+        220
+      ],
+      "glow": [
+        96,
+        255,
+        152
+      ],
+      "material": "runner_stick_figure",
+      "outline": [
+        255,
+        255,
+        245
+      ]
+    },
+    "bear_chaser": {
+      "fill": [
+        112,
+        68,
+        36
+      ],
+      "fx": [
+        "pursuit_pulse",
+        "paw_motion"
+      ],
+      "glow": [
+        209,
+        130,
+        69
+      ],
+      "material": "bear_avatar",
+      "outline": [
+        248,
+        196,
+        122
+      ]
+    },
+    "cabin_exit": {
+      "fill": [
+        121,
+        73,
+        40
+      ],
+      "fx": [
+        "warm_window_glow"
+      ],
+      "glow": [
+        255,
+        206,
+        108
+      ],
+      "material": "wood_cabin",
+      "outline": [
+        255,
+        218,
+        150
+      ],
+      "roof": [
+        70,
+        35,
+        26
+      ]
+    },
+    "mossy_escape_path": {
+      "alpha": 0.36,
+      "fill": [
+        62,
+        112,
+        54
+      ],
+      "material": "moss_path",
+      "outline": [
+        168,
+        226,
+        117
+      ]
+    },
+    "pine_tree": {
+      "fill": [
+        32,
+        122,
+        61
+      ],
+      "fx": [
+        "leaf_sway"
+      ],
+      "material": "evergreen_tree",
+      "outline": [
+        130,
+        230,
+        122
+      ],
+      "trunk": [
+        91,
+        57,
+        31
+      ]
+    }
+  },
+  "palette": {
+    "background_color": [
+      14,
+      13,
+      24
+    ],
+    "hot": [
+      255,
+      86,
+      142
+    ],
+    "primary": [
+      170,
+      115,
+      255
+    ],
+    "secondary": [
+      178,
+      255,
+      86
+    ]
+  },
+  "seed": 51331,
+  "semantic_props": [
+    {
+      "count": 8,
+      "placement": "background",
+      "semantic": "pine tree silhouette"
+    },
+    {
+      "count": 4,
+      "placement": "horizon",
+      "semantic": "forest canopy shadow"
+    },
+    {
+      "count": 1,
+      "placement": "objective",
+      "semantic": "warm cabin window"
+    }
+  ],
+  "surface_fx": [
+    "crystal_facets",
+    "film_grain"
+  ],
+  "variant_index": 3,
+  "variant_label": "ALT WORLD",
+  "variant_note": "same solved world with alternate palette/material language",
+  "world_identity": "overgrown_living_maze"
+}

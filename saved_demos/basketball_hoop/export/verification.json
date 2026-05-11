@@ -1,0 +1,284 @@
+{
+  "accepted": true,
+  "achieved_tier": 5,
+  "blocking_object": null,
+  "contract_valid": true,
+  "details": {
+    "capability_profile": {
+      "allowed_controls": [
+        "apply_force_x",
+        "apply_force_y",
+        "brake"
+      ],
+      "forbidden_controls": [
+        "teleport",
+        "direct_object_move",
+        "direct_object_rotation",
+        "direct_goal_state_write"
+      ],
+      "gravity": "normal",
+      "interaction": [
+        "touch_contact"
+      ],
+      "movement": "ground_force",
+      "notes": "Saved demo uses deterministic BaseEnv controls."
+    },
+    "completed_subgoals": [
+      {
+        "kind": "ballistic_object_to_region",
+        "object": "basketball",
+        "region": "hoop",
+        "threshold": 64
+      }
+    ],
+    "gameplay_profile": {
+      "gameplay_loop": "custom_physics",
+      "source": "curated_demo_library",
+      "source_prompt": "A neon basketball court where the agent throws a basketball into a glowing hoop.",
+      "world_context": {
+        "gravity_model": "side_view_gravity",
+        "movement_model": "ground_force",
+        "route_assumption": "stage objectives on reachable routes"
+      }
+    },
+    "has_agent": true,
+    "layout_plan": {
+      "layout_type": "saved_showcase_demo",
+      "route_first": true,
+      "source": "curated_demo_library"
+    },
+    "mechanism_diagnostics": [],
+    "minimum_acceptance_tier": 5,
+    "object_count": 9,
+    "objective": "check_objective",
+    "objective_profile": {
+      "failure_modes": [
+        "blocked_path",
+        "insufficient_progress"
+      ],
+      "minimum_acceptance_tier": 5,
+      "objective_description": "Throw the basketball into the hoop sensor.",
+      "objective_type": "custom_physics",
+      "progress_metrics": [
+        "distance_to_target"
+      ],
+      "required_capabilities": [
+        "ground_force",
+        "touch_contact"
+      ],
+      "subgoals": [
+        {
+          "kind": "ballistic_object_to_region",
+          "object": "basketball",
+          "region": "hoop",
+          "threshold": 64
+        }
+      ],
+      "success_predicate": "code-level deterministic state satisfies the saved demo objective",
+      "targets": [
+        "hoop"
+      ],
+      "validator_skills": [
+        "saved_demo_oracle"
+      ]
+    },
+    "objective_step": 85,
+    "objective_targets": [
+      "hoop"
+    ],
+    "objective_type": "custom_physics",
+    "oracle": "subgoal_plan",
+    "physics_parameter_probes": [],
+    "physics_relations": {
+      "relations": [
+        {
+          "kind": "ballistic_object_to_region",
+          "object": "basketball",
+          "region": "hoop",
+          "threshold": 64
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "layout",
+          "scope": "demo"
+        }
+      ],
+      "source": "curated_demo_library"
+    },
+    "pre_rollout_probes": [
+      {
+        "diagnosis": "object_passively_stable",
+        "metrics": {
+          "end_position": [
+            250.0,
+            122.95
+          ],
+          "horizontal_displacement": 0.0,
+          "object_displacement": 2.05,
+          "passive_steps": 60,
+          "recommended_max_displacement": 8.0,
+          "recommended_max_vertical_settle": 24.0,
+          "settled_on_support": true,
+          "start_position": [
+            250.0,
+            125.0
+          ],
+          "vertical_displacement": -2.05
+        },
+        "name": "passive_stability",
+        "objects": [
+          "basketball"
+        ],
+        "passed": true,
+        "repair": "Object is passively stable.",
+        "severity": "info",
+        "tier_evidence": 2
+      },
+      {
+        "diagnosis": "object_region_affordance_valid",
+        "metrics": {
+          "agent_mass": 1.0,
+          "agent_position": [
+            190.0,
+            125.0
+          ],
+          "agent_to_object_distance": 60.0,
+          "alignment_angle_degrees": 25.346,
+          "failures": [],
+          "object_body_type": "dynamic",
+          "object_mass": 0.45,
+          "object_position": [
+            250.0,
+            125.0
+          ],
+          "object_radius": 18.0,
+          "object_to_region_distance": 315.357,
+          "recommended_agent_to_object_max": 190.0,
+          "recommended_alignment_angle_max": 75.0,
+          "recommended_object_to_region_max": 340.0,
+          "region_is_sensor": true,
+          "region_position": [
+            535.0,
+            260.0
+          ]
+        },
+        "name": "object_region_affordance",
+        "objects": [
+          "agent",
+          "basketball",
+          "hoop"
+        ],
+        "passed": true,
+        "repair": "Object-region geometry is validator-friendly.",
+        "severity": "info",
+        "tier_evidence": 3
+      }
+    ],
+    "probe_plan": [
+      {
+        "probes": [
+          "passive_stability",
+          "physical_parameter_bounds",
+          "object_region_affordance",
+          "agent_object_collision_allowed",
+          "agent_force_applied",
+          "agent_moves_under_force",
+          "agent_object_contact",
+          "contact_impulse_observed",
+          "momentum_transfer",
+          "barrier_clearance",
+          "apex_height",
+          "trajectory_change",
+          "object_moves_toward_region",
+          "object_inside_region"
+        ],
+        "subgoal_kind": "ballistic_object_to_region"
+      }
+    ],
+    "semantic_requirements": [],
+    "subgoal_progress": [
+      {
+        "current_distance": 77.93433095083364,
+        "distance_reduced": 237.423,
+        "index": 1,
+        "kind": "ballistic_object_to_region",
+        "start_distance": 315.35694062442957
+      }
+    ],
+    "validator_route": {
+      "allowed_controls": [
+        "apply_force_x",
+        "apply_force_y",
+        "brake"
+      ],
+      "forbidden_controls": [
+        "teleport",
+        "direct_object_move",
+        "direct_object_rotation",
+        "direct_goal_state_write"
+      ],
+      "gravity": "normal",
+      "interaction": [
+        "touch_contact"
+      ],
+      "movement": "ground_force",
+      "objective_type": "custom_physics",
+      "oracle": "subgoal_plan",
+      "physics_relations": {
+        "relations": [
+          {
+            "kind": "ballistic_object_to_region",
+            "object": "basketball",
+            "region": "hoop",
+            "threshold": 64
+          }
+        ],
+        "repair_knobs": [
+          {
+            "knob": "layout",
+            "scope": "demo"
+          }
+        ],
+        "source": "curated_demo_library"
+      },
+      "progress_metrics": [
+        "distance_to_target"
+      ],
+      "relation_subgoals": [],
+      "required_capabilities": [
+        "ground_force",
+        "touch_contact"
+      ],
+      "subgoals": [
+        {
+          "kind": "ballistic_object_to_region",
+          "object": "basketball",
+          "region": "hoop",
+          "threshold": 64
+        }
+      ],
+      "validator_skills": [
+        "saved_demo_oracle"
+      ]
+    }
+  },
+  "env_class": "BasketballHoopSavedEnv",
+  "env_path": "saved_demos\\basketball_hoop\\env.py",
+  "exported_at": "2026-05-09T02:38:28.561647+00:00",
+  "kinetic_progress": true,
+  "kinetic_solved": true,
+  "minimum_acceptance_tier": 5,
+  "objective_tier": 5,
+  "objective_valid": true,
+  "operational_acceptance_tier": 5,
+  "path": [],
+  "prompt": "A neon basketball court where the agent throws a basketball into a glowing hoop.",
+  "reason": "Code-level objective satisfied during subgoal validation.",
+  "schema_version": "harness-alpha-verification-v1",
+  "solvable": true,
+  "structurally_valid": true,
+  "tier_name": "solved_verified",
+  "verification_gap": 0,
+  "visited_cells": 0
+}

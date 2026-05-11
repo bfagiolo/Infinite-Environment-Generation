@@ -1,0 +1,1564 @@
+{
+  "constraints": [],
+  "exported_at": "2026-05-09T02:38:28.561647+00:00",
+  "fast_variant": {
+    "enabled": true,
+    "note": "same solved sports objective with warm court energy",
+    "physics_source_locked": true,
+    "variant_index": 1,
+    "variant_label": "COURT"
+  },
+  "force_zones": [],
+  "mechanisms": [],
+  "objective": {
+    "capability_profile": {
+      "allowed_controls": [
+        "apply_force_x",
+        "apply_force_y",
+        "brake"
+      ],
+      "forbidden_controls": [
+        "teleport",
+        "direct_object_move",
+        "direct_object_rotation",
+        "direct_goal_state_write"
+      ],
+      "gravity": "normal",
+      "interaction": [
+        "touch_contact"
+      ],
+      "movement": "ground_force",
+      "notes": "Saved demo uses deterministic BaseEnv controls."
+    },
+    "gameplay_profile": {
+      "gameplay_loop": "custom_physics",
+      "source": "curated_demo_library",
+      "source_prompt": "A neon basketball court where the agent throws a basketball into a glowing hoop.",
+      "world_context": {
+        "gravity_model": "side_view_gravity",
+        "movement_model": "ground_force",
+        "route_assumption": "stage objectives on reachable routes"
+      }
+    },
+    "layout_plan": {
+      "layout_type": "saved_showcase_demo",
+      "route_first": true,
+      "source": "curated_demo_library"
+    },
+    "objective_active": true,
+    "objective_profile": {
+      "failure_modes": [
+        "blocked_path",
+        "insufficient_progress"
+      ],
+      "minimum_acceptance_tier": 5,
+      "objective_description": "Throw the basketball into the hoop sensor.",
+      "objective_type": "custom_physics",
+      "progress_metrics": [
+        "distance_to_target"
+      ],
+      "required_capabilities": [
+        "ground_force",
+        "touch_contact"
+      ],
+      "subgoals": [
+        {
+          "kind": "ballistic_object_to_region",
+          "object": "basketball",
+          "region": "hoop",
+          "threshold": 64
+        }
+      ],
+      "success_predicate": "code-level deterministic state satisfies the saved demo objective",
+      "targets": [
+        "hoop"
+      ],
+      "validator_skills": [
+        "saved_demo_oracle"
+      ]
+    },
+    "objective_satisfied": false,
+    "objective_targets": [
+      "hoop"
+    ],
+    "objective_type": "custom_physics",
+    "physics_relations": {
+      "relations": [
+        {
+          "kind": "ballistic_object_to_region",
+          "object": "basketball",
+          "region": "hoop",
+          "threshold": 64
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "layout",
+          "scope": "demo"
+        }
+      ],
+      "source": "curated_demo_library"
+    },
+    "semantic_requirements": [],
+    "targets_remaining": [
+      "hoop"
+    ],
+    "targets_touched": []
+  },
+  "objects": [
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          360.0,
+          92.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "basketball_court": true,
+        "court_line": true,
+        "visual_only": true
+      },
+      "name": "neon_court_paint",
+      "role": "support",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 87.0,
+            "left": 100.0,
+            "right": 620.0,
+            "top": 97.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -260.0,
+              -5.0
+            ],
+            [
+              260.0,
+              -5.0
+            ],
+            [
+              260.0,
+              5.0
+            ],
+            [
+              -260.0,
+              5.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              100.0,
+              87.0
+            ],
+            [
+              620.0,
+              87.0
+            ],
+            [
+              620.0,
+              97.0
+            ],
+            [
+              100.0,
+              97.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          510.0,
+          155.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "basketball_court": true,
+        "court_paint": true,
+        "visual_only": true
+      },
+      "name": "free_throw_lane_visual",
+      "role": "region",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 109.0,
+            "left": 440.0,
+            "right": 580.0,
+            "top": 201.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -70.0,
+              -46.0
+            ],
+            [
+              70.0,
+              -46.0
+            ],
+            [
+              70.0,
+              46.0
+            ],
+            [
+              -70.0,
+              46.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              440.0,
+              109.0
+            ],
+            [
+              580.0,
+              109.0
+            ],
+            [
+              580.0,
+              201.0
+            ],
+            [
+              440.0,
+              201.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          700.0,
+          420.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "basketball_court": true,
+        "scoreboard": true,
+        "visual_only": true
+      },
+      "name": "scoreboard_visual",
+      "role": "region",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 398.0,
+            "left": 640.0,
+            "right": 760.0,
+            "top": 442.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -60.0,
+              -22.0
+            ],
+            [
+              60.0,
+              -22.0
+            ],
+            [
+              60.0,
+              22.0
+            ],
+            [
+              -60.0,
+              22.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              640.0,
+              398.0
+            ],
+            [
+              760.0,
+              398.0
+            ],
+            [
+              760.0,
+              442.0
+            ],
+            [
+              640.0,
+              442.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          323.5,
+          91.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "ballistic_challenge": "basketball_demo",
+        "court": "basketball",
+        "glow": "orange",
+        "kind": "ballistic_hoop_challenge",
+        "sport": "basketball",
+        "support": true
+      },
+      "name": "basketball_demo_support",
+      "role": "support",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 77.0,
+            "left": 70.0,
+            "right": 577.0,
+            "top": 105.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.65,
+          "local_vertices": [
+            [
+              -253.5,
+              -14.0
+            ],
+            [
+              253.5,
+              -14.0
+            ],
+            [
+              253.5,
+              14.0
+            ],
+            [
+              -253.5,
+              14.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              70.0,
+              77.0
+            ],
+            [
+              577.0,
+              77.0
+            ],
+            [
+              577.0,
+              105.0
+            ],
+            [
+              70.0,
+              105.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          535.0,
+          260.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "ballistic_challenge": "basketball_demo",
+        "court": "basketball",
+        "glow": "orange",
+        "hoop_sensor": true,
+        "kind": "ballistic_hoop_challenge",
+        "sport": "basketball",
+        "target_region": true
+      },
+      "name": "hoop",
+      "role": "goal",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 207.5,
+            "left": 475.0,
+            "right": 595.0,
+            "top": 312.5
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.0,
+          "local_vertices": [
+            [
+              -60.0,
+              -52.5
+            ],
+            [
+              60.0,
+              -52.5
+            ],
+            [
+              60.0,
+              52.5
+            ],
+            [
+              -60.0,
+              52.5
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              475.0,
+              207.5
+            ],
+            [
+              595.0,
+              207.5
+            ],
+            [
+              595.0,
+              312.5
+            ],
+            [
+              475.0,
+              312.5
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          601.0,
+          268.4
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "backboard": true,
+        "ballistic_challenge": "basketball_demo",
+        "court": "basketball",
+        "glow": "orange",
+        "kind": "ballistic_hoop_challenge",
+        "sport": "basketball",
+        "visual_only": true
+      },
+      "name": "basketball_demo_backboard",
+      "role": "terrain",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 202.77499999999998,
+            "left": 595.0,
+            "right": 607.0,
+            "top": 334.025
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.0,
+          "local_vertices": [
+            [
+              -6.0,
+              -65.625
+            ],
+            [
+              6.0,
+              -65.625
+            ],
+            [
+              6.0,
+              65.625
+            ],
+            [
+              -6.0,
+              65.625
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              595.0,
+              202.77499999999998
+            ],
+            [
+              607.0,
+              202.77499999999998
+            ],
+            [
+              607.0,
+              334.025
+            ],
+            [
+              595.0,
+              334.025
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          535.0,
+          212.75
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "ballistic_challenge": "basketball_demo",
+        "court": "basketball",
+        "glow": "orange",
+        "kind": "ballistic_hoop_challenge",
+        "rim": true,
+        "sport": "basketball",
+        "visual_only": true
+      },
+      "name": "basketball_demo_rim_visual",
+      "role": "goal",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 208.75,
+            "left": 488.2,
+            "right": 581.8,
+            "top": 216.75
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.0,
+          "local_vertices": [
+            [
+              -46.800000000000004,
+              -4.0
+            ],
+            [
+              46.800000000000004,
+              -4.0
+            ],
+            [
+              46.800000000000004,
+              4.0
+            ],
+            [
+              -46.800000000000004,
+              4.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              488.2,
+              208.75
+            ],
+            [
+              581.8,
+              208.75
+            ],
+            [
+              581.8,
+              216.75
+            ],
+            [
+              488.2,
+              216.75
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 0.45,
+        "moment": 72.9,
+        "position": [
+          250.0,
+          125.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "dynamic_circle",
+      "metadata": {
+        "ball": true,
+        "ballistic_challenge": "basketball_demo",
+        "ballistic_object": true,
+        "court": "basketball",
+        "glow": "orange",
+        "kind": "ballistic_hoop_challenge",
+        "sport": "basketball"
+      },
+      "name": "basketball",
+      "role": "object",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 107.0,
+            "left": 232.0,
+            "right": 268.0,
+            "top": 143.0
+          },
+          "center": [
+            250.0,
+            125.0
+          ],
+          "collision_type": 0,
+          "elasticity": 0.18,
+          "friction": 0.04,
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "radius": 18.0,
+          "sensor": false,
+          "source_type": "Circle",
+          "type": "circle"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 1.0,
+        "moment": 112.5,
+        "position": [
+          190.0,
+          125.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "dynamic_circle",
+      "metadata": {
+        "ballistic_challenge": "basketball_demo",
+        "court": "basketball",
+        "glow": "orange",
+        "kind": "ballistic_hoop_challenge",
+        "sport": "basketball",
+        "throw_agent": true
+      },
+      "name": "agent",
+      "role": "agent",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 110.0,
+            "left": 175.0,
+            "right": 205.0,
+            "top": 140.0
+          },
+          "center": [
+            190.0,
+            125.0
+          ],
+          "collision_type": 0,
+          "elasticity": 0.02,
+          "friction": 0.65,
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "radius": 15.0,
+          "sensor": false,
+          "source_type": "Circle",
+          "type": "circle"
+        }
+      ]
+    }
+  ],
+  "schema_version": "harness-alpha-world-v1",
+  "semantic_context": {
+    "keywords": [
+      "ball",
+      "goal",
+      "throw"
+    ],
+    "object_names": [
+      "neon_court_paint",
+      "free_throw_lane_visual",
+      "scoreboard_visual",
+      "basketball_demo_support",
+      "hoop",
+      "basketball_demo_backboard",
+      "basketball_demo_rim_visual",
+      "basketball",
+      "agent"
+    ],
+    "objective_type": "custom_physics",
+    "prompt": "A neon basketball court where the agent throws a basketball into a glowing hoop.",
+    "roles": [
+      "agent",
+      "goal",
+      "object",
+      "region",
+      "support",
+      "terrain"
+    ]
+  },
+  "solvability_check": {
+    "agent_radius": null,
+    "goal": [
+      535.0,
+      260.0
+    ],
+    "grid_size": 24.0,
+    "metadata": {
+      "affordance": "ballistic_hoop_challenge",
+      "name": "basketball_demo"
+    },
+    "notes": "Throw basketball into hoop.",
+    "start": [
+      190.0,
+      125.0
+    ]
+  },
+  "source": {
+    "env_class": "BasketballHoopSavedEnv",
+    "env_path": "saved_demos\\basketball_hoop\\env.py",
+    "prompt": "A neon basketball court where the agent throws a basketball into a glowing hoop.",
+    "seed": 0,
+    "variant_label": "COURT",
+    "variant_of": "saved_demos\\basketball_hoop\\env.py"
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "visual_brief": {
+    "accent": "magenta_orange",
+    "agent_avatar": "human",
+    "background": "retro_vignette",
+    "fast_variant": {
+      "enabled": true,
+      "physics_source_locked": true,
+      "variant_index": 1,
+      "variant_label": "COURT"
+    },
+    "lighting": [
+      "neon_bloom",
+      "soft_glow"
+    ],
+    "materials": [
+      "glass",
+      "dark_metal",
+      "sensor_plate"
+    ],
+    "mood": "retro_arcade",
+    "motion_fx": [
+      "agent_trail",
+      "impact_ripples",
+      "goal_breathe"
+    ],
+    "palette": {
+      "background_color": [
+        18,
+        8,
+        18
+      ],
+      "hot": [
+        80,
+        228,
+        255
+      ],
+      "primary": [
+        255,
+        134,
+        54
+      ],
+      "secondary": [
+        255,
+        238,
+        112
+      ]
+    },
+    "presentation": "visual_director_recipe",
+    "prompt": "A neon basketball court where the agent throws a basketball into a glowing hoop.",
+    "recipe": {
+      "accent": "solar_orange",
+      "agent_avatar": "human",
+      "animation_cues": {
+        "agent": [
+          "throw_pose",
+          "run_up"
+        ],
+        "basketball": [
+          "arc_trail",
+          "spin_lines"
+        ],
+        "hoop": [
+          "goal_pulse",
+          "rim_spark"
+        ]
+      },
+      "background": "retro_vignette",
+      "background_layers": [
+        {
+          "strength": 0.45999999999999996,
+          "type": "atmospheric_vignette"
+        },
+        {
+          "cell": 30,
+          "type": "simulation_grid"
+        },
+        {
+          "count": 110,
+          "type": "dust_motes"
+        },
+        {
+          "cell": 24,
+          "type": "simulation_grid"
+        },
+        {
+          "count": 55,
+          "type": "dust_motes"
+        },
+        {
+          "count": 5,
+          "theme": "structured",
+          "type": "set_dressing_props"
+        }
+      ],
+      "camera_fx": [
+        "subtle_screen_shake_on_score"
+      ],
+      "fast_variant": true,
+      "lighting": [
+        "neon_bloom",
+        "rim_light",
+        "crt_glow"
+      ],
+      "mood": "retro_arcade",
+      "motion_fx": [
+        "agent_trail",
+        "object_trail",
+        "particle_sparks",
+        "goal_breathe",
+        "impact_ripples"
+      ],
+      "object_skins": {
+        "*ball*": {
+          "fill": [
+            255,
+            134,
+            54
+          ],
+          "fx": [
+            "edge_bloom",
+            "impact_ripples"
+          ],
+          "glow": [
+            80,
+            228,
+            255
+          ],
+          "outline": [
+            255,
+            246,
+            224
+          ]
+        },
+        "*beacon*": {
+          "fill": [
+            107,
+            99,
+            47
+          ],
+          "fx": [
+            "goal_breathe",
+            "edge_bloom"
+          ],
+          "glow": [
+            255,
+            238,
+            112
+          ],
+          "outline": [
+            255,
+            238,
+            112
+          ]
+        },
+        "*crystal*": {
+          "fill": [
+            255,
+            238,
+            112
+          ],
+          "fx": [
+            "twinkle",
+            "edge_bloom"
+          ],
+          "glow": [
+            255,
+            238,
+            112
+          ],
+          "outline": [
+            245,
+            250,
+            255
+          ]
+        },
+        "*enemy*": {
+          "fill": [
+            49,
+            141,
+            158
+          ],
+          "fx": [
+            "danger_pulse",
+            "edge_bloom"
+          ],
+          "glow": [
+            80,
+            228,
+            255
+          ],
+          "outline": [
+            80,
+            228,
+            255
+          ]
+        },
+        "*exit*": {
+          "fill": [
+            107,
+            99,
+            47
+          ],
+          "fx": [
+            "goal_breathe",
+            "edge_bloom"
+          ],
+          "glow": [
+            255,
+            238,
+            112
+          ],
+          "outline": [
+            255,
+            238,
+            112
+          ]
+        },
+        "*fire*": {
+          "fill": [
+            80,
+            228,
+            255
+          ],
+          "fx": [
+            "hazard_flash",
+            "edge_bloom"
+          ],
+          "glow": [
+            80,
+            228,
+            255
+          ],
+          "outline": [
+            255,
+            235,
+            140
+          ]
+        },
+        "*floor*": {
+          "fill": [
+            96,
+            50,
+            20
+          ],
+          "fx": [
+            "edge_bloom"
+          ],
+          "glow": [
+            255,
+            134,
+            54
+          ],
+          "outline": [
+            255,
+            134,
+            54
+          ]
+        },
+        "*goal*": {
+          "fill": [
+            81,
+            76,
+            35
+          ],
+          "fx": [
+            "goal_breathe",
+            "edge_bloom"
+          ],
+          "glow": [
+            255,
+            238,
+            112
+          ],
+          "outline": [
+            255,
+            238,
+            112
+          ]
+        },
+        "*hazard*": {
+          "fill": [
+            49,
+            141,
+            158
+          ],
+          "fx": [
+            "hazard_flash",
+            "edge_bloom"
+          ],
+          "glow": [
+            80,
+            228,
+            255
+          ],
+          "outline": [
+            80,
+            228,
+            255
+          ]
+        },
+        "*hoop*": {
+          "fill": [
+            80,
+            228,
+            255
+          ],
+          "fx": [
+            "goal_breathe",
+            "edge_bloom"
+          ],
+          "glow": [
+            80,
+            228,
+            255
+          ],
+          "outline": [
+            255,
+            248,
+            225
+          ]
+        },
+        "*platform*": {
+          "fill": [
+            96,
+            50,
+            20
+          ],
+          "fx": [
+            "edge_bloom"
+          ],
+          "glow": [
+            255,
+            134,
+            54
+          ],
+          "outline": [
+            255,
+            134,
+            54
+          ]
+        },
+        "*rock*": {
+          "fill": [
+            96,
+            50,
+            20
+          ],
+          "fx": [
+            "edge_bloom"
+          ],
+          "glow": [
+            255,
+            134,
+            54
+          ],
+          "outline": [
+            255,
+            134,
+            54
+          ]
+        },
+        "*tree*": {
+          "fill": [
+            107,
+            99,
+            47
+          ],
+          "fx": [
+            "edge_bloom"
+          ],
+          "outline": [
+            255,
+            238,
+            112
+          ],
+          "trunk": [
+            96,
+            50,
+            20
+          ]
+        },
+        "*wall*": {
+          "fill": [
+            96,
+            50,
+            20
+          ],
+          "fx": [
+            "edge_bloom"
+          ],
+          "glow": [
+            255,
+            134,
+            54
+          ],
+          "outline": [
+            255,
+            134,
+            54
+          ]
+        },
+        "*water*": {
+          "fill": [
+            96,
+            50,
+            20
+          ],
+          "foam": [
+            255,
+            238,
+            112
+          ],
+          "fx": [
+            "edge_bloom"
+          ],
+          "outline": [
+            255,
+            134,
+            54
+          ]
+        },
+        "backboard": {
+          "alpha": 0.58,
+          "fill": [
+            210,
+            225,
+            235
+          ],
+          "fx": [
+            "edge_bloom"
+          ],
+          "glow": [
+            255,
+            238,
+            112
+          ],
+          "material": "glass_backboard",
+          "outline": [
+            255,
+            238,
+            112
+          ]
+        },
+        "basketball": {
+          "fill": [
+            255,
+            134,
+            54
+          ],
+          "fx": [
+            "edge_bloom",
+            "impact_ripples"
+          ],
+          "glow": [
+            80,
+            228,
+            255
+          ],
+          "material": "basketball_orange",
+          "outline": [
+            255,
+            246,
+            224
+          ],
+          "stripe_color": [
+            36,
+            19,
+            12
+          ]
+        },
+        "court": {
+          "alpha": 0.55,
+          "fill": [
+            61,
+            32,
+            12
+          ],
+          "fx": [
+            "edge_bloom",
+            "material_stripes"
+          ],
+          "glow": [
+            255,
+            134,
+            54
+          ],
+          "material": "painted_court_line",
+          "outline": [
+            255,
+            134,
+            54
+          ]
+        },
+        "hoop": {
+          "fill": [
+            80,
+            228,
+            255
+          ],
+          "fx": [
+            "goal_breathe",
+            "edge_bloom"
+          ],
+          "glow": [
+            80,
+            228,
+            255
+          ],
+          "material": "glowing_rim",
+          "outline": [
+            255,
+            248,
+            225
+          ]
+        }
+      },
+      "palette": {
+        "background": "#120c14",
+        "hazard": "#ff5c2a",
+        "primary": "#ffb240",
+        "secondary": "#56d6ff"
+      },
+      "seed": 42024,
+      "surface_fx": [
+        "crt_vignette",
+        "hazard_chevrons",
+        "grid_crosshairs"
+      ],
+      "variant_index": 1,
+      "variant_label": "COURT",
+      "variant_note": "same solved sports objective with warm court energy",
+      "world_identity": "neon_arcade_maze"
+    },
+    "schema_version": "harness-alpha-visual-brief-v1",
+    "scores": {
+      "neon_arcade_maze": 999
+    },
+    "semantic_assets": [
+      {
+        "asset_tags": [
+          "ball",
+          "equipment",
+          "sports",
+          "sports-pack"
+        ],
+        "name": "ball_puck.png",
+        "pack": "sports-pack",
+        "path": "assets/library/kenney/sports-pack/PNG/Equipment/ball_puck.png",
+        "placement": "objective",
+        "renderer_only": true,
+        "requested_tags": [
+          "ball"
+        ],
+        "role": "foreground_prop",
+        "semantic": "ball"
+      },
+      {
+        "asset_tags": [
+          "flag",
+          "new-platformer-pack",
+          "sports"
+        ],
+        "name": "flag_blue_a.png",
+        "pack": "new-platformer-pack",
+        "path": "assets/library/kenney/new-platformer-pack/Sprites/Tiles/Default/flag_blue_a.png",
+        "placement": "objective",
+        "renderer_only": true,
+        "requested_tags": [
+          "flag"
+        ],
+        "role": "foreground_prop",
+        "semantic": "flag"
+      },
+      {
+        "asset_tags": [
+          "ball",
+          "equipment",
+          "sports",
+          "sports-pack"
+        ],
+        "name": "ball_basket3.png",
+        "pack": "sports-pack",
+        "path": "assets/library/kenney/sports-pack/PNG/Equipment/ball_basket3.png",
+        "placement": "object",
+        "renderer_only": true,
+        "requested_tags": [
+          "ball"
+        ],
+        "role": "object_accent",
+        "semantic": "ball"
+      }
+    ],
+    "semantic_context": {
+      "keywords": [
+        "ball",
+        "goal",
+        "throw"
+      ],
+      "object_names": [
+        "neon_court_paint",
+        "free_throw_lane_visual",
+        "scoreboard_visual",
+        "basketball_demo_support",
+        "hoop",
+        "basketball_demo_backboard",
+        "basketball_demo_rim_visual",
+        "basketball",
+        "agent"
+      ],
+      "objective_type": "custom_physics",
+      "prompt": "A neon basketball court where the agent throws a basketball into a glowing hoop.",
+      "roles": [
+        "agent",
+        "goal",
+        "object",
+        "region",
+        "support",
+        "terrain"
+      ]
+    },
+    "semantic_props": [],
+    "shape_language": "technical_rectilinear",
+    "source": "visual_recipe",
+    "surface_fx": [
+      "crt_vignette",
+      "procedural_noise"
+    ],
+    "visual_program": {
+      "background_layers": [
+        {
+          "color": [
+            255,
+            134,
+            54
+          ],
+          "count": 116,
+          "motion": "drift",
+          "primitive": "particle_field",
+          "speed": 0.21000000000000002
+        },
+        {
+          "color": [
+            255,
+            238,
+            112
+          ],
+          "count": 3,
+          "primitive": "radial_glow"
+        },
+        {
+          "cell": 30,
+          "color": [
+            255,
+            134,
+            54
+          ],
+          "primitive": "grid_overlay"
+        },
+        {
+          "color": [
+            255,
+            238,
+            112
+          ],
+          "count": 8,
+          "primitive": "contour_lines"
+        }
+      ],
+      "object_effects": [
+        {
+          "color": [
+            255,
+            134,
+            54
+          ],
+          "primitive": "motion_trail",
+          "selector": "agent"
+        },
+        {
+          "color": [
+            255,
+            238,
+            112
+          ],
+          "primitive": "portal_ring",
+          "selector": "goal|exit|target|beacon"
+        },
+        {
+          "color": [
+            80,
+            228,
+            255
+          ],
+          "primitive": "danger_pulse",
+          "selector": "hazard|enemy|fire|lava|bear"
+        },
+        {
+          "color": [
+            255,
+            134,
+            54
+          ],
+          "primitive": "rim_glow",
+          "selector": "wall|floor|platform|gate"
+        },
+        {
+          "color": [
+            255,
+            238,
+            112
+          ],
+          "primitive": "field_ring",
+          "rings": 2,
+          "selector": "goal|exit|target|beacon"
+        }
+      ],
+      "seed": 137
+    }
+  },
+  "world": {
+    "agent_strength": 1962.0,
+    "damping": 0.992,
+    "gravity": [
+      0.0,
+      -700.0
+    ],
+    "height": 640,
+    "iterations": 30,
+    "time_step": 0.016666666666666666,
+    "width": 960
+  }
+}

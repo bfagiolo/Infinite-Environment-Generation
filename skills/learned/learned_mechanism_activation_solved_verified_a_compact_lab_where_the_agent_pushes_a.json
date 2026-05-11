@@ -1,0 +1,419 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake",
+      "move_left",
+      "move_right"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact",
+      "push_contact",
+      "contact_trigger"
+    ],
+    "movement": "ground_force",
+    "notes": "Agent is a grounded pusher; task solvable with sustained horizontal force on a flat floor."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: crate_distance_to_button, door_open, agent_distance_to_goal, crate_displacement_from_start."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "crate_not_pushable",
+      "trigger_not_sensor",
+      "gate_does_not_open",
+      "post_gate_path_blocked"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Push the crate onto the button to open the door, then move through to the goal region.",
+    "objective_type": "mechanism_activation",
+    "progress_metrics": [
+      "crate_distance_to_button",
+      "door_open",
+      "agent_distance_to_goal",
+      "crate_displacement_from_start"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "push_contact",
+      "contact_trigger"
+    ],
+    "subgoals": [
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "crate",
+        "region": "trigger"
+      },
+      {
+        "effect": "gate_open",
+        "kind": "activate_mechanism",
+        "mechanism": "gate_mechanism",
+        "trigger": "trigger"
+      },
+      {
+        "kind": "agent_reach_region",
+        "target": "goal_region"
+      }
+    ],
+    "success_predicate": "button/trigger is activated by crate (opening the door) AND agent reaches goal_region beyond the door",
+    "targets": [
+      "crate",
+      "trigger",
+      "door",
+      "goal_region",
+      "gate_mechanism"
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "move_object_to_region",
+      "activate_mechanism",
+      "agent_reach_region"
+    ]
+  },
+  "objective_type": "mechanism_activation",
+  "skill_id": "learned_mechanism_activation_solved_verified_a_compact_lab_where_the_agent_pushes_a",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\a_compact_lab_where_the_seed1_repair2_env_auto_repaired_1.py",
+  "source_prompt": "A compact lab where the agent pushes a crate onto a button to open a door.",
+  "summary": "Push the crate onto the button to open the door, then move through to the goal region. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "a",
+    "activate",
+    "activation",
+    "agent",
+    "button",
+    "compact",
+    "contact",
+    "crate",
+    "displacement",
+    "distance",
+    "door",
+    "force",
+    "from",
+    "goal",
+    "ground",
+    "lab",
+    "mechanism",
+    "move",
+    "normal",
+    "object",
+    "onto",
+    "open",
+    "plan",
+    "push",
+    "pushes",
+    "reach",
+    "region",
+    "start",
+    "subgoal",
+    "the",
+    "to",
+    "trigger",
+    "where"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake",
+      "move_left",
+      "move_right"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact",
+      "push_contact",
+      "contact_trigger"
+    ],
+    "movement": "ground_force",
+    "objective_type": "mechanism_activation",
+    "oracle": "subgoal_plan",
+    "physics_relations": {
+      "intent_summary": "A small 2D lab puzzle where the agent must push a movable crate onto a floor button to open a blocking door and reach the area beyond it.",
+      "physical_parameters": {
+        "agent": {
+          "friction_policy": "high enough for contact tasks; unrestricted thrust only in zero_g",
+          "repair_knobs": [
+            "agent_strength",
+            "agent_radius",
+            "agent_start"
+          ],
+          "strength_policy": "scale with max scene mass and gravity"
+        },
+        "clearance": {},
+        "fields": {},
+        "gravity": {
+          "explicit": false,
+          "model": "normal",
+          "repair_knob": "EnvConfig.gravity"
+        },
+        "objects": {
+          "crate": {
+            "constraints": {
+              "object_friction": {
+                "max": 0.45,
+                "min": 0.05,
+                "why": "allows sustained push progress"
+              },
+              "object_mass": {
+                "max": 2.0,
+                "min": 0.6,
+                "why": "movable by agent without becoming weightless"
+              }
+            },
+            "relations": [
+              "contact_push",
+              "object_enters_region",
+              "mechanism_activation"
+            ],
+            "repair_knobs": [
+              "object_friction",
+              "object_mass",
+              "object_start"
+            ]
+          }
+        },
+        "surfaces": {
+          "contact_push": {
+            "constraints": {
+              "object_friction": {
+                "max": 0.45,
+                "min": 0.05,
+                "why": "allows sustained push progress"
+              },
+              "support_friction": {
+                "max": 0.95,
+                "min": 0.45,
+                "why": "keeps agent grounded while pushing"
+              }
+            },
+            "repair_knobs": []
+          }
+        }
+      },
+      "relations": [
+        {
+          "actors": [
+            "agent"
+          ],
+          "objects": [
+            "crate"
+          ],
+          "parameter_constraints": {
+            "object_friction": {
+              "max": 0.45,
+              "min": 0.05,
+              "why": "allows sustained push progress"
+            },
+            "object_mass": {
+              "max": 2.0,
+              "min": 0.6,
+              "why": "movable by agent without becoming weightless"
+            },
+            "support_friction": {
+              "max": 0.95,
+              "min": 0.45,
+              "why": "keeps agent grounded while pushing"
+            }
+          },
+          "probes": [
+            "agent_object_contact",
+            "contact_impulse_observed",
+            "object_moves_toward_region"
+          ],
+          "repair": "Align agent -> object -> trigger and keep the object supported, close, and movable.",
+          "repair_knobs": [
+            "agent_start",
+            "object_start",
+            "trigger_center",
+            "object_mass",
+            "object_friction",
+            "agent_strength"
+          ],
+          "type": "contact_push"
+        },
+        {
+          "objects": [
+            "crate"
+          ],
+          "probes": [
+            "object_region_affordance",
+            "object_inside_region"
+          ],
+          "regions": [
+            "trigger"
+          ],
+          "repair": "Make the trigger a non-blocking sensor and place it on the object's push lane.",
+          "type": "object_enters_region"
+        },
+        {
+          "objects": [
+            "crate"
+          ],
+          "probes": [
+            "activation_state",
+            "path_reachability"
+          ],
+          "regions": [
+            "trigger",
+            "goal"
+          ],
+          "repair": "Keep the gate after the trigger and make the opened route physically passable.",
+          "type": "mechanism_activation"
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "agent_start",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "contact_push",
+          "scope": "geometry"
+        },
+        {
+          "knob": "object_start",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "contact_push",
+          "scope": "geometry"
+        },
+        {
+          "knob": "trigger_center",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "contact_push",
+          "scope": "geometry"
+        },
+        {
+          "knob": "object_mass",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "contact_push",
+          "scope": "physical_parameter"
+        },
+        {
+          "knob": "object_friction",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "contact_push",
+          "scope": "physical_parameter"
+        },
+        {
+          "knob": "agent_strength",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "contact_push",
+          "scope": "physical_parameter"
+        }
+      ],
+      "source": "deterministic_relation_inference",
+      "suggested_subgoals": [
+        {
+          "interaction": "push_contact",
+          "kind": "move_object_to_region",
+          "object": "crate",
+          "region": "trigger"
+        },
+        {
+          "effect": "gate_open",
+          "kind": "activate_mechanism",
+          "mechanism": "gate_mechanism",
+          "trigger": "trigger"
+        }
+      ],
+      "validator_strategy": {
+        "parameter_policy": "validate physical properties such as mass, friction, restitution, gravity, slope, clearance, and impulse before broad regeneration",
+        "primary": "validate physics_relations, then objective_profile.subgoals",
+        "repair_unit": "failed relation, not failed task template",
+        "template_policy": "helpers are optional constructors; relations are the conceptual source of truth"
+      },
+      "version": "physics_relation_graph.v2",
+      "world_context": {
+        "gravity": "normal",
+        "movement_model": "force-driven agent body with ground contact; primarily horizontal pushing along flat floor",
+        "perspective": "top_down_or_flat_floor",
+        "rationale": "Prompt describes pushing a crate onto a button to open a door, which is a grounded manipulation-and-gate mechanism best represented as a compact side-view room with simple contacts.",
+        "support_model": "continuous flat floor with solid boundary walls; no precision jumping required",
+        "theme": "compact laboratory test chamber"
+      }
+    },
+    "progress_metrics": [
+      "crate_distance_to_button",
+      "door_open",
+      "agent_distance_to_goal",
+      "crate_displacement_from_start"
+    ],
+    "relation_subgoals": [
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "crate",
+        "region": "trigger"
+      },
+      {
+        "effect": "gate_open",
+        "kind": "activate_mechanism",
+        "mechanism": "gate_mechanism",
+        "trigger": "trigger"
+      }
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "push_contact",
+      "contact_trigger"
+    ],
+    "subgoals": [
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "crate",
+        "region": "trigger"
+      },
+      {
+        "effect": "gate_open",
+        "kind": "activate_mechanism",
+        "mechanism": "gate_mechanism",
+        "trigger": "trigger"
+      },
+      {
+        "kind": "agent_reach_region",
+        "target": "goal_region"
+      }
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "move_object_to_region",
+      "activate_mechanism",
+      "agent_reach_region"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

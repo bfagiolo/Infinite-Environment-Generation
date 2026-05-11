@@ -1,0 +1,262 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact",
+      "push_contact"
+    ],
+    "movement": "ground_force",
+    "notes": "Agent moves by physical force on a stable floor; can contact/impulse the basketball."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: distance_ball_to_hoop, ball_touched_by_agent, ball_speed."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "ball_never_launched",
+      "insufficient_impulse",
+      "blocked_arc"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Throw (launch) the basketball on a ballistic arc so it enters the hoop sensor.",
+    "objective_type": "custom_physics",
+    "progress_metrics": [
+      "distance_ball_to_hoop",
+      "ball_touched_by_agent",
+      "ball_speed"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact",
+      "push_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_touch_object",
+        "target": "basketball"
+      },
+      {
+        "interaction": "impulse_transfer",
+        "kind": "ballistic_object_to_region",
+        "object": "basketball",
+        "region": "hoop"
+      }
+    ],
+    "success_predicate": "basketball overlaps the non-blocking hoop target sensor region",
+    "targets": [
+      "basketball",
+      "hoop"
+    ],
+    "validator_skills": [
+      "ballistic_object_to_region",
+      "contact_impulse_observed"
+    ]
+  },
+  "objective_type": "custom_physics",
+  "skill_id": "learned_custom_physics_solved_verified_agent_has_to_throw_basketball_into_hoop",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\agent_has_to_throw_basketball_seed1_repair3_env.py",
+  "source_prompt": "Agent has to throw basketball into hoop",
+  "summary": "Throw (launch) the basketball on a ballistic arc so it enters the hoop sensor. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "agent",
+    "ball",
+    "ballistic",
+    "basketball",
+    "by",
+    "contact",
+    "custom",
+    "distance",
+    "force",
+    "ground",
+    "has",
+    "hoop",
+    "impulse",
+    "into",
+    "normal",
+    "object",
+    "observed",
+    "physics",
+    "push",
+    "region",
+    "speed",
+    "throw",
+    "to",
+    "touch",
+    "touched"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact",
+      "push_contact"
+    ],
+    "movement": "ground_force",
+    "objective_type": "custom_physics",
+    "oracle": "subgoal_plan",
+    "physics_relations": {
+      "intent_summary": "A controllable agent must throw a basketball on a ballistic arc so it enters a hoop region to score.",
+      "relations": [
+        {
+          "actors": [
+            "agent"
+          ],
+          "objects": [
+            "basketball"
+          ],
+          "probes": [
+            "concrete_target",
+            "agent_moves_toward_target",
+            "contact_or_proximity"
+          ],
+          "repair": "Spawn the object reachable by the agent without hidden blockers.",
+          "type": "agent_approaches_object"
+        },
+        {
+          "actors": [
+            "agent"
+          ],
+          "objects": [
+            "basketball"
+          ],
+          "probes": [
+            "agent_object_contact",
+            "contact_impulse_observed",
+            "trajectory_change"
+          ],
+          "repair": "Keep the object light, dynamic, separate from the agent, and close enough for contact impulse.",
+          "type": "impulse_transfer"
+        },
+        {
+          "fields": [
+            "gravity"
+          ],
+          "objects": [
+            "basketball"
+          ],
+          "parameters": {
+            "requires_arc": true,
+            "target_should_be_sensor": true
+          },
+          "probes": [
+            "trajectory_change",
+            "object_region_affordance",
+            "object_inside_region"
+          ],
+          "regions": [
+            "hoop"
+          ],
+          "repair": "Use a non-blocking target sensor, clear arc space, and enough impulse/low friction for the object to reach the region.",
+          "type": "ballistic_arc_to_region"
+        }
+      ],
+      "source": "deterministic_relation_inference",
+      "suggested_subgoals": [
+        {
+          "kind": "agent_touch_object",
+          "target": "basketball"
+        },
+        {
+          "interaction": "impulse_transfer",
+          "kind": "ballistic_object_to_region",
+          "object": "basketball",
+          "region": "hoop"
+        }
+      ],
+      "validator_strategy": {
+        "primary": "validate physics_relations, then objective_profile.subgoals",
+        "repair_unit": "failed relation, not failed task template",
+        "template_policy": "helpers are optional constructors; relations are the conceptual source of truth"
+      },
+      "version": "physics_relation_graph.v1",
+      "world_context": {
+        "gravity": "normal",
+        "movement_model": "rigid-body physics with agent locomotion and optional aiming/throw impulse control",
+        "perspective": "side_view_platformer",
+        "rationale": "A simple bounded court with standard gravity yields validator-friendly ballistic throwing into a sensor hoop.",
+        "support_model": "static ground plane and optional simple platforms/walls to prevent ball leaving the play area",
+        "theme": "basketball practice range"
+      }
+    },
+    "progress_metrics": [
+      "distance_ball_to_hoop",
+      "ball_touched_by_agent",
+      "ball_speed"
+    ],
+    "relation_subgoals": [
+      {
+        "kind": "agent_touch_object",
+        "target": "basketball"
+      },
+      {
+        "interaction": "impulse_transfer",
+        "kind": "ballistic_object_to_region",
+        "object": "basketball",
+        "region": "hoop"
+      }
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact",
+      "push_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_touch_object",
+        "target": "basketball"
+      },
+      {
+        "interaction": "impulse_transfer",
+        "kind": "ballistic_object_to_region",
+        "object": "basketball",
+        "region": "hoop"
+      }
+    ],
+    "validator_skills": [
+      "ballistic_object_to_region",
+      "contact_impulse_observed"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

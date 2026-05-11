@@ -1,0 +1,165 @@
+{
+  "accent": "cyan_green",
+  "agent_avatar": "human",
+  "animation_cues": {
+    "agent": [
+      "throw_pose",
+      "run_up"
+    ],
+    "basketball": [
+      "arc_trail",
+      "spin_lines"
+    ],
+    "hoop": [
+      "goal_pulse",
+      "rim_spark"
+    ]
+  },
+  "background": "blueprint_grid",
+  "background_layers": [
+    {
+      "alpha": 0.9,
+      "color": [
+        36,
+        20,
+        29
+      ],
+      "kind": "court_floor"
+    },
+    {
+      "alpha": 0.18,
+      "color": [
+        255,
+        140,
+        46
+      ],
+      "kind": "arena_glow"
+    },
+    {
+      "alpha": 0.12,
+      "color": [
+        86,
+        214,
+        255
+      ],
+      "kind": "scoreboard_haze"
+    }
+  ],
+  "camera_fx": [
+    "subtle_screen_shake_on_score"
+  ],
+  "fast_variant": true,
+  "lighting": [
+    "neon_bloom",
+    "rim_light",
+    "crt_glow"
+  ],
+  "mood": "training_sim",
+  "motion_fx": [
+    "agent_trail",
+    "goal_breathe",
+    "scan_sweep"
+  ],
+  "object_skins": {
+    "backboard": {
+      "alpha": 0.58,
+      "fill": [
+        160,
+        232,
+        255
+      ],
+      "material": "glass_backboard",
+      "outline": [
+        235,
+        252,
+        255
+      ]
+    },
+    "basketball": {
+      "fill": [
+        238,
+        118,
+        42
+      ],
+      "glow": [
+        255,
+        132,
+        58
+      ],
+      "material": "basketball_orange",
+      "outline": [
+        255,
+        221,
+        143
+      ],
+      "stripe_color": [
+        36,
+        19,
+        12
+      ]
+    },
+    "court": {
+      "alpha": 0.55,
+      "fill": [
+        255,
+        190,
+        82
+      ],
+      "material": "painted_court_line",
+      "outline": [
+        255,
+        240,
+        200
+      ]
+    },
+    "hoop": {
+      "fill": [
+        255,
+        88,
+        36
+      ],
+      "glow": [
+        255,
+        120,
+        54
+      ],
+      "material": "glowing_rim",
+      "outline": [
+        255,
+        244,
+        216
+      ]
+    }
+  },
+  "palette": {
+    "background_color": [
+      10,
+      19,
+      22
+    ],
+    "hot": [
+      255,
+      206,
+      86
+    ],
+    "primary": [
+      72,
+      221,
+      236
+    ],
+    "secondary": [
+      52,
+      232,
+      154
+    ]
+  },
+  "seed": 42125,
+  "surface_fx": [
+    "grid_crosshairs",
+    "scanlines"
+  ],
+  "variant_index": 1,
+  "variant_label": "READABLE",
+  "variant_note": "same solved world with cleaner training-sim readability",
+  "world_identity": "neon_arcade_maze"
+}

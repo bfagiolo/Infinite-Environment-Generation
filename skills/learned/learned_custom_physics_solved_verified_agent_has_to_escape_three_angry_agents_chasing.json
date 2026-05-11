@@ -1,0 +1,320 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake",
+      "move_up",
+      "move_down",
+      "move_left",
+      "move_right"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "top_down_flat",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "notes": "Top-down flat maze motion via physical forces with damping; no jumping or special actions."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: distance_to_exit, min_distance_to_nearest_chaser, time_remaining."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "captured_by_chaser",
+      "timeout",
+      "blocked_path",
+      "agent_underpowered"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Escape the maze by reaching the exit zone without being touched by any of the three angry agents.",
+    "objective_type": "custom_physics",
+    "progress_metrics": [
+      "distance_to_exit",
+      "min_distance_to_nearest_chaser",
+      "time_remaining"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "exit_zone"
+      }
+    ],
+    "success_predicate": "agent overlaps exit_zone sensor before timeout and without any chaser contact",
+    "targets": [
+      "exit_zone",
+      "angry_agent_1",
+      "angry_agent_2",
+      "angry_agent_3"
+    ],
+    "validator_skills": [
+      "navigation_probe",
+      "subgoal_plan"
+    ]
+  },
+  "objective_type": "custom_physics",
+  "skill_id": "learned_custom_physics_solved_verified_agent_has_to_escape_three_angry_agents_chasing",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\agent_has_to_escape_three_seed1_repair1_env.py",
+  "source_prompt": "Agent has to escape three angry agents chasing them through a maze.",
+  "summary": "Escape the maze by reaching the exit zone without being touched by any of the three angry agents. Validated as solved_verified with movement=ground_force, gravity=top_down_flat.",
+  "trigger_keywords": [
+    "a",
+    "agent",
+    "agents",
+    "angry",
+    "chaser",
+    "chasing",
+    "contact",
+    "custom",
+    "distance",
+    "down",
+    "escape",
+    "exit",
+    "flat",
+    "force",
+    "ground",
+    "has",
+    "maze",
+    "min",
+    "navigation",
+    "nearest",
+    "physics",
+    "plan",
+    "probe",
+    "remaining",
+    "subgoal",
+    "them",
+    "three",
+    "through",
+    "time",
+    "to",
+    "top",
+    "touch"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake",
+      "move_up",
+      "move_down",
+      "move_left",
+      "move_right"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "top_down_flat",
+    "interaction": [
+      "touch_contact"
+    ],
+    "movement": "ground_force",
+    "objective_type": "custom_physics",
+    "oracle": "subgoal_plan",
+    "physics_relations": {
+      "intent_summary": "A controllable agent must navigate a 2D maze to reach an exit while three hostile agents actively chase and try to catch them.",
+      "physical_parameters": {
+        "agent": {
+          "friction_policy": "high enough for contact tasks; unrestricted thrust only in zero_g",
+          "repair_knobs": [
+            "agent_strength",
+            "agent_radius",
+            "agent_start"
+          ],
+          "strength_policy": "scale with max scene mass and gravity"
+        },
+        "clearance": {},
+        "fields": {},
+        "gravity": {
+          "explicit": true,
+          "model": "top_down_flat",
+          "repair_knob": "EnvConfig.gravity"
+        },
+        "objects": {
+          "chaser": {
+            "constraints": {},
+            "relations": [
+              "avoid_contact_until_goal"
+            ],
+            "repair_knobs": []
+          }
+        },
+        "surfaces": {}
+      },
+      "relations": [
+        {
+          "actors": [
+            "agent"
+          ],
+          "probes": [
+            "path_reachability",
+            "agent_moves_toward_target",
+            "check_objective"
+          ],
+          "regions": [
+            "exit"
+          ],
+          "repair": "Provide a clear reachable route and place the exit/goal sensor on the route.",
+          "type": "agent_reaches_region"
+        },
+        {
+          "actors": [
+            "agent"
+          ],
+          "objects": [
+            "chaser"
+          ],
+          "parameter_constraints": {
+            "critical_path_occupancy": {
+              "allowed": "brief_crossing_only",
+              "why": "avoidance is pressure, not a permanent path blocker"
+            },
+            "enemy_max_speed_relative_to_agent": {
+              "max": 0.7,
+              "why": "simple route-following oracle can still prove reachability"
+            },
+            "enemy_spawn_distance_from_goal": {
+              "min": 220,
+              "why": "avoid turning the goal sensor into a guarded blocker"
+            },
+            "enemy_spawn_distance_from_start": {
+              "min": 240,
+              "why": "avoid immediate unfair contact"
+            }
+          },
+          "parameters": {
+            "paired_with_goal": "exit",
+            "terminal_condition": "failure_on_contact"
+          },
+          "probes": [
+            "spawn_separation",
+            "collision_clearance",
+            "route_reachability"
+          ],
+          "repair": "Treat avoidance as a safety constraint paired with the reach-goal objective. Do not convert this into a standalone survival timer unless the prompt gives a duration.",
+          "repair_knobs": [
+            "enemy_spawns",
+            "start_clearance",
+            "corridor_width",
+            "goal_center",
+            "agent_strength"
+          ],
+          "type": "avoid_contact_until_goal"
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "enemy_spawns",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "avoid_contact_until_goal",
+          "scope": "geometry"
+        },
+        {
+          "knob": "start_clearance",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "avoid_contact_until_goal",
+          "scope": "geometry"
+        },
+        {
+          "knob": "corridor_width",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "avoid_contact_until_goal",
+          "scope": "geometry"
+        },
+        {
+          "knob": "goal_center",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "avoid_contact_until_goal",
+          "scope": "geometry"
+        },
+        {
+          "knob": "agent_strength",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "avoid_contact_until_goal",
+          "scope": "physical_parameter"
+        }
+      ],
+      "source": "deterministic_relation_inference",
+      "suggested_subgoals": [
+        {
+          "kind": "agent_reach_region",
+          "target": "exit"
+        }
+      ],
+      "validator_strategy": {
+        "parameter_policy": "validate physical properties such as mass, friction, restitution, gravity, slope, clearance, and impulse before broad regeneration",
+        "primary": "validate physics_relations, then objective_profile.subgoals",
+        "repair_unit": "failed relation, not failed task template",
+        "template_policy": "helpers are optional constructors; relations are the conceptual source of truth"
+      },
+      "version": "physics_relation_graph.v2",
+      "world_context": {
+        "gravity": "top_down_flat",
+        "movement_model": "ground_force",
+        "perspective": "top_down_or_flat_floor",
+        "rationale": "Planar maze/room/arena cue: use top-down flat-plane physics, not true zero-gravity freeflight, unless the prompt explicitly says zero gravity.",
+        "support_model": "flat_floor_or_top_down_no_fall",
+        "theme": "maze escape under pursuit"
+      }
+    },
+    "progress_metrics": [
+      "distance_to_exit",
+      "min_distance_to_nearest_chaser",
+      "time_remaining"
+    ],
+    "relation_subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "exit"
+      }
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "exit_zone"
+      }
+    ],
+    "validator_skills": [
+      "navigation_probe",
+      "subgoal_plan"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

@@ -1,0 +1,191 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact",
+      "contact_trigger"
+    ],
+    "movement": "ground_force",
+    "notes": "Agent moves by physical force. Lever is a trigger region; gate becomes passable when activated."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: distance_to_lever, distance_to_goal_center, gate_activated, min_distance_to_ghost."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "blocked_path",
+      "gate_not_opening",
+      "hazard_unavoidable",
+      "agent_underpowered"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "In a dark cave, touch the lever to open the gate, then reach the exit zone while being chased by ghosts.",
+    "objective_type": "mechanism_activation",
+    "progress_metrics": [
+      "distance_to_lever",
+      "distance_to_goal_center",
+      "gate_activated",
+      "min_distance_to_ghost"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact",
+      "contact_trigger"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "lever"
+      },
+      {
+        "effect": "gate_open",
+        "kind": "activate_mechanism",
+        "trigger": "lever"
+      },
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "success_predicate": "gate_mechanism is activated (lever touched) AND agent enters the goal region",
+    "targets": [
+      "lever",
+      "sliding_gate",
+      "goal"
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "navigation_probe"
+    ]
+  },
+  "objective_type": "mechanism_activation",
+  "skill_id": "learned_mechanism_activation_solved_verified_a_dark_cave_where_agent_is_getting_chase",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\a_dark_cave_where_agent_seed1_repair2_env.py",
+  "source_prompt": "A dark cave where agent is getting chase by a ton of ghosts and has to touch a level to open a gate where he can escape from",
+  "summary": "In a dark cave, touch the lever to open the gate, then reach the exit zone while being chased by ghosts. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "a",
+    "activated",
+    "activation",
+    "agent",
+    "and",
+    "by",
+    "can",
+    "cave",
+    "center",
+    "chase",
+    "contact",
+    "dark",
+    "distance",
+    "escape",
+    "force",
+    "from",
+    "gate",
+    "getting",
+    "ghost",
+    "ghosts",
+    "goal",
+    "ground",
+    "has",
+    "he",
+    "is",
+    "level",
+    "lever",
+    "mechanism",
+    "min",
+    "navigation",
+    "normal",
+    "of",
+    "open",
+    "plan",
+    "probe",
+    "subgoal",
+    "to",
+    "ton",
+    "touch",
+    "trigger"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact",
+      "contact_trigger"
+    ],
+    "movement": "ground_force",
+    "objective_type": "mechanism_activation",
+    "oracle": "subgoal_plan",
+    "progress_metrics": [
+      "distance_to_lever",
+      "distance_to_goal_center",
+      "gate_activated",
+      "min_distance_to_ghost"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact",
+      "contact_trigger"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_reach_region",
+        "target": "lever"
+      },
+      {
+        "effect": "gate_open",
+        "kind": "activate_mechanism",
+        "trigger": "lever"
+      },
+      {
+        "kind": "agent_reach_region",
+        "target": "goal"
+      }
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "navigation_probe"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

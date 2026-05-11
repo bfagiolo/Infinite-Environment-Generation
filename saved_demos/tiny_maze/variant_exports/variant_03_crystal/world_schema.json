@@ -1,0 +1,1562 @@
+{
+  "constraints": [],
+  "exported_at": "2026-05-08T18:02:11.903401+00:00",
+  "fast_variant": {
+    "enabled": true,
+    "note": "same solved route with cavern/crystal styling",
+    "physics_source_locked": true,
+    "variant_index": 3,
+    "variant_label": "CRYSTAL"
+  },
+  "force_zones": [],
+  "mechanisms": [],
+  "objective": {
+    "capability_profile": {
+      "allowed_controls": [
+        "apply_force_x",
+        "apply_force_y",
+        "brake"
+      ],
+      "forbidden_controls": [
+        "teleport",
+        "direct_object_move",
+        "direct_object_rotation",
+        "direct_goal_state_write"
+      ],
+      "gravity": "zero_g",
+      "interaction": [
+        "touch_contact"
+      ],
+      "movement": "ground_force",
+      "notes": "Saved demo uses deterministic BaseEnv controls."
+    },
+    "gameplay_profile": {
+      "gameplay_loop": "navigation_goal",
+      "source": "curated_demo_library",
+      "source_prompt": "A tiny neon maze where the agent must reach a glowing exit.",
+      "world_context": {
+        "gravity_model": "top_down_flat",
+        "movement_model": "ground_force",
+        "route_assumption": "stage objectives on reachable routes"
+      }
+    },
+    "layout_plan": {
+      "layout_type": "saved_showcase_demo",
+      "route_first": true,
+      "source": "curated_demo_library"
+    },
+    "objective_active": true,
+    "objective_profile": {
+      "failure_modes": [
+        "blocked_path",
+        "insufficient_progress"
+      ],
+      "minimum_acceptance_tier": 5,
+      "objective_description": "Navigate a tiny maze to the glowing exit.",
+      "objective_type": "navigation_goal",
+      "progress_metrics": [
+        "distance_to_target"
+      ],
+      "required_capabilities": [
+        "ground_force",
+        "touch_contact"
+      ],
+      "subgoals": [
+        {
+          "kind": "agent_reach_region",
+          "target": "maze_waypoint_1",
+          "threshold": 64
+        },
+        {
+          "kind": "agent_reach_region",
+          "target": "maze_waypoint_2",
+          "threshold": 64
+        },
+        {
+          "kind": "agent_reach_region",
+          "target": "exit_zone",
+          "threshold": 68
+        }
+      ],
+      "success_predicate": "code-level deterministic state satisfies the saved demo objective",
+      "targets": [
+        "exit_zone"
+      ],
+      "validator_skills": [
+        "saved_demo_oracle"
+      ]
+    },
+    "objective_satisfied": false,
+    "objective_targets": [
+      "exit_zone"
+    ],
+    "objective_type": "navigation_goal",
+    "physics_relations": {
+      "relations": [
+        {
+          "kind": "agent_reach_region",
+          "target": "maze_waypoint_1",
+          "threshold": 64
+        },
+        {
+          "kind": "agent_reach_region",
+          "target": "maze_waypoint_2",
+          "threshold": 64
+        },
+        {
+          "kind": "agent_reach_region",
+          "target": "exit_zone",
+          "threshold": 68
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "layout",
+          "scope": "demo"
+        }
+      ],
+      "source": "curated_demo_library"
+    },
+    "semantic_requirements": [],
+    "targets_remaining": [
+      "exit_zone"
+    ],
+    "targets_touched": []
+  },
+  "objects": [
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          0.0,
+          0.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_segment",
+      "metadata": {
+        "material": "boundary"
+      },
+      "name": "floor",
+      "role": "terrain",
+      "shapes": [
+        {
+          "a": [
+            40.0,
+            40.0
+          ],
+          "b": [
+            920.0,
+            40.0
+          ],
+          "bb": {
+            "bottom": 35.0,
+            "left": 35.0,
+            "right": 925.0,
+            "top": 45.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_a": [
+            40.0,
+            40.0
+          ],
+          "local_b": [
+            920.0,
+            40.0
+          ],
+          "radius": 5.0,
+          "sensor": false,
+          "source_type": "Segment",
+          "type": "segment"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          0.0,
+          0.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_segment",
+      "metadata": {
+        "material": "boundary"
+      },
+      "name": "ceiling",
+      "role": "terrain",
+      "shapes": [
+        {
+          "a": [
+            40.0,
+            600.0
+          ],
+          "b": [
+            920.0,
+            600.0
+          ],
+          "bb": {
+            "bottom": 595.0,
+            "left": 35.0,
+            "right": 925.0,
+            "top": 605.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_a": [
+            40.0,
+            600.0
+          ],
+          "local_b": [
+            920.0,
+            600.0
+          ],
+          "radius": 5.0,
+          "sensor": false,
+          "source_type": "Segment",
+          "type": "segment"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          0.0,
+          0.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_segment",
+      "metadata": {
+        "material": "boundary"
+      },
+      "name": "left_wall",
+      "role": "terrain",
+      "shapes": [
+        {
+          "a": [
+            40.0,
+            40.0
+          ],
+          "b": [
+            40.0,
+            600.0
+          ],
+          "bb": {
+            "bottom": 35.0,
+            "left": 35.0,
+            "right": 45.0,
+            "top": 605.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_a": [
+            40.0,
+            40.0
+          ],
+          "local_b": [
+            40.0,
+            600.0
+          ],
+          "radius": 5.0,
+          "sensor": false,
+          "source_type": "Segment",
+          "type": "segment"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          0.0,
+          0.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_segment",
+      "metadata": {
+        "material": "boundary"
+      },
+      "name": "right_wall",
+      "role": "terrain",
+      "shapes": [
+        {
+          "a": [
+            920.0,
+            40.0
+          ],
+          "b": [
+            920.0,
+            600.0
+          ],
+          "bb": {
+            "bottom": 35.0,
+            "left": 915.0,
+            "right": 925.0,
+            "top": 605.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_a": [
+            920.0,
+            40.0
+          ],
+          "local_b": [
+            920.0,
+            600.0
+          ],
+          "radius": 5.0,
+          "sensor": false,
+          "source_type": "Segment",
+          "type": "segment"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          260.0,
+          210.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "material": "maze_wall",
+        "neon": true
+      },
+      "name": "maze_wall_north",
+      "role": "obstacle",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 85.0,
+            "left": 242.0,
+            "right": 278.0,
+            "top": 335.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -18.0,
+              -125.0
+            ],
+            [
+              18.0,
+              -125.0
+            ],
+            [
+              18.0,
+              125.0
+            ],
+            [
+              -18.0,
+              125.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              242.0,
+              85.0
+            ],
+            [
+              278.0,
+              85.0
+            ],
+            [
+              278.0,
+              335.0
+            ],
+            [
+              242.0,
+              335.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          475.0,
+          390.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "material": "maze_wall",
+        "neon": true
+      },
+      "name": "maze_wall_south",
+      "role": "obstacle",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 265.0,
+            "left": 457.0,
+            "right": 493.0,
+            "top": 515.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -18.0,
+              -125.0
+            ],
+            [
+              18.0,
+              -125.0
+            ],
+            [
+              18.0,
+              125.0
+            ],
+            [
+              -18.0,
+              125.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              457.0,
+              265.0
+            ],
+            [
+              493.0,
+              265.0
+            ],
+            [
+              493.0,
+              515.0
+            ],
+            [
+              457.0,
+              515.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          685.0,
+          265.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "material": "maze_wall",
+        "neon": true
+      },
+      "name": "maze_wall_gate",
+      "role": "obstacle",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 185.0,
+            "left": 669.0,
+            "right": 701.0,
+            "top": 345.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -16.0,
+              -80.0
+            ],
+            [
+              16.0,
+              -80.0
+            ],
+            [
+              16.0,
+              80.0
+            ],
+            [
+              -16.0,
+              80.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              669.0,
+              185.0
+            ],
+            [
+              701.0,
+              185.0
+            ],
+            [
+              701.0,
+              345.0
+            ],
+            [
+              669.0,
+              345.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          690.0,
+          505.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "material": "maze_wall",
+        "neon": true
+      },
+      "name": "maze_corner_guard",
+      "role": "obstacle",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 488.0,
+            "left": 565.0,
+            "right": 815.0,
+            "top": 522.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -125.0,
+              -17.0
+            ],
+            [
+              125.0,
+              -17.0
+            ],
+            [
+              125.0,
+              17.0
+            ],
+            [
+              -125.0,
+              17.0
+            ]
+          ],
+          "sensor": false,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              565.0,
+              488.0
+            ],
+            [
+              815.0,
+              488.0
+            ],
+            [
+              815.0,
+              522.0
+            ],
+            [
+              565.0,
+              522.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": 1.0,
+        "moment": 112.5,
+        "position": [
+          105.0,
+          112.0
+        ],
+        "type": "dynamic",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "dynamic_circle",
+      "metadata": {
+        "avatar_hint": "runner"
+      },
+      "name": "agent",
+      "role": "agent",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 97.0,
+            "left": 90.0,
+            "right": 120.0,
+            "top": 127.0
+          },
+          "center": [
+            105.0,
+            112.0
+          ],
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.7,
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "radius": 15.0,
+          "sensor": false,
+          "source_type": "Circle",
+          "type": "circle"
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          370.0,
+          96.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "visual_only": true,
+        "waypoint": true
+      },
+      "name": "maze_waypoint_1",
+      "role": "goal",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 59.0,
+            "left": 333.0,
+            "right": 407.0,
+            "top": 133.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -37.0,
+              -37.0
+            ],
+            [
+              37.0,
+              -37.0
+            ],
+            [
+              37.0,
+              37.0
+            ],
+            [
+              -37.0,
+              37.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              333.0,
+              59.0
+            ],
+            [
+              407.0,
+              59.0
+            ],
+            [
+              407.0,
+              133.0
+            ],
+            [
+              333.0,
+              133.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          620.0,
+          430.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "visual_only": true,
+        "waypoint": true
+      },
+      "name": "maze_waypoint_2",
+      "role": "goal",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 393.0,
+            "left": 583.0,
+            "right": 657.0,
+            "top": 467.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -37.0,
+              -37.0
+            ],
+            [
+              37.0,
+              -37.0
+            ],
+            [
+              37.0,
+              37.0
+            ],
+            [
+              -37.0,
+              37.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              583.0,
+              393.0
+            ],
+            [
+              657.0,
+              393.0
+            ],
+            [
+              657.0,
+              467.0
+            ],
+            [
+              583.0,
+              467.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "body": {
+        "angle": 0.0,
+        "angular_velocity": 0.0,
+        "mass": null,
+        "moment": null,
+        "position": [
+          835.0,
+          515.0
+        ],
+        "type": "static",
+        "velocity": [
+          0.0,
+          0.0
+        ]
+      },
+      "kind": "static_box",
+      "metadata": {
+        "exit": true,
+        "glow": "emerald"
+      },
+      "name": "exit_zone",
+      "role": "goal",
+      "shapes": [
+        {
+          "bb": {
+            "bottom": 475.0,
+            "left": 795.0,
+            "right": 875.0,
+            "top": 555.0
+          },
+          "collision_type": 0,
+          "elasticity": 0.0,
+          "friction": 0.9,
+          "local_vertices": [
+            [
+              -40.0,
+              -40.0
+            ],
+            [
+              40.0,
+              -40.0
+            ],
+            [
+              40.0,
+              40.0
+            ],
+            [
+              -40.0,
+              40.0
+            ]
+          ],
+          "sensor": true,
+          "source_type": "Poly",
+          "type": "polygon",
+          "vertices": [
+            [
+              795.0,
+              475.0
+            ],
+            [
+              875.0,
+              475.0
+            ],
+            [
+              875.0,
+              555.0
+            ],
+            [
+              795.0,
+              555.0
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "schema_version": "harness-alpha-world-v1",
+  "semantic_context": {
+    "keywords": [
+      "gate",
+      "goal",
+      "maze"
+    ],
+    "object_names": [
+      "floor",
+      "ceiling",
+      "left_wall",
+      "right_wall",
+      "maze_wall_north",
+      "maze_wall_south",
+      "maze_wall_gate",
+      "maze_corner_guard",
+      "agent",
+      "maze_waypoint_1",
+      "maze_waypoint_2",
+      "exit_zone"
+    ],
+    "objective_type": "navigation_goal",
+    "prompt": "A tiny neon maze where the agent must reach a glowing exit.",
+    "roles": [
+      "agent",
+      "goal",
+      "obstacle",
+      "terrain"
+    ]
+  },
+  "solvability_check": {
+    "agent_radius": 15,
+    "goal": [
+      835.0,
+      515.0
+    ],
+    "grid_size": 24.0,
+    "metadata": {},
+    "notes": "",
+    "start": [
+      105.0,
+      112.0
+    ]
+  },
+  "source": {
+    "env_class": "DemoTinyMazeEnv",
+    "env_path": "saved_demos\\tiny_maze\\env.py",
+    "prompt": "A tiny neon maze where the agent must reach a glowing exit.",
+    "seed": 0,
+    "variant_label": "CRYSTAL",
+    "variant_of": "saved_demos\\tiny_maze\\env.py"
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "reason": "Code-level objective satisfied during subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "visual_brief": {
+    "accent": "violet_lime",
+    "agent_avatar": "ship",
+    "background": "crystal_speckle",
+    "fast_variant": {
+      "enabled": true,
+      "physics_source_locked": true,
+      "variant_index": 3,
+      "variant_label": "CRYSTAL"
+    },
+    "lighting": [
+      "neon_bloom",
+      "holographic",
+      "low_key"
+    ],
+    "materials": [
+      "asteroid",
+      "energy_field",
+      "dark_metal"
+    ],
+    "mood": "crystal_cavern",
+    "motion_fx": [
+      "agent_trail",
+      "crystal_shimmer",
+      "goal_breathe"
+    ],
+    "palette": {
+      "background_color": [
+        10,
+        8,
+        24
+      ],
+      "hot": [
+        255,
+        92,
+        150
+      ],
+      "primary": [
+        178,
+        118,
+        255
+      ],
+      "secondary": [
+        170,
+        255,
+        90
+      ]
+    },
+    "presentation": "clean_demo_mode",
+    "prompt": "A tiny neon maze where the agent must reach a glowing exit.",
+    "recipe": {
+      "background_layers": [
+        {
+          "strength": 0.54,
+          "type": "atmospheric_vignette"
+        },
+        {
+          "cell": 38,
+          "type": "simulation_grid"
+        },
+        {
+          "count": 160,
+          "type": "dust_motes"
+        },
+        {
+          "count": 90,
+          "type": "star_dust"
+        },
+        {
+          "cell": 42,
+          "type": "oscilloscope_grid"
+        },
+        {
+          "count": 9,
+          "theme": "alternate",
+          "type": "set_dressing_props"
+        }
+      ],
+      "fast_variant": true,
+      "object_skins": {
+        "*ball*": {
+          "fill": [
+            170,
+            255,
+            90
+          ],
+          "fx": [
+            "edge_bloom"
+          ],
+          "glow": [
+            170,
+            255,
+            90
+          ],
+          "outline": [
+            245,
+            250,
+            255
+          ]
+        },
+        "*beacon*": {
+          "fill": [
+            71,
+            107,
+            37
+          ],
+          "fx": [
+            "goal_breathe",
+            "edge_bloom"
+          ],
+          "glow": [
+            170,
+            255,
+            90
+          ],
+          "outline": [
+            170,
+            255,
+            90
+          ]
+        },
+        "*crystal*": {
+          "fill": [
+            170,
+            255,
+            90
+          ],
+          "fx": [
+            "twinkle",
+            "edge_bloom"
+          ],
+          "glow": [
+            170,
+            255,
+            90
+          ],
+          "outline": [
+            245,
+            250,
+            255
+          ]
+        },
+        "*enemy*": {
+          "fill": [
+            158,
+            57,
+            93
+          ],
+          "fx": [
+            "danger_pulse",
+            "edge_bloom"
+          ],
+          "glow": [
+            255,
+            92,
+            150
+          ],
+          "outline": [
+            255,
+            92,
+            150
+          ]
+        },
+        "*exit*": {
+          "fill": [
+            64,
+            96,
+            34
+          ],
+          "fx": [
+            "goal_breathe",
+            "edge_bloom"
+          ],
+          "glow": [
+            170,
+            255,
+            90
+          ],
+          "outline": [
+            170,
+            255,
+            90
+          ]
+        },
+        "*fire*": {
+          "fill": [
+            255,
+            92,
+            150
+          ],
+          "fx": [
+            "hazard_flash",
+            "edge_bloom"
+          ],
+          "glow": [
+            255,
+            92,
+            150
+          ],
+          "outline": [
+            255,
+            235,
+            140
+          ]
+        },
+        "*floor*": {
+          "fill": [
+            67,
+            44,
+            96
+          ],
+          "fx": [
+            "edge_bloom"
+          ],
+          "glow": [
+            178,
+            118,
+            255
+          ],
+          "outline": [
+            178,
+            118,
+            255
+          ]
+        },
+        "*goal*": {
+          "fill": [
+            64,
+            96,
+            34
+          ],
+          "fx": [
+            "goal_breathe",
+            "edge_bloom"
+          ],
+          "glow": [
+            170,
+            255,
+            90
+          ],
+          "outline": [
+            170,
+            255,
+            90
+          ]
+        },
+        "*hazard*": {
+          "fill": [
+            158,
+            57,
+            93
+          ],
+          "fx": [
+            "hazard_flash",
+            "edge_bloom"
+          ],
+          "glow": [
+            255,
+            92,
+            150
+          ],
+          "outline": [
+            255,
+            92,
+            150
+          ]
+        },
+        "*maze*": {
+          "fill": [
+            35,
+            23,
+            51
+          ],
+          "fx": [
+            "edge_bloom"
+          ],
+          "glow": [
+            178,
+            118,
+            255
+          ],
+          "outline": [
+            178,
+            118,
+            255
+          ]
+        },
+        "*platform*": {
+          "fill": [
+            67,
+            44,
+            96
+          ],
+          "fx": [
+            "edge_bloom"
+          ],
+          "glow": [
+            178,
+            118,
+            255
+          ],
+          "outline": [
+            178,
+            118,
+            255
+          ]
+        },
+        "*rock*": {
+          "fill": [
+            67,
+            44,
+            96
+          ],
+          "fx": [
+            "edge_bloom"
+          ],
+          "glow": [
+            178,
+            118,
+            255
+          ],
+          "outline": [
+            178,
+            118,
+            255
+          ]
+        },
+        "*tree*": {
+          "fill": [
+            71,
+            107,
+            37
+          ],
+          "fx": [
+            "edge_bloom"
+          ],
+          "outline": [
+            170,
+            255,
+            90
+          ],
+          "trunk": [
+            67,
+            44,
+            96
+          ]
+        },
+        "*wall*": {
+          "fill": [
+            35,
+            23,
+            51
+          ],
+          "fx": [
+            "edge_bloom"
+          ],
+          "glow": [
+            178,
+            118,
+            255
+          ],
+          "outline": [
+            178,
+            118,
+            255
+          ]
+        },
+        "*water*": {
+          "fill": [
+            67,
+            44,
+            96
+          ],
+          "foam": [
+            170,
+            255,
+            90
+          ],
+          "fx": [
+            "edge_bloom"
+          ],
+          "outline": [
+            178,
+            118,
+            255
+          ]
+        }
+      },
+      "variant_index": 3,
+      "variant_label": "CRYSTAL",
+      "variant_note": "same solved route with cavern/crystal styling"
+    },
+    "schema_version": "harness-alpha-visual-brief-v1",
+    "scores": {
+      "alien_biome": 0,
+      "asteroid_belt": 0,
+      "clockwork_chamber": 0,
+      "cornfield_maze": 0,
+      "cosmic_research": 2,
+      "crystal_cavern": 0,
+      "cyber_grid": 0,
+      "deep_space": 5,
+      "desert_ruins": 0,
+      "electric_substation": 0,
+      "hazard_arena": 0,
+      "ice_facility": 0,
+      "industrial_noir": 0,
+      "magnetic_lab": 0,
+      "mechanical_factory": 0,
+      "minimalist_sandbox": 0,
+      "orbital_station": 0,
+      "organic_maze": 2,
+      "overgrown_garden": 0,
+      "research_lab": 0,
+      "retro_arcade": 0,
+      "toxic_swamp": 0,
+      "training_sim": 1,
+      "underwater_lab": 0,
+      "volcanic_foundry": 0
+    },
+    "semantic_assets": [],
+    "semantic_context": {
+      "keywords": [
+        "gate",
+        "goal",
+        "maze"
+      ],
+      "object_names": [
+        "floor",
+        "ceiling",
+        "left_wall",
+        "right_wall",
+        "maze_wall_north",
+        "maze_wall_south",
+        "maze_wall_gate",
+        "maze_corner_guard",
+        "agent",
+        "maze_waypoint_1",
+        "maze_waypoint_2",
+        "exit_zone"
+      ],
+      "objective_type": "navigation_goal",
+      "prompt": "A tiny neon maze where the agent must reach a glowing exit.",
+      "roles": [
+        "agent",
+        "goal",
+        "obstacle",
+        "terrain"
+      ]
+    },
+    "semantic_props": [],
+    "shape_language": "technical_rectilinear",
+    "source": "inferred",
+    "surface_fx": [
+      "crystal_facets",
+      "film_grain"
+    ],
+    "visual_program": {
+      "background_layers": [
+        {
+          "color": [
+            178,
+            118,
+            255
+          ],
+          "count": 188,
+          "motion": "drift",
+          "primitive": "particle_field",
+          "speed": 0.31000000000000005
+        },
+        {
+          "color": [
+            170,
+            255,
+            90
+          ],
+          "count": 5,
+          "primitive": "radial_glow"
+        },
+        {
+          "color": [
+            170,
+            255,
+            90
+          ],
+          "count": 135,
+          "primitive": "texture_noise"
+        },
+        {
+          "color": [
+            178,
+            118,
+            255
+          ],
+          "count": 62,
+          "primitive": "facet_field"
+        },
+        {
+          "color": [
+            170,
+            255,
+            90
+          ],
+          "count": 4,
+          "primitive": "ribbon_flow",
+          "speed": 0.12
+        }
+      ],
+      "object_effects": [
+        {
+          "color": [
+            178,
+            118,
+            255
+          ],
+          "primitive": "motion_trail",
+          "selector": "agent"
+        },
+        {
+          "color": [
+            170,
+            255,
+            90
+          ],
+          "primitive": "portal_ring",
+          "selector": "goal|exit|target|beacon"
+        },
+        {
+          "color": [
+            255,
+            92,
+            150
+          ],
+          "primitive": "danger_pulse",
+          "selector": "hazard|enemy|fire|lava|bear"
+        },
+        {
+          "color": [
+            178,
+            118,
+            255
+          ],
+          "primitive": "cracked_surface",
+          "selector": "wall|floor|platform|gate|rock|stone"
+        },
+        {
+          "color": [
+            170,
+            255,
+            90
+          ],
+          "primitive": "neon_outline",
+          "selector": "agent|ball|crystal|rock"
+        }
+      ],
+      "seed": 411
+    }
+  },
+  "world": {
+    "agent_strength": 1962.0,
+    "damping": 0.97,
+    "gravity": [
+      0.0,
+      0.0
+    ],
+    "height": 640,
+    "iterations": 30,
+    "time_step": 0.016666666666666666,
+    "width": 960
+  }
+}

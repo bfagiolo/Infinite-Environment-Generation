@@ -1,0 +1,27 @@
+{
+  "block_id": "bounce_to_target",
+  "version": "construction-kit-1.0",
+  "summary": "A ricochet or pinball-style relation where the agent/object must bounce from bumpers into a named target.",
+  "trigger_keywords": ["pinball", "bounce", "bumpers", "bumper", "ricochet", "deflect", "bell", "target", "flipper", "hit"],
+  "abstract_relation": "bounce_to_target",
+  "creates": ["elastic bumpers", "named impact target", "bounded arena", "touch/contact objective"],
+  "constraints": [
+    "Every bumper used in a subgoal must have a concrete registered name; do not use aliases like any_bumper.",
+    "For multiple acceptable bumpers, store bumper names in a registry list and implement check_objective over that list.",
+    "Use moderate elasticity and substep-stable geometry; avoid extreme bounce values that cause jitter.",
+    "Place the first bumper and final target within a reachable chain for the current agent capability.",
+    "If the intended solution requires a ricochet chain, use Tier 4 progress unless the validator can reliably solve the chain."
+  ],
+  "composes_with": ["target_cluster", "sensor_region", "stable_floor_support"],
+  "validator_checks": [
+    "target_not_registered",
+    "agent_touch_object",
+    "physics_instability",
+    "progress_metrics"
+  ],
+  "repair_guidance": [
+    "Replace abstract targets like any_bumper with explicit named bumpers or registry-backed objective logic.",
+    "If the agent cannot reach the first bumper, move it closer or increase agent_strength.",
+    "If bouncing is unstable, lower elasticity and simplify the bumper chain."
+  ]
+}

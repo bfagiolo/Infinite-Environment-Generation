@@ -1,0 +1,28 @@
+{
+  "block_id": "pivot_mechanism",
+  "version": "construction-kit-1.0",
+  "summary": "A stable dynamic pivot, plank, lever, or seesaw mechanism for balance/launch tasks.",
+  "trigger_keywords": ["seesaw", "lever", "pivot", "balance", "tilt", "launch", "plank", "weight", "counterweight"],
+  "abstract_relation": "lever_launch, maintain_balance, or mechanism_activation through jointed bodies",
+  "creates": ["dynamic plank from create_dynamic_box", "pivot joint from register_constraint", "weight/load object", "impact zone sensor", "agent launch/height telemetry"],
+  "constraints": [
+    "Use create_dynamic_box for the plank/lever. Do not use a static segment as the physical plank.",
+    "Use register_constraint(type='PivotJoint', body_a='seesaw_plank', body_b=None, anchor_a=(pivot_x, pivot_y)) for pivots and jointed mechanisms.",
+    "Separate jointed shapes by at least 2 px to avoid initial overlap jitter.",
+    "Place connected shapes in a shared collision group when needed.",
+    "Stage the weight directly above or just behind the load side; object-to-impact-zone distance should be <= 140 px for generic validation.",
+    "If the prompt does not explicitly require pushing the weight, do not force a move_object_to_region subgoal; let the lever_launch subgoal validate the weight/lever energy transfer.",
+    "If a push lane is used, compute ball_center_y = shelf_top_y + ball_radius + 2 and keep all rails/endcaps outside the ball's initial bounding circle.",
+    "Place the agent on or near the opposite launch side and use a large non-blocking high-goal sensor aligned with the launch arc.",
+    "Track objective with plank angle, agent height, target contact, or object/agent distance using deterministic state.",
+    "check_objective must be pure state logic; never apply launch impulses from inside check_objective.",
+    "Use lever_launch as the subgoal for launch/torque transfer tasks."
+  ],
+  "composes_with": ["sensor_region", "target_cluster", "stable_floor_support"],
+  "validator_checks": ["lever_launch", "pivot_mechanism", "plank_rotates", "launch_progress", "physics_instability"],
+  "repair_guidance": [
+    "If the mechanism jitters, separate initial bodies, reduce elasticity, and filter collisions between jointed parts.",
+    "If the plank does not rotate, increase weight mass moderately, move the weight closer to the load side, lower plank friction, or reduce plank mass.",
+    "If launch progress is weak, move the agent closer to the launch side, enlarge the high goal sensor, or increase lever arm length without adding fake impulses."
+  ]
+}

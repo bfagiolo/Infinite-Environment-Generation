@@ -1,0 +1,32 @@
+{
+  "block_id": "field_force_interaction",
+  "version": "construction-kit-1.0",
+  "summary": "A custom physics relation for magnetic, gravity-well, wind, conveyor, attraction, or repulsion effects.",
+  "trigger_keywords": ["magnetic", "magnet", "attract", "repel", "field", "force", "gravity", "well", "wind", "conveyor", "sort", "particles"],
+  "abstract_relation": "custom field-force interaction",
+  "creates": ["BaseEnv register_force_zone sensor", "affected dynamic objects", "field telemetry", "progress metric based on displacement or classification"],
+  "constraints": [
+    "If the prompt implies non-contact forces, declare capability_profile interaction such as field_force or environmental_force.",
+    "Use self.register_force_zone(...) for the field. Never override step() to implement field physics.",
+    "Use affected_names for object-specific forces, e.g. affected_names=['charged_ball'].",
+    "Keep field forces deterministic and bounded; avoid direct teleporting or direct objective-state writes.",
+    "Expose field parameters and affected object names through BaseEnv force_zones ground truth.",
+    "For novel field mechanics, use custom_physics with Tier 4 progress unless the objective decomposes into short executable subgoals.",
+    "Use check_objective for the final deterministic state, e.g. particles in correct bins or object near attractor."
+  ],
+  "composes_with": ["classify_objects_to_regions", "sensor_region", "zero_g_arena", "target_cluster"],
+  "validator_checks": [
+    "custom_physics",
+    "kinetic_progress",
+    "progress_metrics",
+    "check_objective"
+  ],
+  "repair_guidance": [
+    "If objects do not move, increase bounded field strength, reduce falloff, or reduce affected object mass/friction.",
+    "If the object never enters the field, place it inside or immediately before the registered force zone, or add a short preceding move_object_to_region subgoal.",
+    "If the field effect is too brief, enlarge the non-blocking force-zone sensor footprint so the affected object remains inside for more simulation steps.",
+    "If the object moves but does not improve the objective, orient constant force toward the declared target/progress direction or use mode='attract'/'repel' when radial behavior is intended.",
+    "If objects move uncontrollably, lower field strength or add damping/bounds.",
+    "If sorting is requested, pair the field with explicit class-to-region objective metadata."
+  ]
+}

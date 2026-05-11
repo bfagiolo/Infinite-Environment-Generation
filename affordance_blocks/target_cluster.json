@@ -1,0 +1,20 @@
+{
+  "block_id": "target_cluster",
+  "version": "construction-kit-1.0",
+  "summary": "A finite set of named targets for touch, collect, visit, or score objectives.",
+  "trigger_keywords": ["touch", "collect", "visit", "hit", "rocks", "pellets", "coins", "targets", "score", "three", "all"],
+  "abstract_relation": "single_target_touch or multi_target_touch",
+  "creates": ["named targets", "target name registry", "persistent touched/collected state"],
+  "constraints": [
+    "Store target names in registry lists, not ObjectRecord or Body instances.",
+    "Append each target name to objective_targets after creation.",
+    "Use deterministic distance/contact checks and persistent state for collection.",
+    "For finite target tasks, require Tier 5 solved verification."
+  ],
+  "composes_with": ["zero_g_arena", "sensor_region", "stable_floor_support"],
+  "validator_checks": ["multi_target_touch", "agent_touch_object"],
+  "repair_guidance": [
+    "If all targets are touched by the oracle but check_objective is false, persist touched target names instead of requiring simultaneous contact.",
+    "If targets are too spread out for the declared capability profile, reduce spread or increase movement capability."
+  ]
+}
