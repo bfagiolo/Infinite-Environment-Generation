@@ -1,0 +1,510 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake",
+      "move_left",
+      "move_right",
+      "optional_jump"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact",
+      "push_contact"
+    ],
+    "movement": "ground_force",
+    "notes": "Side-view ground-force locomotion under normal gravity; ball scoring is sensor overlap."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: agent_ball_distance, ball_distance_to_goal, ball_max_y, ball_speed, ball_has_crossed_wall_x."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "agent_cannot_reach_ball",
+      "insufficient_impulse",
+      "ball_does_not_clear_wall",
+      "goal_sensor_too_small_or_blocked"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Kick the ball so it travels over the wall and enters the goal sensor behind it.",
+    "objective_type": "custom_physics",
+    "progress_metrics": [
+      "agent_ball_distance",
+      "ball_distance_to_goal",
+      "ball_max_y",
+      "ball_speed",
+      "ball_has_crossed_wall_x"
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact",
+      "push_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_touch_object",
+        "target": "ball"
+      },
+      {
+        "clearance_margin": 45.0,
+        "interaction": "impulse_transfer",
+        "kind": "ballistic_object_to_region",
+        "object": "ball",
+        "region": "goal_line"
+      }
+    ],
+    "success_predicate": "ball overlaps goal_line sensor AND ball apex clears wall_top by clearance_margin AND agent touches ball before success",
+    "targets": [
+      "ball",
+      "wall",
+      "goal_line"
+    ],
+    "validator_skills": [
+      "subgoal_plan"
+    ]
+  },
+  "objective_type": "custom_physics",
+  "skill_id": "learned_custom_physics_solved_verified_agent_kicks_ball_over_wall_into_goal",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\agent_kicks_ball_over_wall_seed1_repair1_env.py",
+  "source_prompt": "agent kicks ball over wall into goal",
+  "summary": "Kick the ball so it travels over the wall and enters the goal sensor behind it. Validated as solved_verified with movement=ground_force, gravity=normal.",
+  "trigger_keywords": [
+    "agent",
+    "ball",
+    "contact",
+    "crossed",
+    "custom",
+    "distance",
+    "force",
+    "goal",
+    "ground",
+    "has",
+    "into",
+    "kicks",
+    "max",
+    "normal",
+    "over",
+    "physics",
+    "plan",
+    "push",
+    "speed",
+    "subgoal",
+    "to",
+    "touch",
+    "wall",
+    "x",
+    "y"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake",
+      "move_left",
+      "move_right",
+      "optional_jump"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "normal",
+    "interaction": [
+      "touch_contact",
+      "push_contact"
+    ],
+    "movement": "ground_force",
+    "objective_type": "custom_physics",
+    "oracle": "subgoal_plan",
+    "physics_relations": {
+      "intent_summary": "A controllable agent must strike (kick) a ball so it travels over a wall and enters a goal region on the far side.",
+      "physical_parameters": {
+        "agent": {
+          "friction_policy": "high enough for contact tasks; unrestricted thrust only in zero_g",
+          "repair_knobs": [
+            "agent_strength",
+            "agent_radius",
+            "agent_start"
+          ],
+          "strength_policy": "scale with max scene mass and gravity"
+        },
+        "clearance": {
+          "ballistic_path": {
+            "constraints": {
+              "clearance_margin": {
+                "min": 45,
+                "why": "projectile should clear the barrier visibly"
+              },
+              "gravity": {
+                "allowed": [
+                  "normal",
+                  "low_g",
+                  "custom"
+                ],
+                "why": "arc needs gravity or explicit field"
+              },
+              "object_to_region_distance": {
+                "max": 340,
+                "why": "generic ballistic validator can prove the arc"
+              },
+              "target_sensor": {
+                "required": true,
+                "why": "code-level objective should be non-blocking"
+              }
+            },
+            "repair_knobs": [
+              "object_start",
+              "target_center",
+              "target_size",
+              "barrier_height",
+              "object_mass",
+              "object_friction",
+              "object_elasticity",
+              "agent_strength"
+            ]
+          }
+        },
+        "fields": {},
+        "gravity": {
+          "explicit": false,
+          "model": "normal",
+          "repair_knob": "EnvConfig.gravity"
+        },
+        "objects": {
+          "ball": {
+            "constraints": {
+              "object_friction": {
+                "max": 0.12,
+                "min": 0.0,
+                "why": "prevents the ball/puck from acting like a crate"
+              },
+              "object_mass": {
+                "max": 0.85,
+                "min": 0.25,
+                "why": "light enough for visible impulse transfer"
+              },
+              "object_restitution": {
+                "max": 0.35,
+                "min": 0.08,
+                "why": "keeps contact lively but controllable"
+              },
+              "object_to_region_distance": {
+                "max": 340,
+                "why": "generic ballistic validator can prove the arc"
+              }
+            },
+            "relations": [
+              "agent_approaches_object",
+              "impulse_transfer",
+              "ballistic_arc_to_region"
+            ],
+            "repair_knobs": [
+              "object_elasticity",
+              "object_friction",
+              "object_mass",
+              "object_start"
+            ]
+          }
+        },
+        "surfaces": {}
+      },
+      "relations": [
+        {
+          "actors": [
+            "agent"
+          ],
+          "objects": [
+            "ball"
+          ],
+          "probes": [
+            "concrete_target",
+            "agent_moves_toward_target",
+            "contact_or_proximity"
+          ],
+          "repair": "Spawn the object reachable by the agent without hidden blockers.",
+          "type": "agent_approaches_object"
+        },
+        {
+          "actors": [
+            "agent"
+          ],
+          "objects": [
+            "ball"
+          ],
+          "parameter_constraints": {
+            "object_friction": {
+              "max": 0.12,
+              "min": 0.0,
+              "why": "prevents the ball/puck from acting like a crate"
+            },
+            "object_mass": {
+              "max": 0.85,
+              "min": 0.25,
+              "why": "light enough for visible impulse transfer"
+            },
+            "object_restitution": {
+              "max": 0.35,
+              "min": 0.08,
+              "why": "keeps contact lively but controllable"
+            }
+          },
+          "probes": [
+            "agent_object_contact",
+            "contact_impulse_observed",
+            "trajectory_change"
+          ],
+          "repair": "Keep the object light, dynamic, separate from the agent, and close enough for contact impulse.",
+          "repair_knobs": [
+            "agent_start",
+            "object_start",
+            "object_mass",
+            "object_friction",
+            "object_elasticity",
+            "agent_strength"
+          ],
+          "type": "impulse_transfer"
+        },
+        {
+          "fields": [
+            "gravity"
+          ],
+          "objects": [
+            "ball"
+          ],
+          "parameter_constraints": {
+            "clearance_margin": {
+              "min": 45,
+              "why": "projectile should clear the barrier visibly"
+            },
+            "gravity": {
+              "allowed": [
+                "normal",
+                "low_g",
+                "custom"
+              ],
+              "why": "arc needs gravity or explicit field"
+            },
+            "object_to_region_distance": {
+              "max": 340,
+              "why": "generic ballistic validator can prove the arc"
+            },
+            "target_sensor": {
+              "required": true,
+              "why": "code-level objective should be non-blocking"
+            }
+          },
+          "parameters": {
+            "barrier_clearance_required": true,
+            "requires_arc": true,
+            "target_should_be_sensor": true
+          },
+          "probes": [
+            "trajectory_change",
+            "barrier_clearance",
+            "apex_height",
+            "object_region_affordance",
+            "object_inside_region"
+          ],
+          "regions": [
+            "goal_line"
+          ],
+          "repair": "Use a non-blocking target sensor, clear arc space, and enough impulse/low friction for the object to reach the region.",
+          "repair_knobs": [
+            "object_start",
+            "target_center",
+            "target_size",
+            "barrier_height",
+            "object_mass",
+            "object_friction",
+            "object_elasticity",
+            "agent_strength"
+          ],
+          "type": "ballistic_arc_to_region"
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "agent_start",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "impulse_transfer",
+          "scope": "geometry"
+        },
+        {
+          "knob": "object_start",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "impulse_transfer",
+          "scope": "geometry"
+        },
+        {
+          "knob": "object_mass",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "impulse_transfer",
+          "scope": "physical_parameter"
+        },
+        {
+          "knob": "object_friction",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "impulse_transfer",
+          "scope": "physical_parameter"
+        },
+        {
+          "knob": "object_elasticity",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "impulse_transfer",
+          "scope": "physical_parameter"
+        },
+        {
+          "knob": "agent_strength",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "impulse_transfer",
+          "scope": "physical_parameter"
+        },
+        {
+          "knob": "object_start",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "ballistic_arc_to_region",
+          "scope": "geometry"
+        },
+        {
+          "knob": "target_center",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "ballistic_arc_to_region",
+          "scope": "geometry"
+        },
+        {
+          "knob": "target_size",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "ballistic_arc_to_region",
+          "scope": "geometry"
+        },
+        {
+          "knob": "barrier_height",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "ballistic_arc_to_region",
+          "scope": "geometry"
+        },
+        {
+          "knob": "object_mass",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "ballistic_arc_to_region",
+          "scope": "physical_parameter"
+        },
+        {
+          "knob": "object_friction",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "ballistic_arc_to_region",
+          "scope": "physical_parameter"
+        },
+        {
+          "knob": "object_elasticity",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "ballistic_arc_to_region",
+          "scope": "physical_parameter"
+        },
+        {
+          "knob": "agent_strength",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "ballistic_arc_to_region",
+          "scope": "physical_parameter"
+        }
+      ],
+      "source": "deterministic_relation_inference",
+      "suggested_subgoals": [
+        {
+          "kind": "agent_touch_object",
+          "target": "ball"
+        },
+        {
+          "interaction": "impulse_transfer",
+          "kind": "ballistic_object_to_region",
+          "object": "ball",
+          "region": "goal_line"
+        }
+      ],
+      "validator_strategy": {
+        "parameter_policy": "validate physical properties such as mass, friction, restitution, gravity, slope, clearance, and impulse before broad regeneration",
+        "primary": "validate physics_relations, then objective_profile.subgoals",
+        "repair_unit": "failed relation, not failed task template",
+        "template_policy": "helpers are optional constructors; relations are the conceptual source of truth"
+      },
+      "version": "physics_relation_graph.v2",
+      "world_context": {
+        "gravity": "normal",
+        "movement_model": "force-driven dynamic body for the agent with left/right locomotion and optional jump; ball is a dynamic circle",
+        "perspective": "side_view_platformer",
+        "rationale": "The prompt implies a ballistic arc: the ball must clear a vertical obstacle and land/enter a goal area beyond it.",
+        "support_model": "flat ground plane supporting agent and ball; wall is a tall static barrier anchored to ground; goal is a sensor region behind the wall",
+        "theme": "minimal sports training arena"
+      }
+    },
+    "progress_metrics": [
+      "agent_ball_distance",
+      "ball_distance_to_goal",
+      "ball_max_y",
+      "ball_speed",
+      "ball_has_crossed_wall_x"
+    ],
+    "relation_subgoals": [
+      {
+        "kind": "agent_touch_object",
+        "target": "ball"
+      },
+      {
+        "interaction": "impulse_transfer",
+        "kind": "ballistic_object_to_region",
+        "object": "ball",
+        "region": "goal_line"
+      }
+    ],
+    "required_capabilities": [
+      "ground_force",
+      "touch_contact",
+      "push_contact"
+    ],
+    "subgoals": [
+      {
+        "kind": "agent_touch_object",
+        "target": "ball"
+      },
+      {
+        "interaction": "impulse_transfer",
+        "kind": "ballistic_object_to_region",
+        "object": "ball",
+        "region": "goal_line"
+      }
+    ],
+    "validator_skills": [
+      "subgoal_plan"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied after subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}

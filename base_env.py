@@ -109,6 +109,7 @@ class RecurringLateralHazardRecord:
     spawn_lanes: tuple[tuple[float, float], ...]
     exit_x: float
     speed_x: float
+    angular_speed: float
     phase_gap_steps: int
     active_names: set[str] = field(default_factory=set)
     next_release_steps: dict[str, int] = field(default_factory=dict)
@@ -244,6 +245,7 @@ class BaseEnv(ABC):
         self.reset_objective_state()
 
         self.build_world()
+        self._sanitize_body_callbacks()
         self._update_agent_strength()
         self._update_mechanisms()
         ground_truth = self._json_safe(self.get_ground_truth())
@@ -267,10 +269,12 @@ class BaseEnv(ABC):
             raise ValueError("dt must be positive")
 
         self.apply_action(action)
+        self._sanitize_body_callbacks()
         physics_dt = frame_dt / substeps
         for _ in range(substeps):
             self._update_mechanisms()
             self._apply_force_zones()
+            self._sanitize_body_callbacks()
             self.space.step(physics_dt)
             self._apply_dynamic_angular_damping(physics_dt)
 
@@ -283,6 +287,17 @@ class BaseEnv(ABC):
         ground_truth = self._json_safe(self.get_ground_truth())
         self._assert_json_serializable(ground_truth)
         return ground_truth
+
+    def _sanitize_body_callbacks(self) -> None:
+        """Restore Pymunk's required integration callbacks if generated code broke them."""
+
+        for body in list(getattr(self.space, "bodies", ())):
+            # Pymunk's public getter returns the default callable even after
+            # `body.velocity_func = None`, but the C callback still points at a
+            # Python None. Assigning the default unconditionally restores the
+            # native Chipmunk callback and prevents CFFI popup errors.
+            body.velocity_func = pymunk.Body.update_velocity
+            body.position_func = pymunk.Body.update_position
 
     def get_ground_truth(self) -> GroundTruth:
         """Return a JSON-serializable snapshot of deterministic physics state."""
@@ -1592,6 +1607,7 @@ class BaseEnv(ABC):
         spawn_x: float | None = None,
         exit_x: float | None = None,
         size: VectorLike = (58.0, 28.0),
+        shape: str = "box",
         mass: float = 1.0,
         speed_x: float = -220.0,
         phase_gap_steps: int = 45,
@@ -1643,8 +1659,13 @@ class BaseEnv(ABC):
             "recurring_lateral_hazard": name,
             "lateral": True,
             "ground_locked": True,
+            "shape": str(shape or "box").lower(),
             **dict(metadata or {}),
         }
+        shape_mode = str(shape or "box").lower().strip()
+        use_circle = shape_mode in {"circle", "round", "ball", "boulder", "rock", "log", "barrel"}
+        radius = max(width, height) * 0.5
+        angular_speed = -speed / max(radius, 1.0) if use_circle else 0.0
 
         objects: dict[str, ObjectRecord] = {}
         object_names: list[str] = []
@@ -1655,28 +1676,43 @@ class BaseEnv(ABC):
             object_name = f"{name_prefix}_{index + 1}"
             if object_name in self._objects:
                 object_name = f"{name}_{object_name}"
-            record = self.create_dynamic_box(
-                object_name,
-                center=(spawn, float(lane_y)),
-                size=(width, height),
-                mass=float(mass),
-                friction=float(friction),
-                elasticity=float(elasticity),
-                # Recurring lane hazards need to pass through world bounds and
-                # decorative rails. Treat them as game hitboxes; objective code
-                # can still latch failure using overlap/proximity telemetry.
-                sensor=True,
-                role=role,
-                metadata={
-                    **hazard_metadata,
-                    "requested_sensor": bool(sensor),
-                    "phase_index": index,
-                    "phase_gap_steps": release_gap,
-                    "spawn_lane": [spawn, float(lane_y)],
-                    "exit_x": exit_boundary,
-                    "speed_x": speed,
-                },
-            )
+            metadata_payload = {
+                **hazard_metadata,
+                "requested_sensor": bool(sensor),
+                "phase_index": index,
+                "phase_gap_steps": release_gap,
+                "spawn_lane": [spawn, float(lane_y)],
+                "exit_x": exit_boundary,
+                "speed_x": speed,
+                "angular_speed": angular_speed,
+            }
+            if use_circle:
+                record = self.create_dynamic_circle(
+                    object_name,
+                    pos=(spawn, float(lane_y)),
+                    radius=radius,
+                    mass=float(mass),
+                    friction=float(friction),
+                    elasticity=float(elasticity),
+                    sensor=True,
+                    role=role,
+                    metadata=metadata_payload,
+                )
+            else:
+                record = self.create_dynamic_box(
+                    object_name,
+                    center=(spawn, float(lane_y)),
+                    size=(width, height),
+                    mass=float(mass),
+                    friction=float(friction),
+                    elasticity=float(elasticity),
+                    # Recurring lane hazards need to pass through world bounds and
+                    # decorative rails. Treat them as game hitboxes; objective code
+                    # can still latch failure using overlap/proximity telemetry.
+                    sensor=True,
+                    role=role,
+                    metadata=metadata_payload,
+                )
             record.body.velocity = (0.0, 0.0)
             record.body.angular_velocity = 0.0
             objects[object_name] = record
@@ -1686,6 +1722,7 @@ class BaseEnv(ABC):
             if index == 0:
                 active_names.add(object_name)
                 record.body.velocity = (speed, 0.0)
+                record.body.angular_velocity = angular_speed
 
         self._recurring_lateral_hazards[name] = RecurringLateralHazardRecord(
             name=name,
@@ -1693,6 +1730,7 @@ class BaseEnv(ABC):
             spawn_lanes=tuple(spawn_lanes),
             exit_x=exit_boundary,
             speed_x=speed,
+            angular_speed=angular_speed,
             phase_gap_steps=release_gap,
             active_names=active_names,
             next_release_steps=next_release_steps,
@@ -2360,7 +2398,7 @@ class BaseEnv(ABC):
                         hazard.active_names.add(object_name)
                         body.position = (spawn_x, lane_y)
                         body.velocity = (hazard.speed_x, 0.0)
-                        body.angular_velocity = 0.0
+                        body.angular_velocity = hazard.angular_speed
                         body.angle = 0.0
                     else:
                         body.position = (spawn_x, lane_y)
@@ -2388,8 +2426,9 @@ class BaseEnv(ABC):
 
                 body.position = (float(body.position.x), lane_y)
                 body.velocity = (hazard.speed_x, 0.0)
-                body.angular_velocity = 0.0
-                body.angle = 0.0
+                body.angular_velocity = hazard.angular_speed
+                if abs(hazard.angular_speed) <= 1e-6:
+                    body.angle = 0.0
 
     def _update_readable_chasers(self) -> None:
         if not self._readable_chasers:
@@ -2682,6 +2721,7 @@ class BaseEnv(ABC):
             ],
             "exit_x": self._finite_or_none(record.exit_x),
             "speed_x": self._finite_or_none(record.speed_x),
+            "angular_speed": self._finite_or_none(record.angular_speed),
             "phase_gap_steps": int(record.phase_gap_steps),
             "active_names": sorted(record.active_names),
             "next_release_steps": {

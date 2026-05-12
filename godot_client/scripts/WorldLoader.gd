@@ -46,6 +46,8 @@ var runtime_feedback_time = 0.0
 var runtime_survival_elapsed = 0.0
 var agent_hit_flash_time = 0.0
 var last_goal_distance = INF
+var play_countdown_remaining = 5.0
+var play_countdown_active = true
 
 
 func load_world(path: String) -> void:
@@ -69,6 +71,8 @@ func load_world(path: String) -> void:
 	runtime_survival_elapsed = 0.0
 	agent_hit_flash_time = 0.0
 	last_goal_distance = INF
+	play_countdown_remaining = 5.0
+	play_countdown_active = true
 	elapsed = 0.0
 	has_agent = false
 	load_error = ""
@@ -116,6 +120,10 @@ func _process(delta: float) -> void:
 	if not has_agent:
 		queue_redraw()
 		return
+	if play_countdown_active:
+		_update_play_countdown(delta)
+		queue_redraw()
+		return
 	if runtime_physics_ready:
 		_update_runtime_objective_feedback(delta)
 		if action_flash_time > 0.0:
@@ -150,6 +158,9 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	if not runtime_physics_ready or agent_runtime_body == null or not has_agent:
+		return
+	if play_countdown_active:
+		agent_runtime_body.velocity = Vector2.ZERO
 		return
 	previous_agent_position = agent_preview_position
 	var input = _read_movement_input()
@@ -360,6 +371,42 @@ func _draw() -> void:
 	_draw_semantic_foreground_assets()
 	_draw_foreground_fx()
 	_draw_hud()
+	_draw_play_countdown_overlay()
+
+
+func _update_play_countdown(delta: float) -> void:
+	play_countdown_remaining = max(0.0, play_countdown_remaining - delta)
+	if play_countdown_remaining <= 0.0:
+		play_countdown_active = false
+		_set_runtime_feedback("GO!", 0.9)
+
+
+func _draw_play_countdown_overlay() -> void:
+	if not play_countdown_active:
+		return
+	var viewport = get_viewport_rect()
+	var panel_size = Vector2(min(620.0, viewport.size.x - 100.0), 310.0)
+	var panel = Rect2((viewport.size - panel_size) * 0.5, panel_size)
+	var primary = _palette_color("primary", Color(0.35, 0.95, 1.0))
+	var hot = _palette_color("hot", ACTION_ORANGE)
+	var number = int(ceil(play_countdown_remaining))
+	number = clamp(number, 1, 5)
+	draw_rect(viewport, Color(0.0, 0.0, 0.0, 0.46), true)
+	draw_rect(panel, Color(0.02, 0.05, 0.07, 0.88), true)
+	draw_rect(panel, Color(primary.r, primary.g, primary.b, 0.72), false, 3.0)
+	draw_rect(panel.grow(10.0), Color(primary.r, primary.g, primary.b, 0.12), false, 8.0)
+	var title = "GET READY"
+	var hint = "Player control starts when the countdown clears"
+	_draw_centered_text(title, panel.position.y + 62.0, 30, primary.lightened(0.18))
+	_draw_centered_text(str(number), panel.position.y + 182.0, 128, hot.lightened(0.08))
+	_draw_centered_text(hint, panel.position.y + 256.0, 17, Color(0.82, 0.95, 0.97, 0.88))
+
+
+func _draw_centered_text(text: String, y: float, font_size: int, color: Color) -> void:
+	var viewport = get_viewport_rect()
+	var text_size = ThemeDB.fallback_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size)
+	var x = (viewport.size.x - text_size.x) * 0.5
+	draw_string(ThemeDB.fallback_font, Vector2(x, y), text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, color)
 
 
 func _find_agent() -> void:

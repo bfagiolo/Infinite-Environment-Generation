@@ -853,14 +853,34 @@ def _semantic_requirements_from_env(
     explicit = objective_metadata.get("semantic_requirements")
     if isinstance(explicit, list):
         requirements = [dict(item) for item in explicit if isinstance(item, dict)]
-        return requirements
+        return _normalize_semantic_requirements_for_prompt(requirements, _source_prompt_from_env(env))
 
     direct = getattr(env, "semantic_requirements", None)
     if isinstance(direct, list):
         requirements = [dict(item) for item in direct if isinstance(item, dict)]
-        return requirements
+        return _normalize_semantic_requirements_for_prompt(requirements, _source_prompt_from_env(env))
 
     return _infer_semantic_requirements_from_prompt(_source_prompt_from_env(env))
+
+
+def _normalize_semantic_requirements_for_prompt(
+    requirements: list[dict[str, Any]],
+    prompt: str,
+) -> list[dict[str, Any]]:
+    if not _prompt_requests_agent_projectile_impact(prompt):
+        return requirements
+    normalized: list[dict[str, Any]] = []
+    for requirement in requirements:
+        item = dict(requirement)
+        text = json.dumps(item, sort_keys=True, default=str).lower()
+        if any(token in text for token in ("agent_bullet", "bullet", "projectile", "agent-fired", "agent fired")):
+            if str(item.get("role") or "").lower() == "hazard":
+                item["role"] = "projectile"
+            if str(item.get("kind") or "") == "dynamic_hazard_motion":
+                item["kind"] = "object_motion"
+            item.setdefault("source", "prompt_normalized_agent_projectile")
+        normalized.append(item)
+    return normalized
 
 
 def _source_prompt_from_env(env: BaseEnv) -> str:
@@ -1052,18 +1072,26 @@ def _normalize_anti_cheat_check_for_prompt(check: dict[str, Any], prompt: str) -
         term in text
         for term in ("come", "coming", "incoming", "endless", "endlessly", "sequential", "sequentially", "cross", "crossing", "drive", "driving", "jump over")
     )
-    if vehicle_prompt and str(check.get("kind") or "") == "active_threat_engagement":
+    rolling_lane_prompt = any(term in text for term in ("rolling", "rolls", "roll ")) and any(
+        term in text
+        for term in ("boulder", "boulders", "rock", "rocks", "stone", "stones", "barrel", "barrels", "log", "logs")
+    ) and any(term in text for term in ("avoid", "dodge", "jump over", "escape", "survive", "incoming", "come", "coming"))
+    if (vehicle_prompt or rolling_lane_prompt) and str(check.get("kind") or "") == "active_threat_engagement":
         normalized = dict(check)
         normalized["motion"] = "lateral"
         normalized["role"] = normalized.get("role") or "hazard"
-        normalized["name_contains"] = ["car", "truck", "train", "traffic", "vehicle"]
+        normalized["name_contains"] = (
+            ["boulder", "rock", "stone", "barrel", "log"]
+            if rolling_lane_prompt and not vehicle_prompt
+            else ["car", "truck", "train", "traffic", "vehicle"]
+        )
         normalized["min_displacement"] = max(_safe_float(normalized.get("min_displacement"), 0.0), 120.0)
         normalized["max_y_drift"] = min(_safe_float(normalized.get("max_y_drift"), 52.0), 52.0)
         normalized["must_enter_agent_lane"] = True
         normalized["must_threaten_agent_column"] = True
         normalized.setdefault(
             "description",
-            "Incoming vehicles must remain grounded and cross the agent lane.",
+            "Incoming lateral threats must remain grounded and cross the agent lane.",
         )
         return normalized
     return check
@@ -1199,6 +1227,10 @@ def _infer_anti_cheat_profile_from_prompt(
         motion = "any"
         if any(term in text for term in ("car", "truck", "train", "traffic", "vehicle")):
             motion = "lateral"
+        if any(term in text for term in ("rolling", "rolls", "roll ")) and any(
+            term in text for term in ("boulder", "rock", "stone", "barrel", "log")
+        ):
+            motion = "lateral"
         if any(term in text for term in ("falling", "raining", "drops", "dropping", "fall from")):
             motion = "falling"
         if any(term in text for term in ("shot", "shoot", "laser", "projectile")):
@@ -1229,8 +1261,10 @@ def _infer_anti_cheat_profile_from_prompt(
 
     objective_type = str((objective_metadata or {}).get("objective_type") or "").lower()
     targets = _string_list((objective_metadata or {}).get("objective_targets"))
-    if objective_type in {"push_object", "mechanism_activation"} or any(
+    if not _prompt_requests_agent_projectile_impact(prompt) and (
+        objective_type in {"push_object", "mechanism_activation"} or any(
         term in text for term in ("push", "shove", "kick", "throw", "launch", "knock")
+        )
     ):
         profile.append(
             {
@@ -1244,6 +1278,47 @@ def _infer_anti_cheat_profile_from_prompt(
             }
         )
     return profile
+
+
+def _prompt_requests_agent_projectile_impact(prompt: str) -> bool:
+    text = prompt.lower()
+    return bool(
+        re.search(
+            r"\b(agent|player|person|character|robot)\b.{0,45}\b(shoots|shoot|fires|fire|firing)\b.{0,60}\b(bullet|projectile|missile|laser|blaster)\b",
+            text,
+        )
+    ) and any(
+        term in text
+        for term in (
+            "knock",
+            "knocks",
+            "knock over",
+            "topple",
+            "break",
+            "hit",
+            "hits",
+            "pile",
+            "stack",
+            "tower",
+            "target",
+            "squares",
+            "blocks",
+        )
+    ) and not any(
+        term in text
+        for term in (
+            "avoid",
+            "avoiding",
+            "dodge",
+            "dodging",
+            "survive",
+            "enemy",
+            "enemies",
+            "incoming",
+            "at the agent",
+            "toward the agent",
+        )
+    )
 
 
 def _anti_cheat_validation_result(
@@ -2140,7 +2215,22 @@ def _effective_semantic_requirement(env: BaseEnv, requirement: dict[str, Any]) -
     text = " ".join(_string_list(effective.get("name_contains"))).lower()
     vehicle_lateral = (
         motion in {"lateral", "crossing", "driving", "rolling"} or axis == "x" or direction in {"left", "right"}
-    ) and any(token in text for token in ("car", "truck", "train", "traffic", "vehicle", "rolling"))
+    ) and any(
+        token in text
+        for token in (
+            "car",
+            "truck",
+            "train",
+            "traffic",
+            "vehicle",
+            "rolling",
+            "boulder",
+            "rock",
+            "stone",
+            "barrel",
+            "log",
+        )
+    )
     if vehicle_lateral:
         # Recurring lanes release objects in phases, so endpoint displacement
         # can understate real travel after resets. The span-aware probe below
@@ -2236,6 +2326,10 @@ def _semantic_matching_records(env: BaseEnv, requirement: dict[str, Any]) -> lis
             token in text for token in ("chaser", "pursuer", "angry", "enemy", "monster")
         ):
             role_matches = record_role in {"hazard", "enemy", "chaser", "pursuer", "opponent"}
+        if not role_matches and role == "projectile" and any(
+            token in text for token in ("projectile", "bullet", "missile", "laser", "fired_by")
+        ):
+            role_matches = record_role in {"projectile", "hazard", "tool", "object", ""}
         name_matches = not contains or any(token in text for token in contains)
         if role_matches and name_matches:
             matches.append(record)
@@ -2329,9 +2423,11 @@ def _semantic_motion_repair(requirement: dict[str, Any], per_object: list[dict[s
             f"Observed: {metrics}"
         )
     if motion in {"ballistic", "projectile", "shooting", "laser", "shot"}:
+        role_text = str(requirement.get("role") or "").lower()
+        noun = "projectile hazards" if role_text == "hazard" else "projectile objects"
         return (
-            "Prompt fidelity failure: projectile hazards exist but did not travel far enough to read as shots. "
-            "Make at least one role='hazard' projectile active immediately or within the first 30 simulation steps, "
+            f"Prompt fidelity failure: {noun} exist but did not travel far enough to read as shots. "
+            "Make at least one projectile active immediately or within the first 30 simulation steps, "
             "give it initial velocity or bounded force so it travels at least 120 px during passive validation, "
             "and avoid parked inactive projectile pool bodies matching semantic_requirements. "
             f"Observed: {metrics}"
@@ -3340,7 +3436,7 @@ def _subgoal_affordance_probe_results(
             object_record = _subgoal_record(env, subgoal, "object")
             region_record = _subgoal_record(env, subgoal, "region")
             agent = env.get_agent_record()
-            if object_record is not None:
+            if object_record is not None and not _is_agent_fired_projectile_subgoal(env, subgoal, object_record):
                 probes.append(
                     passive_stability_probe(
                         env,
@@ -3486,6 +3582,46 @@ def _is_sequential_object_motion_subgoal(
     return False
 
 
+def _is_agent_fired_projectile_subgoal(
+    env: BaseEnv,
+    subgoal: dict[str, Any],
+    object_record: Any | None = None,
+) -> bool:
+    if str(subgoal.get("kind") or "") != "ballistic_object_to_region":
+        return False
+    interaction = str(subgoal.get("interaction") or "").lower()
+    if interaction == "agent_fired_projectile_impact":
+        return True
+    name = str(subgoal.get("object") or "").lower()
+    record = object_record or _subgoal_record(env, subgoal, "object")
+    metadata = getattr(record, "metadata", {}) if record is not None else {}
+    metadata_text = json.dumps(metadata, sort_keys=True, default=str).lower()
+    role = str(getattr(record, "role", "") or "").lower() if record is not None else ""
+    kind = str(getattr(record, "kind", "") or "").lower() if record is not None else ""
+    object_text = " ".join([name, role, kind, metadata_text])
+    if any(token in object_text for token in ("agent_bullet", "agent_projectile", "fired_by\": \"agent", "agent_fired_projectile")):
+        return True
+    if any(token in name for token in ("bullet", "projectile", "missile", "laser")) and _prompt_requests_agent_projectile_impact(
+        _source_prompt_from_env(env)
+    ):
+        return True
+    return False
+
+
+def _record_is_agent_fired_projectile(env: BaseEnv, record: Any) -> bool:
+    name = str(getattr(record, "name", "") or "").lower()
+    role = str(getattr(record, "role", "") or "").lower()
+    kind = str(getattr(record, "kind", "") or "").lower()
+    metadata = getattr(record, "metadata", {}) or {}
+    metadata_text = json.dumps(metadata, sort_keys=True, default=str).lower()
+    object_text = " ".join([name, role, kind, metadata_text])
+    if any(token in object_text for token in ("agent_bullet", "agent_projectile", "agent_fired_projectile", "fired_by\": \"agent")):
+        return True
+    return any(token in name for token in ("bullet", "projectile", "missile", "laser")) and _prompt_requests_agent_projectile_impact(
+        _source_prompt_from_env(env)
+    )
+
+
 def _move_object_affordance_failures(
     env: BaseEnv,
     subgoal: dict[str, Any],
@@ -3531,38 +3667,40 @@ def _move_object_affordance_failures(
     if object_record is None or region_record is None:
         return failures
 
-    stability_probe = passive_stability_probe(
-        env,
-        object_record.name,
-        steps=60,
-        substeps=config.kinetic_substeps,
-        max_displacement=8.0,
-    )
-    stability = dict(stability_probe.metrics)
-    if not stability_probe.passed:
-        failures.append(
-            _affordance_failure(
-                subgoal,
-                subgoal_index,
-                stability_probe.diagnosis or "object_not_passively_stable",
-                (
-                    f"{object_record.name} drifts {stability['object_displacement']:.1f} px "
-                    "with no agent action before the push starts; add a stable floor, rail, "
-                    "or low-friction guide so the object is controllable."
-                ),
-                {**stability, "probe_result": stability_probe.to_dict()},
-            )
+    agent_projectile = _is_agent_fired_projectile_subgoal(env, subgoal, object_record)
+    if not agent_projectile:
+        stability_probe = passive_stability_probe(
+            env,
+            object_record.name,
+            steps=60,
+            substeps=config.kinetic_substeps,
+            max_displacement=8.0,
         )
-        agent = env.get_agent_record()
-        object_record = _subgoal_record(env, subgoal, "object")
-        region_record = _subgoal_record(env, subgoal, "region")
-        if agent is None or object_record is None or region_record is None:
-            return failures
+        stability = dict(stability_probe.metrics)
+        if not stability_probe.passed:
+            failures.append(
+                _affordance_failure(
+                    subgoal,
+                    subgoal_index,
+                    stability_probe.diagnosis or "object_not_passively_stable",
+                    (
+                        f"{object_record.name} drifts {stability['object_displacement']:.1f} px "
+                        "with no agent action before the push starts; add a stable floor, rail, "
+                        "or low-friction guide so the object is controllable."
+                    ),
+                    {**stability, "probe_result": stability_probe.to_dict()},
+                )
+            )
+            agent = env.get_agent_record()
+            object_record = _subgoal_record(env, subgoal, "object")
+            region_record = _subgoal_record(env, subgoal, "region")
+            if agent is None or object_record is None or region_record is None:
+                return failures
 
     metrics = _move_object_affordance_metrics(agent, object_record, region_record, config)
     strike_subgoal = _is_strike_subgoal(subgoal)
     ballistic_subgoal = str(subgoal.get("kind") or "") == "ballistic_object_to_region"
-    max_object_to_region = 340.0 if ballistic_subgoal else (260.0 if strike_subgoal else 140.0)
+    max_object_to_region = 760.0 if agent_projectile else (340.0 if ballistic_subgoal else (260.0 if strike_subgoal else 140.0))
     max_agent_to_object = 190.0 if ballistic_subgoal else (170.0 if strike_subgoal else 220.0)
     max_alignment = 75.0 if ballistic_subgoal else (25.0 if strike_subgoal else 35.0)
     spatial_probe = object_region_affordance_probe(
@@ -6153,6 +6291,29 @@ def _step_ballistic_object_to_region(
     object_pos = object_record.body.position
     region_pos = region_record.body.position
     to_region = region_pos - object_pos
+    if _record_is_agent_fired_projectile(env, object_record):
+        if to_region.length > 1.0:
+            axis = to_region.normalized()
+            toward_speed = float(object_record.body.velocity.dot(axis))
+            if toward_speed < 180.0 and _ballistic_impulse_allowed(env, object_record, region_record):
+                impulse = axis * max(420.0, float(getattr(object_record.body, "mass", 1.0) or 1.0) * 620.0)
+                object_record.body.apply_impulse_at_world_point(impulse, object_record.body.position)
+                _record_ballistic_impulse(env, object_record, region_record)
+                env._validator_last_push_force = {
+                    "magnitude": round(float(impulse.length), 3),
+                    "toward_region": round(float(impulse.dot(axis)), 3),
+                    "vector": [round(float(impulse.x), 3), round(float(impulse.y), 3)],
+                    "mode": "agent_fired_projectile_assist",
+                }
+            else:
+                env._validator_last_push_force = {
+                    "magnitude": 0.0,
+                    "toward_region": round(toward_speed, 3),
+                    "vector": [0.0, 0.0],
+                    "mode": "agent_projectile_already_in_flight",
+                }
+        env.step(substeps=config.kinetic_substeps)
+        return
     horizontal = pymunk.Vec2d(1.0 if to_region.x >= 0 else -1.0, 0.0)
     object_radius = _record_radius(object_record, config.agent_radius)
     agent_radius = _record_radius(agent, config.agent_radius)

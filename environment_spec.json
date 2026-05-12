@@ -60,8 +60,8 @@
       "note": "Use this for falling/raining/dropping hazards that should continue with staggered timing. It creates dynamic hazard bodies and BaseEnv-managed reset/release behavior. Default sensor=True keeps hazards from piling up on terrain while still exposing deterministic hazard state."
     },
     "create_recurring_lateral_hazards": {
-      "args": ["name", "count", "lane_y", "spawn_x", "exit_x", "size", "mass", "speed_x", "phase_gap_steps", "role", "name_prefix", "elasticity", "friction", "sensor", "metadata"],
-      "note": "Use this for side-view cars, trains, traffic, rolling logs, or vehicles that come endlessly/sequentially across a ground lane. Use sensor=True and latch failure with overlap/proximity state; this keeps hazards from being blocked by side walls while still making them real prompt threats. It creates dynamic lane-locked hazard bodies and BaseEnv-managed reset/release behavior so hazards move horizontally and do not fall off-screen."
+      "args": ["name", "count", "lane_y", "spawn_x", "exit_x", "size", "shape", "mass", "speed_x", "phase_gap_steps", "role", "name_prefix", "elasticity", "friction", "sensor", "metadata"],
+      "note": "Use this for side-view cars, trains, traffic, rolling boulders/rocks/logs/barrels, or vehicles that come endlessly/sequentially across a ground lane. Use shape='circle' and name_prefix='boulder'/'rock' for rolling hazards. Use sensor=True and latch failure with overlap/proximity state; this keeps hazards from being blocked by side walls while still making them real prompt threats. It creates dynamic lane-locked hazard bodies and BaseEnv-managed reset/release behavior so hazards move horizontally and do not fall off-screen."
     },
     "create_readable_chaser": {
       "args": ["name", "pos", "target_name", "radius", "mass", "force_strength", "max_speed", "stop_radius", "axis", "role", "elasticity", "friction", "sensor", "metadata"],
@@ -222,6 +222,7 @@
     "Helper": "create_recurring_lateral_hazards",
     "Rules": [
       "Use create_recurring_lateral_hazards for prompts where hazards come endlessly, sequentially, drive, roll, cross, or approach along the ground.",
+      "For rolling boulders/rocks/logs/barrels, set shape='circle', name_prefix='boulder' or 'rock', and include metadata semantic_motion='rolling'.",
       "Use sensor=True for these hazards and implement contact failure by overlap/proximity logic in check_objective; do not make the stream depend on solid car-vs-wall collision.",
       "Hazards must move horizontally through the agent lane and reset after exiting the world; do not spawn a single one-shot hazard unless the prompt explicitly says single obstacle.",
       "Cars/trains/vehicles must be lane-locked with minimal vertical drift. They should not fall off-screen, drop through the floor, be blocked by side walls, or rely on fragile custom after_step code.",
@@ -831,7 +832,7 @@
     "Rules": [
       "Anti-cheat checks do not replace check_objective or semantic_requirements; they reject fake wins that neutralize the prompt's intended challenge.",
       "If the prompt says cars/trains/rolling hazards come at the player, leave an open ingress/egress lane and ensure at least one threat crosses the agent lane during passive validation.",
-      "For endless/sequential car/train/traffic hazards, prefer create_recurring_lateral_hazards so the validator observes repeated grounded lateral crossings rather than a one-shot object that falls away.",
+      "For endless/sequential car/train/traffic/rolling-boulder hazards, prefer create_recurring_lateral_hazards so the validator observes repeated grounded lateral crossings rather than a one-shot object that falls away.",
       "If the prompt says enemies chase the player, they must have an open route and visibly reduce distance; do not seal them behind decorative walls.",
       "If the prompt says shots/projectiles, at least one active projectile must travel through the playable arena rather than sitting parked in a pool.",
       "If the prompt describes manipulation, do not start the objective already solved; require visible contact-driven motion."

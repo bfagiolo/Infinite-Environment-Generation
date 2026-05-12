@@ -46,6 +46,9 @@ MINI_PREVIEW_STEPS_PER_FRAME = 4
 MAX_PROMPT_CHARS = 1200
 
 DEFAULT_PROMPT = ""
+MODEL_OPTIONS = ("gpt-5.2", "gpt-5.4")
+_ENV_ARCHITECT_MODEL = os.getenv("OPENAI_ARCHITECT_MODEL", MODEL_OPTIONS[0])
+DEFAULT_ARCHITECT_MODEL = _ENV_ARCHITECT_MODEL if _ENV_ARCHITECT_MODEL in MODEL_OPTIONS else MODEL_OPTIONS[0]
 
 
 def _normalize_prompt_match(text: str) -> str:
@@ -644,8 +647,9 @@ class DashboardApp:
         *,
         width: int = WIDTH,
         height: int = HEIGHT,
-        max_seeds: int = 2,
+        max_seeds: int = 5,
         max_repairs: int = 3,
+        architect_model: str = DEFAULT_ARCHITECT_MODEL,
         smoke_frames: int | None = None,
     ) -> None:
         pygame.init()
@@ -667,6 +671,7 @@ class DashboardApp:
         self.max_seeds = max_seeds
         self.max_repairs = max_repairs
         self.execution_mode = "fast"
+        self.architect_model = architect_model if architect_model in MODEL_OPTIONS else MODEL_OPTIONS[0]
         self.smoke_frames = smoke_frames
         self.frame_count = 0
 
@@ -687,6 +692,7 @@ class DashboardApp:
         self.pipeline_detail = "Awaiting a text command."
         self.current_seed: int | None = None
         self.current_repair: int | None = None
+        self.current_repair_limit = max_repairs
         self.completed_attempts = 0
         self.last_announced_seed: int | None = None
         self.verified_env: Path | None = None
@@ -712,7 +718,8 @@ class DashboardApp:
         self._add_console("Harness Alpha dashboard ready.", CYAN)
         self._add_console("Type or paste a prompt, or click an instant saved showcase card below.", MUTED)
         self._add_console("Tip: press F11 or Alt+Enter to toggle fullscreen for recording.", MUTED)
-        self._add_console("Mode: FAST races first-attempt seeds in parallel; NORMAL uses the classic sequential loop.", MUTED)
+        self._add_console("Speed toggle: FAST races first-attempt seeds in parallel; NORMAL uses the classic sequential loop.", MUTED)
+        self._add_console(f"Model toggle: using {self.architect_model}; click it to switch Architect model.", MUTED)
 
     def _set_display_mode(self) -> pygame.Surface:
         flags = pygame.SCALED
@@ -902,10 +909,11 @@ class DashboardApp:
         self.pipeline_stage = "Launching harness"
         self.pipeline_detail = (
             "Starting Architect, Validator, Healer, and export pipeline "
-            f"({self.execution_mode.upper()} mode)."
+            f"({self.execution_mode.upper()} mode, {self.architect_model})."
         )
         self.current_seed = None
         self.current_repair = None
+        self.current_repair_limit = self.max_repairs
         self.completed_attempts = 0
         self.last_announced_seed = None
         self.verified_env = None
@@ -930,6 +938,7 @@ class DashboardApp:
         )
         self._add_console(prefix + self.latest_prompt, TEXT, "section")
         self._add_console("BOOT // Spawning harness.py and loading project contracts.", MUTED, "step")
+        self._add_console(f"MODEL // Architect using {self.architect_model}", MUTED, "step")
 
         command = [
             sys.executable,
@@ -942,9 +951,12 @@ class DashboardApp:
             str(self.max_repairs),
             "--execution-mode",
             self.execution_mode,
+            "--model",
+            self.architect_model,
         ]
         env = os.environ.copy()
         env["PYTHONUNBUFFERED"] = "1"
+        env["OPENAI_ARCHITECT_MODEL"] = self.architect_model
         self.process = subprocess.Popen(
             command,
             stdout=subprocess.PIPE,
@@ -1392,6 +1404,18 @@ class DashboardApp:
             self._add_console("Execution mode: NORMAL // classic sequential Reflexion loop.", MUTED)
             self.pipeline_detail = "Normal mode enabled: lower API spend, more sequential repair feedback."
 
+    def toggle_architect_model(self) -> None:
+        if self._busy():
+            return
+        current_index = MODEL_OPTIONS.index(self.architect_model) if self.architect_model in MODEL_OPTIONS else 0
+        self.architect_model = MODEL_OPTIONS[(current_index + 1) % len(MODEL_OPTIONS)]
+        if self.architect_model == "gpt-5.4":
+            self._add_console("Architect model: GPT-5.4 // stronger generation mode.", PURPLE)
+            self.pipeline_detail = "GPT-5.4 selected for fresh generations; expect stronger reasoning and higher cost."
+        else:
+            self._add_console("Architect model: GPT-5.2 // default balanced mode.", CYAN)
+            self.pipeline_detail = "GPT-5.2 selected for fresh generations; balanced quality, cost, and latency."
+
     def _read_process_output(self, process: subprocess.Popen[str]) -> None:
         if process.stdout is None:
             return
@@ -1459,9 +1483,14 @@ class DashboardApp:
         if attempt:
             seed = int(attempt.group(1))
             repair = int(attempt.group(2))
+            repair_limit = int(attempt.group(3))
             self.current_seed = seed
             self.current_repair = repair
-            self.completed_attempts = max(self.completed_attempts, (seed - 1) * self.max_repairs + repair - 1)
+            self.current_repair_limit = max(self.current_repair_limit, repair_limit)
+            self.completed_attempts = max(
+                self.completed_attempts,
+                (seed - 1) * self.current_repair_limit + repair - 1,
+            )
             if self.last_announced_seed != seed:
                 self.last_announced_seed = seed
                 seed_label = {
@@ -2263,7 +2292,7 @@ class DashboardApp:
         if self.pending_demo_load is not None and self.pending_demo_load_at_ms is not None:
             elapsed = pygame.time.get_ticks() - self.pending_demo_load_at_ms
             return min(0.96, max(0.08, elapsed / 3000.0))
-        total = max(1, self.max_seeds * self.max_repairs)
+        total = max(1, self.max_seeds * self.current_repair_limit)
         if self.state == "success":
             return 1.0
         if self.state == "failed":
@@ -2272,19 +2301,19 @@ class DashboardApp:
             return 0.0
         current = self.completed_attempts
         if self.current_seed is not None and self.current_repair is not None:
-            current = (self.current_seed - 1) * self.max_repairs + self.current_repair - 0.35
+            current = (self.current_seed - 1) * self.current_repair_limit + self.current_repair - 0.35
         return max(0.04, min(0.96, current / total))
 
     def _attempt_label(self) -> str:
         if self.pending_demo_load is not None:
             return "showcase cache"
         if self.current_seed is None or self.current_repair is None:
-            return f"0/{self.max_seeds * self.max_repairs} attempts"
-        doneish = (self.current_seed - 1) * self.max_repairs + self.current_repair
-        return f"seed {self.current_seed} repair {self.current_repair}/{self.max_repairs}  |  {doneish}/{self.max_seeds * self.max_repairs}"
+            return f"0/{self.max_seeds * self.current_repair_limit} attempts"
+        doneish = (self.current_seed - 1) * self.current_repair_limit + self.current_repair
+        return f"seed {self.current_seed} repair {self.current_repair}/{self.current_repair_limit}  |  {doneish}/{self.max_seeds * self.current_repair_limit}"
 
     def _draw_side_panel(self) -> None:
-        panel = pygame.Rect(916, 100, 370, 636)
+        panel = pygame.Rect(916, 100, 370, 712)
         self._panel(panel)
         title = self.label_font.render("CONTROL ROOM", True, TEXT)
         self.screen.blit(title, (936, 118))
@@ -2297,6 +2326,8 @@ class DashboardApp:
         mode_label = "FAST // PARALLEL" if self.execution_mode == "fast" else "NORMAL // SEQUENTIAL"
         mode_color = GREEN if self.execution_mode == "fast" else MUTED
         self._draw_metric("Mode", mode_label, mode_color, 410)
+        model_color = PURPLE if self.architect_model == "gpt-5.4" else CYAN
+        self._draw_metric("Model", self.architect_model, model_color, 454)
         for button in self._buttons():
             self._draw_button(button)
 
@@ -2713,17 +2744,19 @@ class DashboardApp:
     def _buttons(self) -> list[Button]:
         x = 936
         w = 330
-        mode_label = "Mode: FAST Seed Race" if self.execution_mode == "fast" else "Mode: NORMAL Reflexion"
+        mode_label = "Speed: FAST  |  normal" if self.execution_mode == "fast" else "Speed: fast  |  NORMAL"
+        model_label = "Model: GPT-5.2  |  5.4" if self.architect_model == "gpt-5.2" else "Model: 5.2  |  GPT-5.4"
         generate_enabled = self._can_generate()
         generate_label = "Generate" if not self.generate_locked else "Generate Locked"
         buttons = [
-            Button(pygame.Rect(x, 454, w, 34), mode_label, self.toggle_execution_mode, not self._busy(), GREEN if self.execution_mode == "fast" else MUTED),
-            Button(pygame.Rect(x, 498, w, 38), generate_label, lambda: self.start_generation(self.prompt), generate_enabled, GREEN),
-            Button(pygame.Rect(x, 546, w, 38), "Play in Godot", self.open_godot_runtime, self._world_schema_path() is not None and not self._busy(), GREEN),
-            Button(pygame.Rect(x, 594, w, 38), "Watch AI Solve", lambda: self.open_visualizer(autoplay=True), self.verified_env is not None and self.accepted and self.tier == 5 and not self._busy(), PURPLE),
-            Button(pygame.Rect(x, 642, w, 34), "Fork 3 Fast Variants", self.start_variants, self.verified_env is not None and self.accepted and not self._busy(), BLUE),
-            Button(pygame.Rect(x, 686, 158, 32), "Cancel", self.stop_generation, self._busy(), RED),
-            Button(pygame.Rect(x + 172, 686, 158, 32), "Clear / Reset", self.reset_dashboard, not self._busy(), CYAN if self.generate_locked else MUTED),
+            Button(pygame.Rect(x, 500, w, 32), mode_label, self.toggle_execution_mode, not self._busy(), GREEN if self.execution_mode == "fast" else MUTED),
+            Button(pygame.Rect(x, 540, w, 32), model_label, self.toggle_architect_model, not self._busy(), PURPLE if self.architect_model == "gpt-5.4" else CYAN),
+            Button(pygame.Rect(x, 582, w, 36), generate_label, lambda: self.start_generation(self.prompt), generate_enabled, GREEN),
+            Button(pygame.Rect(x, 626, w, 36), "Play in Godot", self.open_godot_runtime, self._world_schema_path() is not None and not self._busy(), GREEN),
+            Button(pygame.Rect(x, 670, w, 36), "Watch AI Solve", lambda: self.open_visualizer(autoplay=True), self.verified_env is not None and self.accepted and self.tier == 5 and not self._busy(), PURPLE),
+            Button(pygame.Rect(x, 714, w, 32), "Fork 3 Fast Variants", self.start_variants, self.verified_env is not None and self.accepted and not self._busy(), BLUE),
+            Button(pygame.Rect(x, 754, 158, 30), "Cancel", self.stop_generation, self._busy(), RED),
+            Button(pygame.Rect(x + 172, 754, 158, 30), "Clear / Reset", self.reset_dashboard, not self._busy(), CYAN if self.generate_locked else MUTED),
         ]
         return buttons
 
@@ -3100,9 +3133,10 @@ def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Harness Alpha Pygame dashboard")
     parser.add_argument("--width", type=int, default=WIDTH)
     parser.add_argument("--height", type=int, default=HEIGHT)
-    parser.add_argument("--max-seeds", type=int, default=2)
+    parser.add_argument("--max-seeds", type=int, default=5)
     parser.add_argument("--max-repairs", type=int, default=3)
     parser.add_argument("--execution-mode", choices=("normal", "fast"), default="fast")
+    parser.add_argument("--model", choices=MODEL_OPTIONS, default=DEFAULT_ARCHITECT_MODEL)
     parser.add_argument("--smoke-frames", type=int, help="render N frames and exit")
     return parser
 
@@ -3114,6 +3148,7 @@ def main() -> None:
         height=args.height,
         max_seeds=args.max_seeds,
         max_repairs=args.max_repairs,
+        architect_model=args.model,
         smoke_frames=args.smoke_frames,
     )
     app.execution_mode = args.execution_mode

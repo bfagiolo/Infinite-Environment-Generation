@@ -260,7 +260,7 @@ BaseEnv helpers:
 - `self.create_ballistic_barrier_goal_challenge(name, *, agent_name="agent", object_name="soccer_ball", barrier_name="wall", target_name="goal_line", agent_pos=(190,145), object_pos=(255,145), barrier_center=(390,205), barrier_size=(30,145), target_center=(540,195), agent_radius=None, object_radius=17, object_mass=0.42, object_friction=0.035, object_elasticity=0.16, target_size=(92,125), support_thickness=28, support_margin=140, support_friction=0.66, metadata=None)`
 - `self.create_support_exit_freefall_challenge(name, *, agent_name="agent", object_name="rock", boundary_name="cliff_edge_boundary", drop_zone_name="open_air_drop_zone", agent_x=300, object_x=405, edge_x=540, lane_y=360, agent_radius=None, object_radius=22, object_mass=1.65, object_friction=0.18, support_thickness=32, support_margin=120, drop_height=260, metadata=None)`
 - `self.create_recurring_falling_hazards(name, *, count=4, lane_xs=None, spawn_y=None, bottom_y=None, radius=14, mass=0.8, speed_y=-280, phase_gap_steps=35, role="hazard", name_prefix="fireball", elasticity=0.08, friction=0.05, sensor=True, metadata=None)`
-- `self.create_recurring_lateral_hazards(name, *, count=4, lane_y, spawn_x=None, exit_x=None, size=(58, 28), mass=1.0, speed_x=-220, phase_gap_steps=45, role="hazard", name_prefix="car", elasticity=0.0, friction=0.2, sensor=True, metadata=None)`
+- `self.create_recurring_lateral_hazards(name, *, count=4, lane_y, spawn_x=None, exit_x=None, size=(58, 28), shape="box", mass=1.0, speed_x=-220, phase_gap_steps=45, role="hazard", name_prefix="car", elasticity=0.0, friction=0.2, sensor=True, metadata=None)`
 - `self.create_readable_chaser(name, *, pos, target_name="agent", radius=16, mass=0.9, force_strength=900, max_speed=135, stop_radius=26, axis="x", role="chaser", elasticity=0.0, friction=0.2, sensor=True, metadata=None)`
 - `self.register_readable_chaser(name, *, chaser, target="agent", force_strength=900, max_speed=135, stop_radius=26, axis="x", metadata=None)`
 - `self.register_pressure_plate_gate(name, *, trigger, gate, activator, activation_distance=None, open_mode="sensorize", metadata=None)`
@@ -280,6 +280,7 @@ BaseEnv helpers:
 - If `self.gameplay_profile["world_context"]["world_perspective"] == "side_view_platformer"`, the environment must use normal gravity, physical support surfaces, and a continuous traversable ramp/stair/ledge route to elevated exits/goals.
 - If `self.gameplay_profile["world_context"]["world_perspective"] == "zero_g_freeflight"`, the environment should use zero gravity and thrust-style movement; do not add unnecessary floor support.
 - If `self.gameplay_profile["world_context"]["world_perspective"] == "top_down_or_flat_floor"`, treat the world as a planar floor/overhead game, not true freeflight. You may implement this with EnvConfig(gravity=(0, 0)) plus damping for top-down movement or with a full flat support plane, but label capability_profile gravity as "top_down_flat" when available and do not create vertical platformer routes unless the prompt explicitly asks.
+- Do NOT assign `body.velocity_func` or `body.position_func`; those are Pymunk callback hooks and must remain callable. For damping/control feel, use `space.damping`, `body.angular_damping`, friction, masses, forces, and velocities instead.
 - If `self.semantic_requirements` is non-empty, `super().get_ground_truth()` will export it under `truth["objective"]["semantic_requirements"]`.
 - The objective profile must include these exact keys: `objective_type`, `objective_description`, `success_predicate`, `targets`, `required_capabilities`, `progress_metrics`, `validator_skills`, `failure_modes`, `minimum_acceptance_tier`.
 - The objective profile must also include `subgoals`: an ordered list of generic physical predicates the validator can execute.
@@ -426,7 +427,7 @@ self.semantic_requirements = [
 - For falling/raining/dropping hazards: create dynamic hazard circles or boxes above the route with gravity, low enough friction, no supporting shelf, and optional downward initial velocity. Do not place them motionless on platforms. They must visibly descend through open play space by at least 160 px, not merely jiggle or settle on a nearby block.
 - For zero/low-gravity worlds with falling hazards: preserve the requested zero/low gravity for the world. Do NOT turn gravity back on just to make hazards fall. Add a dedicated downward `register_force_zone(..., affected_roles=["hazard"], force=(0, -1), strength>=9000)` OR set each hazard's initial `body.velocity` downward after creation. Spawn hazards BELOW any solid top boundary or create ceiling gaps, and keep at least 160 px of vertical clearance below each hazard so top walls, platforms, or central blocks cannot catch them before they visibly fall. If the world has a ceiling at `self.height`, use spawn_y <= self.height - hazard_radius - 8 or leave gaps in the ceiling above every drop lane.
 - For recurring/staggered falling hazards requested by the GAMEPLAY ARCHITECT PROFILE: MUST prefer `create_recurring_falling_hazards(...)`. It creates dynamic hazard bodies, staggered phases, downward velocity, and reset-to-top behavior through BaseEnv. Do not hand-roll `after_step` timers unless the prompt explicitly requires unusual hazard motion. Hazards should continue until `check_objective()` is true, have staggered phase offsets, and preserve at least one safe lane/window.
-- For cars, trains, traffic, rolling logs, or other side-view hazards that come endlessly/sequentially across a lane: MUST prefer `create_recurring_lateral_hazards(...)`. It creates lane-locked dynamic hazards, staggered phases, horizontal velocity, and reset-after-exit behavior through BaseEnv. Use `sensor=True` and implement failure via overlap/proximity state, not solid wall-like car collisions; this prevents cars from being trapped by world boundaries. Do not let cars fall off-screen, drop through the floor, or get blocked by outer walls. Stage them on the same ground lane as the agent so the agent must jump/dodge the crossing hazard.
+- For cars, trains, traffic, rolling boulders/rocks/logs/barrels, or other side-view hazards that come endlessly/sequentially across a lane: MUST prefer `create_recurring_lateral_hazards(...)`. It creates lane-locked dynamic hazards, staggered phases, horizontal velocity, and reset-after-exit behavior through BaseEnv. Use `sensor=True` and implement failure via overlap/proximity state, not solid wall-like collisions; this prevents hazards from being trapped by world boundaries. For rolling boulders/rocks/logs/barrels, call it with `shape="circle"`, `name_prefix="boulder"`/`"rock"`, and metadata describing `semantic_motion="rolling"` so the semantic probe observes lateral travel plus angular rotation. Do not let them fall off-screen, drop through the floor, or get blocked by outer walls. Stage them on the same ground lane as the agent so the agent must jump/dodge the crossing hazard.
 - For push/shove/move-object gameplay profiles: make the interaction visibly responsive. The movable object should displace significantly under sustained agent force; tune `self.agent_strength`, object mass, and friction so the object feels heavy but clearly movable, not stuck.
 - For drifting/floating objects: use zero/low gravity and dynamic bodies with visible velocity or force-zone influence.
 - For sliding/rotating/bouncing objects: create actual dynamic bodies, joints, elasticity, force zones, or mechanisms so position/angle changes during simulation.
@@ -1288,6 +1289,7 @@ def verify_generated_code(code: str, *, expected_class_name: str | None = None) 
         errors.extend(_method_signature_errors(env_class))
         errors.extend(_object_model_errors(env_class))
         errors.extend(_objective_side_effect_errors(env_class))
+        errors.extend(_body_callback_assignment_errors(env_class))
         errors.extend(_objective_reset_hook_errors(env_class))
         errors.extend(_vec2d_constructor_errors(tree))
         errors.extend(_field_force_static_contract_errors(tree))
@@ -1848,6 +1850,7 @@ def _helper_keyword_errors(tree: ast.Module) -> list[str]:
             "spawn_x",
             "exit_x",
             "size",
+            "shape",
             "mass",
             "speed_x",
             "phase_gap_steps",
@@ -3069,6 +3072,38 @@ def _objective_side_effect_errors(env_class: ast.ClassDef) -> list[str]:
                         errors.append(
                             f"{method_name} must not mutate physics state via {attr_path}; move effects into physical setup or after_step()."
                         )
+    return sorted(set(errors))
+
+
+def _body_callback_assignment_errors(env_class: ast.ClassDef) -> list[str]:
+    errors: list[str] = []
+    for method in (node for node in ast.walk(env_class) if isinstance(node, ast.FunctionDef)):
+        for node in ast.walk(method):
+            if isinstance(node, ast.Assign):
+                targets = list(node.targets)
+                value = node.value
+            elif isinstance(node, ast.AnnAssign):
+                targets = [node.target]
+                value = node.value
+            else:
+                continue
+            if value is None:
+                continue
+            value_is_none = isinstance(value, ast.Constant) and value.value is None
+            for target in targets:
+                attr_path = _attribute_path(target)
+                if not attr_path:
+                    continue
+                if attr_path.endswith(".body.velocity_func") or attr_path.endswith(".body.position_func"):
+                    errors.append(
+                        f"{method.name} must not assign {attr_path}; Pymunk callback fields must stay callable."
+                    )
+                elif value_is_none and (
+                    attr_path.endswith(".velocity_func") or attr_path.endswith(".position_func")
+                ):
+                    errors.append(
+                        f"{method.name} must not set {attr_path} = None; Pymunk will crash during stepping."
+                    )
     return sorted(set(errors))
 
 

@@ -46,15 +46,19 @@ GENERATED_ENVS_DIR = Path("generated_envs")
 LEARNED_SKILLS_DIR = Path("skills") / "learned"
 LEARNED_AFFORDANCE_BLOCKS_DIR = Path("affordance_blocks") / "learned"
 CAPABILITY_GAPS_DIR = Path("capability_gaps")
-MAX_SEEDS = 3
+MAX_SEEDS = 5
 MAX_REPAIRS = 3
 MAX_AUTO_REPAIRS = 4
 MAX_CONTRACT_FAST_LANE_RETRIES = 2
+TIER4_LOCAL_PIVOTS = 4
+TIER3_LOCAL_PIVOTS = 2
 
 DIVERSITY_DIRECTIVES = {
     1: "Baseline layout: open space with central obstacles and a clear primary route.",
     2: "Inverse layout: peripheral obstacles with a central goal region and a reversed route.",
     3: "High-entropy layout: complex maze with dynamic or moving elements, but still solvable.",
+    4: "Mechanics-first layout: compact interaction space with short, readable cause-and-effect chains.",
+    5: "Wide safety-margin layout: simple geometry, generous clearances, and validator-friendly object placement.",
 }
 
 
@@ -409,8 +413,11 @@ async def run_harness(
 
     for seed_index in range(1, active_config.max_seeds + 1):
         directive = DIVERSITY_DIRECTIVES.get(seed_index, DIVERSITY_DIRECTIVES[MAX_SEEDS])
-        for repair_index in range(1, active_config.max_repairs + 1):
+        repair_index = 1
+        seed_repair_limit = active_config.max_repairs
+        while repair_index <= seed_repair_limit:
             if (seed_index, repair_index) in completed_attempt_keys:
+                repair_index += 1
                 continue
             class_name = _class_name(clean_prompt, seed_index, repair_index)
             seed_history = [attempt for attempt in attempts if attempt.seed_index == seed_index]
@@ -439,7 +446,7 @@ async def run_harness(
                 previous_result=seed_previous_result,
                 previous_error=seed_previous_error,
                 attempt_history=seed_history,
-                max_repairs=active_config.max_repairs,
+                max_repairs=seed_repair_limit,
             )
             context = GenerationContext(
                 original_prompt=clean_prompt,
@@ -461,7 +468,7 @@ async def run_harness(
             candidate_env_path: Path | None = None
             tier_policy: dict[str, object] | None = None
 
-            _print_status(seed_index, repair_index, active_config.max_repairs, "REGENERATING...")
+            _print_status(seed_index, repair_index, seed_repair_limit, "REGENERATING...")
             validation: ValidationResult | None = None
             generation_failed = False
             contract_retry_index = 0
@@ -486,7 +493,7 @@ async def run_harness(
                     _print_status(
                         seed_index,
                         repair_index,
-                        active_config.max_repairs,
+                        seed_repair_limit,
                         "CONTRACT FAST-LANE RETRY "
                         f"{contract_retry_index}/{MAX_CONTRACT_FAST_LANE_RETRIES}...",
                     )
@@ -536,7 +543,7 @@ async def run_harness(
                     _print_status(
                         seed_index,
                         repair_index,
-                        active_config.max_repairs,
+                        seed_repair_limit,
                         f"CODE ERROR - {last_error}",
                     )
                     generation_failed = True
@@ -572,6 +579,7 @@ async def run_harness(
                 break
 
             if generation_failed:
+                repair_index += 1
                 continue
             assert validation is not None
             assert candidate_env_path is not None
@@ -601,7 +609,7 @@ async def run_harness(
                     _print_status(
                         seed_index,
                         repair_index,
-                        active_config.max_repairs,
+                        seed_repair_limit,
                         "AUTO-REPAIRING MEASURED PHYSICS CONSTRAINT "
                         f"({auto_repair_index}/{MAX_AUTO_REPAIRS})...",
                     )
@@ -684,7 +692,7 @@ async def run_harness(
                 _print_status(
                     seed_index,
                     repair_index,
-                    active_config.max_repairs,
+                    seed_repair_limit,
                     _success_status(validation),
                 )
                 _write_summary(
@@ -723,17 +731,41 @@ async def run_harness(
                 )
 
             status = _blocked_status(validation)
-            if repair_index < active_config.max_repairs:
-                _print_status(seed_index, repair_index, active_config.max_repairs, status)
+            if repair_index < seed_repair_limit:
+                _print_status(seed_index, repair_index, seed_repair_limit, status)
             elif seed_index < active_config.max_seeds:
-                _print_status(
-                    seed_index,
-                    repair_index,
-                    active_config.max_repairs,
-                    f"{status}; PIVOTING TO SEED {seed_index + 1}...",
-                )
+                extra_budget = _near_miss_local_pivot_budget(validation)
+                extra_used = max(0, repair_index - active_config.max_repairs)
+                if extra_used < extra_budget:
+                    seed_repair_limit += 1
+                    _print_status(
+                        seed_index,
+                        repair_index,
+                        seed_repair_limit,
+                        f"{status}; LOCAL NEAR-MISS PIVOT {extra_used + 1}/{extra_budget} "
+                        "WITHIN SAME SEED...",
+                    )
+                else:
+                    _print_status(
+                        seed_index,
+                        repair_index,
+                        seed_repair_limit,
+                        f"{status}; PIVOTING TO SEED {seed_index + 1}...",
+                    )
             else:
-                _print_status(seed_index, repair_index, active_config.max_repairs, status)
+                extra_budget = _near_miss_local_pivot_budget(validation)
+                extra_used = max(0, repair_index - active_config.max_repairs)
+                if extra_used < extra_budget:
+                    seed_repair_limit += 1
+                    _print_status(
+                        seed_index,
+                        repair_index,
+                        seed_repair_limit,
+                        f"{status}; FINAL-SEED NEAR-MISS PIVOT {extra_used + 1}/{extra_budget}...",
+                    )
+                else:
+                    _print_status(seed_index, repair_index, seed_repair_limit, status)
+            repair_index += 1
 
     post_mortem = _build_post_mortem(clean_prompt, attempts, last_validation, last_error)
     failed_path = active_run_dir / "env_failed_final.py.fail"
@@ -1245,6 +1277,49 @@ def _subgoal_summary(result: ValidationResult) -> dict[str, Any]:
 def _completed_subgoal_count(result: ValidationResult) -> int:
     completed = result.details.get("completed_subgoals")
     return len(completed) if isinstance(completed, list) else 0
+
+
+def _near_miss_local_pivot_budget(result: ValidationResult) -> int:
+    """Return extra same-seed repair attempts for promising near-misses only."""
+
+    if result.accepted:
+        return 0
+    category = _failure_category(result)
+    hard_reset_categories = {
+        "api_keyword_error",
+        "capability_mismatch",
+        "code_contract_error",
+        "object_model_error",
+        "objective_logic_error",
+        "semantic_contract_error",
+        "semantic_profile_error",
+        "structural_invalidity",
+        "subgoal_plan_error",
+    }
+    if category in hard_reset_categories:
+        return 0
+    near_miss_categories = {
+        "contact_control_failure",
+        "gameplay_dynamics_failure",
+        "kinetic_partial_progress",
+        "mechanical_leverage",
+        "physical_blockage",
+        "physics_instability",
+        "post_subgoal_navigation_failure",
+        "prompt_anticheat_failure",
+        "semantic_dynamics_failure",
+        "subgoal_affordance_failure",
+        "subgoal_execution_failure",
+        "tier_below_acceptance",
+        "validator_solver_weakness",
+    }
+    if category not in near_miss_categories and not result.kinetic_progress:
+        return 0
+    if result.achieved_tier >= 4:
+        return TIER4_LOCAL_PIVOTS
+    if result.achieved_tier >= 3:
+        return TIER3_LOCAL_PIVOTS
+    return 0
 
 
 def _probe_history_feedback_summary(

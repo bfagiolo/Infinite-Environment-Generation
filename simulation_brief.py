@@ -20,7 +20,7 @@ from prompt_cache import load_cached_json, save_cached_json
 DEFAULT_BRIEF_MODEL = os.getenv("OPENAI_SIMULATION_BRIEF_MODEL", "gpt-5.2")
 DEFAULT_BRIEF_REASONING = os.getenv("OPENAI_SIMULATION_BRIEF_REASONING_EFFORT", "low")
 DEFAULT_BRIEF_MAX_OUTPUT = int(os.getenv("OPENAI_SIMULATION_BRIEF_MAX_OUTPUT_TOKENS", "1800"))
-SIMULATION_BRIEF_CACHE_VERSION = "simulation_brief.v5"
+SIMULATION_BRIEF_CACHE_VERSION = "simulation_brief.v6"
 
 load_dotenv()
 
@@ -432,6 +432,24 @@ def _apply_hard_context_vetoes(brief: dict[str, Any], text: str) -> None:
         )
         semantic.update({"hazards visibly fall downward", "hazards are staggered or recurring"})
 
+    if _prompt_requests_rolling_lane_hazards(text):
+        _ensure_entity(
+            brief,
+            {
+                "name_hint": "boulder",
+                "role": "hazard",
+                "kind": "rolling_lateral_hazard",
+                "expected_motion": "ground-locked lateral rolling through the agent route",
+            },
+        )
+        semantic.update(
+            {
+                "rolling hazards visibly travel laterally",
+                "rolling hazards enter the agent route",
+                "rolling hazards do not fall off-screen or remain blocked",
+            }
+        )
+
     if _has_any(text, "pressure plate", "sliding gate", "gate", "door") and _has_any(
         text, "push", "box", "crate", "rock", "barrel"
     ):
@@ -599,6 +617,15 @@ def _infer_entities(text: str, objective: dict[str, Any]) -> list[dict[str, Any]
         entities.append(
             {"name_hint": "falling_hazard", "role": "hazard", "kind": "falling_hazard", "expected_motion": "recurring downward motion"}
         )
+    if _prompt_requests_rolling_lane_hazards(text):
+        entities.append(
+            {
+                "name_hint": "boulder",
+                "role": "hazard",
+                "kind": "rolling_lateral_hazard",
+                "expected_motion": "ground-locked lateral rolling through the agent route",
+            }
+        )
     if objective.get("type") == "mechanism_sequence":
         entities.extend(
             [
@@ -624,6 +651,8 @@ def _infer_semantic_requirements(text: str, objective: dict[str, Any], entities:
         requirements.extend(["projectile hazards exist", "projectile hazards visibly travel across the play area"])
     if _prompt_requests_falling_hazards(text):
         requirements.extend(["hazards visibly fall downward", "hazards are staggered or recurring"])
+    if _prompt_requests_rolling_lane_hazards(text):
+        requirements.extend(["rolling hazards visibly travel laterally", "rolling hazards enter the agent route"])
     if objective.get("type") == "mechanism_sequence":
         requirements.extend(["movable object visibly moves", "trigger/plate activates mechanism"])
     if objective.get("type") == "ballistic_object_to_region":
@@ -744,6 +773,24 @@ def _entity_is_unrequested_projectile_hazard(entity: dict[str, Any]) -> bool:
 
 def _has_any(text: str, *tokens: str) -> bool:
     return any(token in text for token in tokens)
+
+
+def _prompt_requests_rolling_lane_hazards(text: str) -> bool:
+    return _has_any(text, "rolling", "rolls", "roll ") and _has_any(
+        text,
+        "boulder",
+        "boulders",
+        "rock",
+        "rocks",
+        "stone",
+        "stones",
+        "barrel",
+        "barrels",
+        "log",
+        "logs",
+        "obstacle",
+        "obstacles",
+    ) and not _prompt_requests_falling_hazards(text)
 
 
 def _dedupe(items: list[Any]) -> list[Any]:

@@ -21,7 +21,7 @@ from prompt_cache import load_cached_json, save_cached_json
 DEFAULT_GAMEPLAY_MODEL = os.getenv("OPENAI_GAMEPLAY_MODEL", "gpt-5.2")
 DEFAULT_GAMEPLAY_REASONING = os.getenv("OPENAI_GAMEPLAY_REASONING_EFFORT", "low")
 DEFAULT_GAMEPLAY_MAX_OUTPUT = int(os.getenv("OPENAI_GAMEPLAY_MAX_OUTPUT_TOKENS", "2400"))
-GAMEPLAY_PROFILE_CACHE_VERSION = "gameplay_profile.v7"
+GAMEPLAY_PROFILE_CACHE_VERSION = "gameplay_profile.v8"
 
 load_dotenv()
 
@@ -613,10 +613,24 @@ def _default_dynamics_for_prompt(prompt: str) -> list[dict[str, Any]]:
             }
         ]
     if _prompt_requests_lateral_hazards(prompt):
+        rolling = _prompt_requests_rolling_lane_hazards(prompt)
+        name_pattern = "boulder_*" if rolling else "car_*"
+        primitive_args = {
+            "shape": "circle",
+            "name_prefix": "boulder",
+            "size": [42, 42],
+            "speed_x": -180,
+            "metadata": {"visual_hint": "rolling_boulder", "semantic_motion": "rolling"},
+        } if rolling else {
+            "shape": "box",
+            "name_prefix": "car",
+            "size": [58, 28],
+            "speed_x": -220,
+        }
         return [
             {
                 "type": "readable_hazard_stream",
-                "hazard_name_pattern": "car_*",
+                "hazard_name_pattern": name_pattern,
                 "cadence": "staggered_continuous",
                 "motion": "ground_locked_lateral",
                 "minimum_lateral_travel_px": 160,
@@ -624,6 +638,7 @@ def _default_dynamics_for_prompt(prompt: str) -> list[dict[str, Any]]:
                 "target_hazards_per_episode": 4,
                 "continues_until_objective": True,
                 "implementation_primitive": "create_recurring_lateral_hazards",
+                "implementation_args": primitive_args,
             }
         ]
     return []
@@ -784,7 +799,17 @@ def _normalize_dynamics(value: Any, prompt: str) -> list[dict[str, Any]]:
             dynamic_type = "readable_chaser"
         elif dynamic_type in {"projectile", "projectile_hazard", "enemy_shot", "laser_fire", "weapon_fire"}:
             dynamic_type = "readable_projectile_hazard"
-        elif dynamic_type in {"readable_hazard_stream", "lateral_hazard", "lateral_hazard_stream", "vehicle_stream", "traffic_stream", "rolling_hazard"}:
+        elif dynamic_type in {
+            "readable_hazard_stream",
+            "lateral_hazard",
+            "lateral_hazard_stream",
+            "vehicle_stream",
+            "traffic_stream",
+            "rolling_hazard",
+            "rolling_lateral_hazard",
+            "rolling_hazard_stream",
+            "rolling_boulder_hazard",
+        }:
             dynamic_type = "readable_hazard_stream"
         if dynamic_type == "readable_projectile_hazard" and not _prompt_requests_projectile_hazards(prompt):
             continue
@@ -793,6 +818,22 @@ def _normalize_dynamics(value: Any, prompt: str) -> list[dict[str, Any]]:
         if dynamic_type == "readable_hazard_stream" and not _prompt_requests_lateral_hazards(prompt):
             continue
         dynamic["type"] = dynamic_type or "custom_dynamic"
+        if dynamic_type == "readable_hazard_stream" and _prompt_requests_rolling_lane_hazards(prompt):
+            dynamic.setdefault("hazard_name_pattern", "boulder_*")
+            dynamic.setdefault("motion", "ground_locked_lateral")
+            dynamic.setdefault("minimum_lateral_travel_px", 160)
+            dynamic.setdefault("max_ground_y_drift_px", 42)
+            dynamic.setdefault("implementation_primitive", "create_recurring_lateral_hazards")
+            dynamic.setdefault(
+                "implementation_args",
+                {
+                    "shape": "circle",
+                    "name_prefix": "boulder",
+                    "size": [42, 42],
+                    "speed_x": -180,
+                    "metadata": {"visual_hint": "rolling_boulder", "semantic_motion": "rolling"},
+                },
+            )
         normalized.append(dynamic)
     return normalized
 
@@ -907,6 +948,16 @@ def _prompt_requests_lateral_hazards(prompt: str) -> bool:
         "rolling logs",
         "rolling barrel",
         "rolling barrels",
+        "rolling boulder",
+        "rolling boulders",
+        "rolling rock",
+        "rolling rocks",
+        "rolling stone",
+        "rolling stones",
+        "rolling obstacle",
+        "rolling obstacles",
+        "boulder",
+        "boulders",
     )
     lateral_action = _has_any(
         text,
@@ -929,6 +980,25 @@ def _prompt_requests_lateral_hazards(prompt: str) -> bool:
         "survive",
     )
     return vehicle_or_crossing and lateral_action and not _prompt_requests_falling_hazards(prompt)
+
+
+def _prompt_requests_rolling_lane_hazards(prompt: str) -> bool:
+    text = prompt.lower()
+    return _has_any(text, "rolling", "roll", "rolls") and _has_any(
+        text,
+        "boulder",
+        "boulders",
+        "rock",
+        "rocks",
+        "stone",
+        "stones",
+        "barrel",
+        "barrels",
+        "log",
+        "logs",
+        "obstacle",
+        "obstacles",
+    )
 
 
 def _prompt_requests_projectile_hazards(prompt: str) -> bool:

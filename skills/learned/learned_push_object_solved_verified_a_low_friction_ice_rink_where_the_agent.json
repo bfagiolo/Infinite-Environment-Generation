@@ -1,0 +1,354 @@
+{
+  "capability_profile": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "top_down_flat",
+    "interaction": [
+      "touch_contact",
+      "push_contact"
+    ],
+    "movement": "ground_force",
+    "notes": "Top-down inertial sliding on a zero-gravity plane representing an ice rink."
+  },
+  "common_failures": [
+    "Do not lower minimum_acceptance_tier for simple known tasks just to pass validation.",
+    "Keep objective_profile['targets'] synchronized with self.objective_targets.",
+    "Keep capability_profile controls honest; no teleporting or direct object mutation.",
+    "Tier 5 patterns must be physically solved by check_objective(), not just progress-verified."
+  ],
+  "generation_guidance": [
+    "Reuse this objective/capability profile shape when the prompt semantics match.",
+    "Keep check_objective aligned with objective_profile['success_predicate'].",
+    "Do not use validator controls outside capability_profile['allowed_controls'].",
+    "Preferred validator oracle: subgoal_plan.",
+    "Expose progress metrics: agent_to_puck_distance, puck_to_goal_distance, puck_speed."
+  ],
+  "objective_profile": {
+    "failure_modes": [
+      "agent_never_reaches_puck",
+      "puck_underpowered",
+      "goal_sensor_too_tight",
+      "blocked_route"
+    ],
+    "minimum_acceptance_tier": 5,
+    "objective_description": "Slide the puck into the glowing goal region on a low-friction rink.",
+    "objective_type": "push_object",
+    "progress_metrics": [
+      "agent_to_puck_distance",
+      "puck_to_goal_distance",
+      "puck_speed"
+    ],
+    "required_capabilities": [
+      "apply_force_x",
+      "apply_force_y",
+      "push_contact"
+    ],
+    "subgoals": [
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "puck",
+        "region": "goal"
+      }
+    ],
+    "success_predicate": "puck center enters the non-blocking goal sensor region",
+    "targets": [
+      "puck",
+      "goal"
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "object_region_affordance",
+      "contact_push"
+    ]
+  },
+  "objective_type": "push_object",
+  "skill_id": "learned_push_object_solved_verified_a_low_friction_ice_rink_where_the_agent",
+  "source": "harness_success",
+  "source_env_path": "generated_envs\\a_low_friction_ice_rink_seed4_repair1_env_auto_repaired_1.py",
+  "source_prompt": "A low-friction ice rink where the agent must slide a puck into a glowing goal.",
+  "summary": "Slide the puck into the glowing goal region on a low-friction rink. Validated as solved_verified with movement=ground_force, gravity=top_down_flat.",
+  "trigger_keywords": [
+    "a",
+    "affordance",
+    "agent",
+    "apply",
+    "contact",
+    "distance",
+    "down",
+    "flat",
+    "force",
+    "friction",
+    "glowing",
+    "goal",
+    "ground",
+    "ice",
+    "into",
+    "low",
+    "must",
+    "object",
+    "plan",
+    "puck",
+    "push",
+    "region",
+    "rink",
+    "slide",
+    "speed",
+    "subgoal",
+    "the",
+    "to",
+    "top",
+    "where",
+    "x",
+    "y"
+  ],
+  "validator_route": {
+    "allowed_controls": [
+      "apply_force_x",
+      "apply_force_y",
+      "brake"
+    ],
+    "forbidden_controls": [
+      "teleport",
+      "direct_object_move",
+      "direct_object_rotation",
+      "direct_goal_state_write"
+    ],
+    "gravity": "top_down_flat",
+    "interaction": [
+      "touch_contact",
+      "push_contact"
+    ],
+    "movement": "ground_force",
+    "objective_type": "push_object",
+    "oracle": "subgoal_plan",
+    "physics_relations": {
+      "intent_summary": "A controllable agent on a very low-friction ice surface must slide a puck into a glowing goal region.",
+      "physical_parameters": {
+        "agent": {
+          "friction_policy": "high enough for contact tasks; unrestricted thrust only in zero_g",
+          "repair_knobs": [
+            "agent_strength",
+            "agent_radius",
+            "agent_start"
+          ],
+          "strength_policy": "scale with max scene mass and gravity"
+        },
+        "clearance": {},
+        "fields": {},
+        "gravity": {
+          "explicit": true,
+          "model": "normal",
+          "repair_knob": "EnvConfig.gravity"
+        },
+        "objects": {
+          "push_object": {
+            "constraints": {
+              "object_friction": {
+                "max": 0.45,
+                "min": 0.05,
+                "why": "push should be visibly possible"
+              },
+              "object_mass": {
+                "max": 2.0,
+                "min": 0.6,
+                "why": "movable without trivializing contact"
+              }
+            },
+            "relations": [
+              "contact_push",
+              "object_enters_region"
+            ],
+            "repair_knobs": [
+              "object_friction",
+              "object_mass",
+              "object_start"
+            ]
+          }
+        },
+        "surfaces": {
+          "contact_push": {
+            "constraints": {
+              "object_friction": {
+                "max": 0.45,
+                "min": 0.05,
+                "why": "push should be visibly possible"
+              }
+            },
+            "repair_knobs": []
+          }
+        }
+      },
+      "relations": [
+        {
+          "actors": [
+            "agent"
+          ],
+          "objects": [
+            "push_object"
+          ],
+          "parameter_constraints": {
+            "alignment_angle_degrees": {
+              "max": 35,
+              "why": "push controller needs clean contact geometry"
+            },
+            "object_friction": {
+              "max": 0.45,
+              "min": 0.05,
+              "why": "push should be visibly possible"
+            },
+            "object_mass": {
+              "max": 2.0,
+              "min": 0.6,
+              "why": "movable without trivializing contact"
+            }
+          },
+          "probes": [
+            "agent_object_contact",
+            "contact_impulse_observed",
+            "object_moves_toward_region"
+          ],
+          "regions": [
+            "target_region"
+          ],
+          "repair": "Align agent behind object, support the object, and tune mass/friction for visible displacement.",
+          "repair_knobs": [
+            "agent_start",
+            "object_start",
+            "target_region_center",
+            "object_mass",
+            "object_friction",
+            "agent_strength"
+          ],
+          "type": "contact_push"
+        },
+        {
+          "objects": [
+            "push_object"
+          ],
+          "probes": [
+            "object_region_affordance",
+            "object_inside_region"
+          ],
+          "regions": [
+            "target_region"
+          ],
+          "repair": "Use a non-blocking target sensor and keep it close enough or mechanically guided.",
+          "type": "object_enters_region"
+        }
+      ],
+      "repair_knobs": [
+        {
+          "knob": "agent_start",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "contact_push",
+          "scope": "geometry"
+        },
+        {
+          "knob": "object_start",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "contact_push",
+          "scope": "geometry"
+        },
+        {
+          "knob": "target_region_center",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "contact_push",
+          "scope": "geometry"
+        },
+        {
+          "knob": "object_mass",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "contact_push",
+          "scope": "physical_parameter"
+        },
+        {
+          "knob": "object_friction",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "contact_push",
+          "scope": "physical_parameter"
+        },
+        {
+          "knob": "agent_strength",
+          "policy": "safe numeric/layout tuning only; preserve prompt semantics",
+          "relation": "contact_push",
+          "scope": "physical_parameter"
+        }
+      ],
+      "source": "deterministic_relation_inference",
+      "suggested_subgoals": [
+        {
+          "interaction": "push_contact",
+          "kind": "move_object_to_region",
+          "object": "push_object",
+          "region": "target_region"
+        }
+      ],
+      "validator_strategy": {
+        "parameter_policy": "validate physical properties such as mass, friction, restitution, gravity, slope, clearance, and impulse before broad regeneration",
+        "primary": "validate physics_relations, then objective_profile.subgoals",
+        "repair_unit": "failed relation, not failed task template",
+        "template_policy": "helpers are optional constructors; relations are the conceptual source of truth"
+      },
+      "version": "physics_relation_graph.v2",
+      "world_context": {
+        "gravity": "normal",
+        "movement_model": "inertial sliding with strong momentum carry; agent accelerates via applied forces and experiences low linear and angular damping",
+        "perspective": "top_down_or_flat_floor",
+        "rationale": "An ice rink is best represented as a friction-minimized 2D plane; top-down with zero gravity avoids unintended settling and keeps the task focused on sliding/striking dynamics.",
+        "support_model": "single continuous flat ice surface bounded by rink walls; no pits or jump mechanics",
+        "theme": "ice_rink_training_world"
+      }
+    },
+    "progress_metrics": [
+      "agent_to_puck_distance",
+      "puck_to_goal_distance",
+      "puck_speed"
+    ],
+    "relation_subgoals": [
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "push_object",
+        "region": "target_region"
+      }
+    ],
+    "required_capabilities": [
+      "apply_force_x",
+      "apply_force_y",
+      "push_contact"
+    ],
+    "subgoals": [
+      {
+        "interaction": "push_contact",
+        "kind": "move_object_to_region",
+        "object": "puck",
+        "region": "goal"
+      }
+    ],
+    "validator_skills": [
+      "subgoal_plan",
+      "object_region_affordance",
+      "contact_push"
+    ]
+  },
+  "verification": {
+    "accepted": true,
+    "achieved_tier": 5,
+    "minimum_acceptance_tier": 5,
+    "objective_tier": 5,
+    "operational_acceptance_tier": 5,
+    "reason": "Code-level objective satisfied after subgoal validation.",
+    "tier_name": "solved_verified"
+  },
+  "version": "learned-1.0"
+}
